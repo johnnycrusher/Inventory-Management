@@ -1,10 +1,10 @@
-package application;
+package Stock;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class StoreTest {
+public class ItemTest {
 
 	@Test
 	public void test() {

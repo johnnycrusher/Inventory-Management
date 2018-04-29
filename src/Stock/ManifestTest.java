@@ -1,4 +1,4 @@
-package application;
+package Stock;
 
 import static org.junit.Assert.*;
 

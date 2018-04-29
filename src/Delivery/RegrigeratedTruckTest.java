@@ -1,10 +1,10 @@
-package application;
+package Delivery;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class OrdinaryTruckTest {
+public class RegrigeratedTruckTest {
 
 	@Test
 	public void test() {

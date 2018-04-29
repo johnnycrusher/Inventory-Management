@@ -1,10 +1,10 @@
-package application;
+package Delivery;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class TruckTest {
+public class OrdinaryTruckTest {
 
 	@Test
 	public void test() {
