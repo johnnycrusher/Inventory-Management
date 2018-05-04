@@ -17,8 +17,8 @@ import Exception.StockException;
  *
  */
 /**
- * @author John_
- *
+ * @author John Huynh
+ *@version 1.0
  */
 public class ItemTest {
 	// Generate a Random Object
@@ -97,7 +97,7 @@ public class ItemTest {
 		
 	}
 
-	/* Test 0: Declaring Item object
+	/* Test 0: Declaring a Item object
 	 */
 	Item item;
 	
@@ -273,5 +273,12 @@ public class ItemTest {
 		int temperature = randomInteger(-40,10);
 		
 		item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
+	}
+	
+	/* Test 12: Test if a duplicate item has been created
+	 */
+	@Test (expected = StockException.class)
+	public void testDuplicateItem() {
+		
 	}
 }
