@@ -267,7 +267,7 @@ public class ManifestTest {
 	
 	/* Test 14: Test getting optimised cargo when no cargo is inputed
 	 */
-	@Test (exception = DeliveryException.class)
+	@Test (expected = DeliveryException.class)
 	public void testGetOptimisedCargoWhenNoCargo() throws DeliveryException{
 		manifest = new Manifest();
 		manifest.getOptimisedCargo();

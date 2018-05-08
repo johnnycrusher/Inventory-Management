@@ -16,10 +16,6 @@ import Exception.StockException;
  * @version 1.0
  *
  */
-/**
- * @author John Huynh
- *@version 1.0
- */
 public class ItemTest {
 	// Generate a Random Object
 	private static Random random = new Random();
