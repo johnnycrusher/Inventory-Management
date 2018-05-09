@@ -172,7 +172,7 @@ public class RefrigeratedTruckTest {
 	@Test
 	public void getCostTest() {
 		int expectedCost;
-		int currentTemp;
+		int currentTemp = randomInteger(-40,10);
 		float exponent;
 		int randQuantity = randomInteger(1,10);
 		String itemName = randomItemName();
@@ -186,8 +186,7 @@ public class RefrigeratedTruckTest {
 		stock.add(item, randQuantity);
 		
 		refrigeratedTruck.add(stock);
-		
-		currentTemp = refrigeratedTruck.getTemp();
+
 		exponent = currentTemp / 5;
 		expectedCost = (int) (900 + (200 * java.lang.Math.pow(0.7, exponent)));
 		
@@ -232,7 +231,7 @@ public class RefrigeratedTruckTest {
 	}
 	
 	/*
-	 * Test 9: Test exception for exceeding capacity in refrigerated truck
+	 * Test 10: Test exception for exceeding capacity in refrigerated truck
 	 * [This test should throw an exception as the truck.add() should not accept items once at full capacity]
 	 */
 	@Test (expected = DeliveryException.class)
