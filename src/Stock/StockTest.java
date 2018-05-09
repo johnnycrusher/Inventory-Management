@@ -2,6 +2,10 @@ package Stock;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
 
 import org.junit.Before;
@@ -11,6 +15,7 @@ import Delivery.Manifest;
 import Delivery.OrdinaryTruck;
 import Delivery.Truck;
 import Exception.DeliveryException;
+import Exception.StockException;
 import junit.Uber.Uber;
 
 /**
@@ -35,16 +40,48 @@ public class StockTest {
 			return random.nextInt((max - min) + 1) + min;
 		}
 
+		// Generate an array of item names
+		private static String[] itemNames = new String[] {
+				"rice",
+				"breans",
+				"pasta",
+				"biscuits",
+				"nuts",
+				"chips",
+				"chocolate",
+				"bread",
+				"mushroom",
+				"tomatoes",
+				"lettuce",
+				"grapes",
+				"asparagus",
+				"celery",
+				"chicken"	
+		};
+		
+		
+		/**
+		 * This method generates a random item name string from list
+		 * of item names in the array.
+		 * @return the random itemName
+		 * @author John Huynh
+		 */
+		private static String randomItemName() {
+			return itemNames[random.nextInt(itemNames.length)];
+		}
 		
 		/* Can a collection of items be created DONE
 			Can you add items to the collection DONE
 			Can return an item object DONE
 			Can return an item's quantity DONE
-			Can return a list of items and quantities;
-			Can you remove items from the collection
-			Can stock quantites be added based on how many are incoming
-			can stock quantites be remove based on how many are being sold
-			Is an exception thrown when invalid object given to collection*/
+			Can return a list of items and quantities DONE
+			Can you remove items from the collection DONE
+			
+			Is an exception thrown when invalid object given to collection
+			
+			Can stock quantites be added based on how many are incoming TO DO LATER?
+			can stock quantites be remove based on how many are being sold TO DO LATER?
+			*/
 
 	
 		/* Test 0: Declaring a Stock object
@@ -62,61 +99,47 @@ public class StockTest {
 		 * 
 		 */
 		@Test
-		public void testConstruction() {
-			int stockID = randomInteger(0,10);
-			
-			stock = new Stock(stockID);
+		public void testConstruction() {			
+			stock = new Stock();
 		}
 		
 		/*
-		 * Test 2: Getting the stockID and Quantity
-		 * [This test obliges you to add a getter
-		 * method for the stock's ID and Quantity]
-		 */
-		@Test
-		public void testStockID() {
-			int stockID = randomInteger(0,10);
-			
-			stock = new Stock(stockID);
-			
-			assertEquals(stockID, stock.getStockID());
-		}
-		
-		
-		/*
-		 * Test 3: Adding and getting an item object in the stock
-		 * [This test obliges you to add a getter and setter 
+		 * Test 2: Adding and getting an item object from the stock
+		 * [This test obliges you to add a getter and setter
 		 * method for the stock's items]
+		 * - Possibly requires 2 params for each method but not sure at this point
 		 */
 		@Test
 		public void testStockItems() {
 			int quantity = randomInteger(0,100);
-			int stockID = randomInteger(0,100);
 			
-			stock = new Stock(stockID);
+			stock = new Stock();
 			
-			Item item = new Item();
+			Item item = new Item(itemName /* random vars*/);
 			
 			stock.add(item, quantity);
 			
-			Item itemObj = stock.getItem(0);
+			Item itemObj = stock.getItem(item);
+			
+			//Maybe something like Item itemObj = stock.getItem(itemparam,quantityparam?);
 			
 			assertEquals("Wrong Item Returned", item, itemObj);			
 		}
 		
 		/*
-		 * Test 4: Get the stock item quantity
+		 * Test 3: Get the stock item quantity
 		 * [This test obliges you to add a getter method for the stock's item quantity]
 		 */
 		@Test
 		public void testStockItemQuantity() {
 			int quantity = randomInteger(0,100);
-			int stockID = randomInteger(0,100);
 			int itemQuantity;
 			
-			stock = new Stock(stockID);
+			String itemName = randomItemName();
 			
-			Item item = new Item();
+			stock = new Stock();
+			
+			Item item = new Item(/*random item variables*/);
 			
 			stock.add(item, quantity);
 			
@@ -126,34 +149,114 @@ public class StockTest {
 		}
 		
 		/*
-		 * Test 5: Get the stock list
+		 * Test 4: Get the stock list
 		 * [This test obliges you to add a getter method for the stock's collection of items]
 		 */
 		@Test
 		public void testStockItemList() {
-			int quantity = randomInteger(0,100);
-			int stockID = randomInteger(0,100);
+
+			String itemName;
+			
+			Item item;
+			
+			stock = new Stock();		
+			
+			int itemNumber = randomInteger(0,100);
+			
 			int itemQuantity;
 			
-			stock = new Stock(stockID);
+			HashMap<Item, Integer> testStock = new Stock<Item, Integer>();
+
+			for(int index = 0; index < itemNumber; index++) {
+				itemName = randomItemName();
+				
+				itemQuantity = randomInteger(0,100);
+				
+				item = new Item(itemName /*other variables to be added*/ );
+				
+				testStock.put(item, itemQuantity);
+				stock.add(item, itemQuantity);
+			}
 			
-			Item item = new Item();
-			
-			stock.add(item, quantity);
-			
-			//NOT FINISHED
-			
-			assertEquals("Wrong Quantity Returned", quantity, itemQuantity);			
+			assertEquals("Wrong Stock Returned", testStock, stock.returnStockList());	
+			//I'm not too sure how to comparehashmaps so not 100% this is correct
 		}
 		
-		//Exception Tests to be added
-		@Test
-		public void exceptionTest0() throws StockException {}
+		/*
+		 * Test 5: Remove Item from Stock
+		 * [This test obliges you to add a remove() method for the stock's collection of items]
+		 * Accepts two params remove(Item item, Int quantity)
+		 */
+		@Test (expected = StockException.class)
+		public void testStockItemRemove() throws StockException{
+			stock = new Stock();		
+			String itemName = randomItemName();
+			int itemQuantity = 1;
+			Item item = new Item(itemName /*other variables to be added*/ );
+
+			stock.add(item, itemQuantity);
+			stock.remove(item,1);
+			stock.getItem(0);
+		}
 		
-		@Test
-		public void exceptionTest1() throws StockException {}
+		/*
+		 * Test 6: Test removing Item from Stock when there is no stock
+		 */
+		@Test (expected = StockException.class)
+		public void removeItemExceptionTest() throws StockException {
+			stock = new Stock();		
+			stock.remove(item,1);
+		}
 		
-		@Test
-		public void exceptionTest2() throws StockException {}
+		/*
+		 * Test 7: Test returnItemList when there are no items
+		 */
+		@Test (expected = StockException.class)
+		public void returnItemListExceptionTest() throws StockException {
+			stock = new Stock();
+			stock.returnStockList();
+		}
 		
+		/*
+		 * Test 8: Test getItem with invalid item given
+		 */
+		@Test (expected = StockException.class)
+		public void getItemExceptionTest() throws StockException {
+			stock = new Stock();		
+			String itemName = randomItemName();
+			int itemQuantity = 1;
+			Item item = new Item(itemName /*other variables to be added*/ );
+			String invalidItem = "Wrong type";
+			
+			stock.add(item, itemQuantity);
+			stock.getItem(invalidItem);
+		}
+		
+		/*
+		 * Test 9: Test stockQuantity with invalid item
+		 */
+		@@Test (expected = StockException.class)
+		public void stockQuantityExceptionTest() throws StockException {
+			stock = new Stock();		
+			String itemName = randomItemName();
+			int itemQuantity = 1;
+			Item item = new Item(itemName /*other variables to be added*/ );
+			String invalidItem = "Wrong type";
+			
+			stock.add(item, itemQuantity);
+			stock.getItemQuantity(invalidItem);
+		}
+		
+		/*
+		 * Test 10: Test Stock add method with invalid item given
+		 */
+		@Test (expected = StockException.class)
+		public void stockAddExceptionTest() throws StockException {
+			stock = new Stock();		
+			String itemName = "Wrong Name";
+			int itemQuantity = 1;
+			Item item = new Item(itemName /*other variables to be added*/ );
+						
+			stock.add(item, itemQuantity);
+		}
 }
