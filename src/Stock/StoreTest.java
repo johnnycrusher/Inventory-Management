@@ -145,38 +145,40 @@ public class StoreTest {
 	 */
 	@Test
 	public void testStartingCapital() {
-		int startingCapital = 100000;
+		double startingCapital = 100000;
 		store = Store.getInstance();
-		int storeStartingCapital = store.getCapital();
-		assertEquals("Starting Capital is not the same", startingCapital,storeStartingCapital);
+		double storeStartingCapital = store.getCapital();
+		//Apparently assertEquals for doubles has been deprecated so a 0.1 delta will be added(may adjust in future)
+		assertEquals("Starting Capital is not the same", startingCapital,storeStartingCapital, 0.1);
 	}
 	/*Test 3: get capital after manifest is paid;
 	 */
 	@Test
 	public void testSubtractingCapital() {
-		int startingCaptial = 100000;
-		int substratedAmount = randomInteger(1000,30000);
-		int resultingCapital = startingCaptial - substratedAmount;
+		double startingCaptial = 100000;
+		double substratedAmount = randomDouble(1000, 10000);
+		double resultingCapital = startingCaptial - substratedAmount;
 		
 		store = store.getInstance();
 		
 		store.subtractCapital(substratedAmount);
-		int storeCurrentCapital = store.getCapital();
-		assertEquals("Subtactracted Capital is not the same", resultingCapital, storeCurrentCapital);
+		double storeCurrentCapital = store.getCapital();
+		//Apparently assertEquals for doubles has been deprecated so a 0.1 delta will be added( may adjust in future)
+		assertEquals("Subtactracted Capital is not the same", resultingCapital, storeCurrentCapital, 0.1);
 	}
 	/*Test 4: get capital after making profit from sales
 	 */
 	@Test
 	public void testProfitCapital() {
-		int startingCapital = 100000;
-		int addedAmount = randomInteger(1000,10000);
-		int resultingCapital = startingCapital + addedAmount;
+		double startingCapital = 100000;
+		double addedAmount = randomDouble(1000,10000);
+		double resultingCapital = startingCapital + addedAmount;
 		
 		store = store.getInstance();
 		store.addCapital(addedAmount);
-		int storeCurrentCapital = store.getCapital();
+		double storeCurrentCapital = store.getCapital();
 		
-		assertEquals("added Capital is not the same", resultingCapital, store);
+		assertEquals("added Capital is not the same", resultingCapital, storeCurrentCapital, 0.1);
 	}
 	/*Test 5: test setting store name
 	 */
@@ -212,9 +214,43 @@ public class StoreTest {
 	/*Test 8: get stock inventory when no stock is instantiated
 	 */
 	@Test (expected = StockException.class)
-	public void getNonExistingInventory() {
+	public void testGetNonExistingInventory() {
 		store = store.getInstance();
 		store.getInventory();
+	}
+	/* Test 9: entering a negative number when paying for manifest
+	 */
+	//Not quite sure if we have to make a new exception since stock exception really doesn't fit
+	@Test (expected = StockException.class)
+	public void testGetCapitalWhenNegativeMoneyPaidForManifest() {
+		double startingCapital = 100000;
+		double negativeSubtractedAmmount = randomDouble(-10000,-1000);
+		
+		store = store.getInstance();
+		store.subtractCapital(negativeSubtractedAmmount);
+		double storeCapital =  store.getCapital();
+	}
+	/* Test 10: Entered a negative number when entering profits from sales
+	 */
+	//Assuming profits are always made from sales
+	@Test (expected = StockException.class)
+	public void testGetCapitalWhenNegtativeMoneyFromSalesProfit() {
+		double negativeAddedAmount = randomDouble(-10000,-1000);
+		
+		store = store.getInstance();
+		store.addCapital(negativeAddedAmount);
+		double storeCapital = store.getCapital();
+	}
+	
+	/*Test 11: When manifest cost ammount exceeds current capital 
+	 */
+	@Test (expected = StockException.class)
+	public void testManifestCostExceedsRemaindedCapital() {
+		//Assume Capital is current at 100000 (starting capital)
+		double subtractedAmmount = randomDouble(100001, 1000000);
+		store = getInstance();
+		store.subtractCapital(subtractedAmmount);
+		double storeCapital = store.getCapital();
 	}
 	
 }
