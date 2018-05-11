@@ -114,7 +114,7 @@ public class ItemTest {
 		int temperature = randomInteger(-40,10);
 		
 		item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
-	}s
+	}
 	
 	/* Test 2: Get the Item Name
 	 */

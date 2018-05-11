@@ -187,6 +187,8 @@ public class StockTest {
 		 * [This test obliges you to add a remove() method for the stock's collection of items]
 		 * Accepts two params remove(Item item, Int quantity)
 		 */
+		
+		
 		@Test (expected = StockException.class)
 		public void testStockItemRemove() throws StockException{
 			stock = new Stock();		
@@ -202,9 +204,11 @@ public class StockTest {
 		/*
 		 * Test 6: Test removing Item from Stock when there is no stock
 		 */
+		//Having a remove item 
 		@Test (expected = StockException.class)
 		public void removeItemExceptionTest() throws StockException {
-			stock = new Stock();		
+			stock = new Stock();
+			//huh u need to actually add the item first
 			stock.remove(item,1);
 		}
 		
@@ -235,7 +239,7 @@ public class StockTest {
 		/*
 		 * Test 9: Test stockQuantity with invalid item
 		 */
-		@@Test (expected = StockException.class)
+		@Test (expected = StockException.class)
 		public void stockQuantityExceptionTest() throws StockException {
 			stock = new Stock();		
 			String itemName = randomItemName();
@@ -250,6 +254,7 @@ public class StockTest {
 		/*
 		 * Test 10: Test Stock add method with invalid item given
 		 */
+		//Do not understand
 		@Test (expected = StockException.class)
 		public void stockAddExceptionTest() throws StockException {
 			stock = new Stock();		
