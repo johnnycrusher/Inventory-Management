@@ -114,19 +114,6 @@ public class StoreTest {
 	private static int randomInteger(int min,int max) {
 		return random.nextInt((max - min) + 1) + min;
 	}
-	
-
-	/**
-	 * This method generates a random double from a specified minimum value
-	 * and a specified maximum value
-	 * @param min - the specified minimum number that can be generated
-	 * @param max - the specified maximum number that can be generated
-	 * @return randomDouble - the random number that was generated
-	 */
-	private static double randomDouble(double min, double max) {
-		double randomDouble = random.nextDouble() * (max - min) + min;
-		return randomDouble;
-	}
 
 	Store store;	
 	/* Test 0: Declaring a Store object
@@ -138,54 +125,54 @@ public class StoreTest {
 	/*Test 1: Test Store Constructor
 	 */
 	@Test
-	public void testGetInstance() {
-		store = Store.getInstance();
+	public void testConstructor() {
+		store = new Store();
 	}
 	/* Test 2 get starting capital
 	 */
 	@Test
 	public void testStartingCapital() {
-		double startingCapital = 100000;
-		store = Store.getInstance();
-		double storeStartingCapital = store.getCapital();
+		int startingCapital = 100000;
+		store = new Store();
+		int storeStartingCapital = store.getCapital();
 		//Apparently assertEquals for doubles has been deprecated so a 0.1 delta will be added(may adjust in future)
 		assertEquals("Starting Capital is not the same", startingCapital,storeStartingCapital, 0.1);
 	}
 	/*Test 3: get capital after manifest is paid;
 	 */
 	@Test
-	public void testSubtractingCapital() {
-		double startingCaptial = 100000;
-		double substratedAmount = randomDouble(1000, 10000);
-		double resultingCapital = startingCaptial - substratedAmount;
+	public void testSubtractingCapital() throws StockException {
+		int startingCaptial = 100000;
+		int substratedAmount = randomInteger(1000, 10000);
+		int resultingCapital = startingCaptial - substratedAmount;
 		
-		store = store.getInstance();
+		store = new Store();
 		
 		store.subtractCapital(substratedAmount);
-		double storeCurrentCapital = store.getCapital();
+		int storeCurrentCapital = store.getCapital();
 		//Apparently assertEquals for doubles has been deprecated so a 0.1 delta will be added( may adjust in future)
-		assertEquals("Subtactracted Capital is not the same", resultingCapital, storeCurrentCapital, 0.1);
+		assertEquals("Subtactracted Capital is not the same", resultingCapital, storeCurrentCapital);
 	}
 	/*Test 4: get capital after making profit from sales
 	 */
 	@Test
-	public void testProfitCapital() {
-		double startingCapital = 100000;
-		double addedAmount = randomDouble(1000,10000);
-		double resultingCapital = startingCapital + addedAmount;
+	public void testProfitCapital() throws StockException {
+		int startingCapital = 100000;
+		int addedAmount = randomInteger(1000,10000);
+		int resultingCapital = startingCapital + addedAmount;
 		
-		store = store.getInstance();
+		store = new Store();
 		store.addCapital(addedAmount);
-		double storeCurrentCapital = store.getCapital();
+		int storeCurrentCapital = store.getCapital();
 		
 		assertEquals("added Capital is not the same", resultingCapital, storeCurrentCapital, 0.1);
 	}
 	/*Test 5: test setting store name
 	 */
 	@Test
-	public void testSetName() {
+	public void testSetName() throws StockException {
 		String storeName = randomStoreName();
-		store = store.getInstance();
+		store = new Store();
 		
 		store.setName(storeName);
 		String returnedStoreName = store.getName();
@@ -195,18 +182,19 @@ public class StoreTest {
 	/*Test 6: Get store name when there is no name
 	 */
 	@Test (expected = StockException.class)
-	public void testGetNonExistingStoreName() {
-		store = store.getInstance();
-		String returnedStoreName = store.getName();
+	public void testGetNonExistingStoreName() throws StockException {
+		store = new Store();
+		store.getName();
 	}
 	/*Test 7: Import store inventory
 	 */
 	@Test
-	public void testUpdateStoreInventory() {
+	public void testUpdateStoreInventory() throws StockException {
 		//emulating a sample inventory input from the stocks class
 		HashMap<String,Integer> stockInventory = generateStockInventory();
 		
-		store = store.getInstance();
+		store = new Store();
+		
 		store.setInventory(stockInventory);
 		HashMap<String,Integer> storeObjInventory = store.getInventory();
 		assertEquals("stock items are not the same", stockInventory,storeObjInventory);
@@ -214,43 +202,46 @@ public class StoreTest {
 	/*Test 8: get stock inventory when no stock is instantiated
 	 */
 	@Test (expected = StockException.class)
-	public void testGetNonExistingInventory() {
-		store = store.getInstance();
+	public void testGetNonExistingInventory() throws StockException {
+		store = new Store();
+		
 		store.getInventory();
 	}
-	/* Test 9: entering a negative number when paying for manifest
+	
+	
+	/* Test 9: Entered a negative number when entering cost
 	 */
-	//Not quite sure if we have to make a new exception since stock exception really doesn't fit
 	@Test (expected = StockException.class)
-	public void testGetCapitalWhenNegativeMoneyPaidForManifest() {
-		double startingCapital = 100000;
-		double negativeSubtractedAmmount = randomDouble(-10000,-1000);
+	public void testGetCapitalWhenNegtativeCostGiven() throws StockException {
+		int negativeAddedAmount = randomInteger(-10000,-1000);
 		
-		store = store.getInstance();
-		store.subtractCapital(negativeSubtractedAmmount);
-		double storeCapital =  store.getCapital();
+		store = new Store();
+		
+		store.subtractCapital(negativeAddedAmount);
 	}
+	
 	/* Test 10: Entered a negative number when entering profits from sales
 	 */
 	//Assuming profits are always made from sales
 	@Test (expected = StockException.class)
-	public void testGetCapitalWhenNegtativeMoneyFromSalesProfit() {
-		double negativeAddedAmount = randomDouble(-10000,-1000);
+	public void testGetCapitalWhenNegtativeMoneyFromSalesProfit() throws StockException {
+		int negativeAddedAmount = randomInteger(-10000,-1000);
 		
-		store = store.getInstance();
+		store = new Store();
+		
 		store.addCapital(negativeAddedAmount);
-		double storeCapital = store.getCapital();
 	}
 	
 	/*Test 11: When manifest cost ammount exceeds current capital 
 	 */
 	@Test (expected = StockException.class)
-	public void testManifestCostExceedsRemaindedCapital() {
+	public void testManifestCostExceedsRemaindedCapital() throws StockException {
 		//Assume Capital is current at 100000 (starting capital)
-		double subtractedAmmount = randomDouble(100001, 1000000);
-		store = getInstance();
+		int subtractedAmmount = randomInteger(100001, 1000000);
+		store = new Store();
+		
 		store.subtractCapital(subtractedAmmount);
-		double storeCapital = store.getCapital();
+		int storeCapital = store.getCapital();
 	}
 	
 }
