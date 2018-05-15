@@ -105,7 +105,7 @@ public class ItemTest {
 	/* Test 1: Constructing a Item Object
 	 */
 	@Test
-	public void testConstructor() {
+	public void testConstructor() throws StockException {
 		String itemName = randomItemName();
 		double manufactureCost = randomDouble(0,100);
 		double sellCost = randomDouble(0,100);
@@ -119,7 +119,7 @@ public class ItemTest {
 	/* Test 2: Get the Item Name
 	 */
 	@Test
-	public void testItemName() {
+	public void testItemName() throws StockException {
 		String itemName = randomItemName();
 		double manufactureCost = randomDouble(0,100);
 		double sellCost = randomDouble(0,100);
@@ -136,7 +136,7 @@ public class ItemTest {
 	/* Test 3: Get the Manufacture Cost
 	 */
 	@Test
-	public void testManufactureCost() {
+	public void testManufactureCost() throws StockException {
 		String itemName = randomItemName();
 		double manufactureCost = randomDouble(0,100);
 		double sellCost = randomDouble(0,100);
@@ -146,13 +146,13 @@ public class ItemTest {
 		
 		item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 		
-		assertEquals("manufacture cost incorrect", manufactureCost, item.getManufactureCost());
+		assertEquals("manufacture cost incorrect", manufactureCost, item.getManufactureCost(),0);
 	}
 	
 	/* Test 4: Get the Sell Cost
 	 */
 	@Test
-	public void testSellCost() {
+	public void testSellCost() throws StockException {
 		String itemName = randomItemName();
 		double manufactureCost = randomDouble(0,100);
 		double sellCost = randomDouble(0,100);
@@ -162,13 +162,13 @@ public class ItemTest {
 		
 		item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 		
-		assertEquals("sell cost incorrect", sellCost, item.getSellCost);
+		assertEquals("sell cost incorrect", sellCost, item.getSellCost(),0);
 	}
 	
 	/* Test 5: Get the Reorder Point
 	 */
 	@Test
-	public void testReorderPoint() {
+	public void testReorderPoint() throws StockException {
 		String itemName = randomItemName();
 		double manufactureCost = randomDouble(0,100);
 		double sellCost = randomDouble(0,100);
@@ -178,13 +178,13 @@ public class ItemTest {
 		
 		item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 		
-		assertEquals("reorder point incorrect", reorderPoint, item.getReorderPoint);
+		assertEquals("reorder point incorrect", reorderPoint, item.getReorderPoint());
 	}
 	
 	/* Test 6: Get the Reorder Amount
 	 */
 	@Test
-	public void testReorderAmmount() {
+	public void testReorderAmmount() throws StockException {
 		String itemName = randomItemName();
 		double manufactureCost = randomDouble(0,100);
 		double sellCost = randomDouble(0,100);
@@ -194,13 +194,13 @@ public class ItemTest {
 		
 		item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 		
-		assertEquals("reorder ammount incorrect", reorderPoint, item.getReorderAmmount);
+		assertEquals("reorder ammount incorrect", reorderAmount, item.getReorderAmount());
 	}
 	
 	/* Test 7: Get the Temperature
 	 */
 	@Test
-	public void testTemperature() {
+	public void testTemperature() throws StockException {
 		String itemName = randomItemName();
 		double manufactureCost = randomDouble(0,100);
 		double sellCost = randomDouble(0,100);
@@ -210,7 +210,7 @@ public class ItemTest {
 		
 		item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 		
-		assertEquals("temperature incorrect", temperature, item.getTemperature);
+		assertEquals("temperature incorrect", temperature, item.getTemperature());
 	}
 	
 	/* Test 8: Test if a negative number can be inputed in manufacture cost 
@@ -248,7 +248,7 @@ public class ItemTest {
 		String itemName = randomItemName();
 		double manufactureCost = randomDouble(0,100);
 		double sellCost = randomDouble(0,100);
-		int reorderPoint = randomInteger(0, 500);
+		int reorderPoint = randomInteger(-500, -1);
 		int reorderAmount = randomInteger(0, 100);
 		int temperature = randomInteger(-40,10);
 			
@@ -260,7 +260,7 @@ public class ItemTest {
 	 */
 	
 	@Test (expected = StockException.class)
-	public void testNegativeReorderAmount() {
+	public void testNegativeReorderAmount() throws StockException {
 		String itemName = randomItemName();
 		double manufactureCost = randomDouble(0,100);
 		double sellCost = randomDouble(0,100);
