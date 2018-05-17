@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import Exception.DeliveryException;
+import Exception.StockException;
 import Stock.Item;
 import Stock.Stock;
 
@@ -54,6 +55,61 @@ public class OrdinaryTruckTest {
 	private static String randomItemName() {
 		return itemNames[random.nextInt(itemNames.length)];
 	}
+	
+	/**
+	 * This method generates a random double from a specified minimum value
+	 * and a specified mximum value
+	 * @param min - the specified minimum number that can be generated
+	 * @param max - the specified maximum number taht can be generated
+	 * @return randomDouble - the random number that was generated
+	 */
+	private static double randomDouble(double min, double max) {
+		double randomDouble = random.nextDouble() * (max - min) + min;
+		return randomDouble;
+	}
+	
+	private static Stock generateRandomStock() throws StockException {
+		Stock stock = new Stock();
+		for(int index = 0; index < 10; index++) {
+			String itemName = randomItemName();
+			double manufactureCost = randomDouble(0,100);
+			double sellCost = randomDouble(0,100);
+			int reorderPoint = randomInteger(0, 500);
+			int reorderAmount = randomInteger(0, 100);
+			int temperature = randomInteger(-40,10);
+			int itemQty = randomInteger(0,500);
+			Item item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
+			stock.add(item, itemQty);
+		}
+		return stock;
+	}
+	
+	private static Stock generateFixedStock(int quanitity) throws StockException {
+		int numOfItems =  3;
+		Stock stock = new Stock();
+		int maxQuanitityForItem = quanitity;
+		int itemQuantity=0;
+		for(int index = 0; index < numOfItems; index++ ) {
+			String itemName = randomItemName();
+			double manufactureCost = randomDouble(0,100);
+			double sellCost = randomDouble(0,100);
+			int reorderPoint = randomInteger(0, 500);
+			int reorderAmount = randomInteger(0, 100);
+			int temperature = randomInteger(-40,10);
+			
+			if(index == 2) {
+				itemQuantity = maxQuanitityForItem;	
+			}else {
+				itemQuantity = randomInteger(0,maxQuanitityForItem);
+				maxQuanitityForItem -= itemQuantity;
+			}
+			
+			Item item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
+			
+			stock.add(item, itemQuantity);
+		}
+		return stock;
+	}
 		
 	/* Test 0: Declaring a Truck object
 	 */
@@ -79,11 +135,11 @@ public class OrdinaryTruckTest {
 	 * [This test obliges you to add a Add() method for the truck object]
 	 */
 	@Test
-	public void addStockTest() {
+	public void addStockTest() throws StockException {
 		
 		ordinaryTruck = new OrdinaryTruck();
 		
-		Stock stock = new Stock();		
+		Stock stock = generateRandomStock();
 		
 		ordinaryTruck.add(stock);
 	}
@@ -93,11 +149,11 @@ public class OrdinaryTruckTest {
 	 * [This test obliges you to add a get method for the truck object]
 	 */
 	@Test
-	public void getStockTest() {
+	public void getStockTest() throws StockException {
 		
 		ordinaryTruck = new OrdinaryTruck();
 		
-		Stock stock = new Stock();		
+		Stock stock = generateRandomStock();	
 		
 		ordinaryTruck.add(stock);
 		
@@ -109,17 +165,12 @@ public class OrdinaryTruckTest {
 	 * [This test obliges you to add a getQuantity method for the truck object]
 	 */
 	@Test
-	public void getQuantityTest() {
-		int randQuantity = randomInteger(1,10);
-		String itemName = randomItemName();
+	public void getQuantityTest() throws StockException {
+		int randQuantity = randomInteger(10,90);
 		
 		ordinaryTruck = new OrdinaryTruck();
 		
-		Stock stock = new Stock();		
-		
-		Item item = new Item(itemName /*other vars*/);
-		
-		stock.add(item, randQuantity);
+		Stock stock = generateFixedStock(randQuantity);
 		
 		ordinaryTruck.add(stock);
 		
@@ -131,40 +182,34 @@ public class OrdinaryTruckTest {
 	 * [This test obliges you to add a getCost method for the truck object]
 	 */
 	@Test
-	public void getCostTest() {
-		int expectedCost;
-		int randQuantity = randomInteger(1,10);
-		String itemName = randomItemName();
+	public void getCostTest() throws StockException {
+		double expectedCost;
+		int randQuantity = randomInteger(1,40);
 		
 		ordinaryTruck = new OrdinaryTruck();
 		
-		Stock stock = new Stock();		
-		
-		Item item = new Item(itemName /*other vars*/);
-		
-		stock.add(item, randQuantity);
+		Stock stock = generateFixedStock(randQuantity);
 		
 		ordinaryTruck.add(stock);
 		
-		expectedCost = (int) (750 + (0.25 * randQuantity));
+		expectedCost = (750 + (0.25 * randQuantity));
 		
-		assertEquals("Wrong Stock Returned", expectedCost, ordinaryTruck.getCost());	
+		assertEquals("Wrong Stock Returned", expectedCost, ordinaryTruck.getCost(),0.1);	
 	}
 	
 	/*
 	 * Test 6: Test removing stock from ordinary truck object
 	 * [This test obliges you to add a remove method for the truck object]
 	 */
-	@Test (expected = DeliveryException.class)
-	public void removeStockTest() throws DeliveryException {
+	public void removeStockTest() throws DeliveryException, StockException {
 		
 		ordinaryTruck = new OrdinaryTruck();
 		
-		Stock stock = new Stock();		
+		Stock stock = generateRandomStock();		
 		
 		ordinaryTruck.add(stock);
 		
-		ordinaryTruck.remove(stock);
+		ordinaryTruck.remove();
 		
 		ordinaryTruck.getStock();
 	}

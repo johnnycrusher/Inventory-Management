@@ -64,7 +64,7 @@ public class ItemTest {
 
 	/**
 	 * This method generates a random double from a specified minimum value
-	 * and a specified mximum value
+	 * and a specified maximum value
 	 * @param min - the specified minimum number that can be generated
 	 * @param max - the specified maximum number taht can be generated
 	 * @return randomDouble - the random number that was generated

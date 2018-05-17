@@ -5,7 +5,10 @@ package Delivery;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
+import Exception.StockException;
+import Stock.Item;
 import Stock.Stock;
 
 /**
@@ -14,39 +17,40 @@ import Stock.Stock;
  */
 public class OrdinaryTruck extends Truck {
 
-	ArrayList<Stock> ordinaryTruck;
+	Stock cargoStock;
 	/**
 	 * 
 	 */
 	public OrdinaryTruck() {
 		// TODO Auto-generated constructor stub
-		ordinaryTruck = new ArrayList<Stock>();
 	}
 	
 	public void add(Stock storeObj) {
-		ordinaryTruck.add(storeObj);
+		cargoStock = storeObj;
 	}
 	
-	public Stock getStock(int index) {
-		Stock ordinaryTruckStock = ordinaryTruck.get(index);
-		return ordinaryTruckStock;
+	public Stock getStock() {
+		return cargoStock;
 	}
 	
 	public void remove() {
-		ordinaryTruck.removeAll(ordinaryTruck);
-	}
-	public int getQuantity(String item) {
-		int itemQty;
-		for(int index = 0; index < ordinaryTruck.size(); index++) {
-			itemQty = ordinaryTruck.get(index).get(item);
-		}
-		return itemQty;
-	}
-	private int getCargoAmount() {
-		return ordinaryTruck.get(0).getNumOfItems();
+		cargoStock = null;
 	}
 	
-	public double getCost() {
+	public int getQuantity() throws StockException {
+		return getCargoAmount();
+	}
+	private int getCargoAmount() throws StockException {
+		
+		HashMap<Item, Integer> stockList =  cargoStock.returnStockList();
+		int numOfItems = 0;
+		for(Map.Entry<Item,Integer> entry : stockList.entrySet()) {
+			numOfItems += entry.getValue();
+		}
+		return numOfItems;
+	}
+	
+	public double getCost() throws StockException {
 		int cargoAmmount = getCargoAmount();
 		double cost = 750 + (0.25 * cargoAmmount);
 		return cost;
