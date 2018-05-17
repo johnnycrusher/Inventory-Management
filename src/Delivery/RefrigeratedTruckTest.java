@@ -334,7 +334,7 @@ public class RefrigeratedTruckTest {
 	 */
 	@Test (expected = DeliveryException.class)
 	public void exceedCapacityTest() throws DeliveryException, StockException {
-		int randQuantity = 801;
+		
 		String itemName = randomItemName();
 		refrigeratedTruck = new RefrigeratedTruck();
 		

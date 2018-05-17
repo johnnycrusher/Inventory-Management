@@ -27,7 +27,7 @@ public class OrdinaryTruck extends Truck {
 	}
 	
 	@Override
-	public void add(Stock stockObj) throws DeliveryException{
+	public void add(Stock stockObj) throws DeliveryException, StockException{
 		boolean anyRefridgeratedItems = false;
 		
 		try {
@@ -38,6 +38,13 @@ public class OrdinaryTruck extends Truck {
 		}
 		if(anyRefridgeratedItems == true) {
 			throw new DeliveryException("This item is not in the stock list");
+		}
+		
+		int numOfItems = stockObj.getNumberOfItems();
+		
+		
+		if(numOfItems > 1000) {
+			throw new DeliveryException("Cannot add as stock due to exceeding 800 items");
 		}
 		cargoStock = stockObj;
 	}
@@ -91,5 +98,4 @@ public class OrdinaryTruck extends Truck {
 		double cost = 750 + (0.25 * cargoAmmount);
 		return cost;
 	}
-
 }

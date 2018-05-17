@@ -67,21 +67,11 @@ public class TruckTest {
 	}
 	
 	/*
-	 * Test 1: Constructing a basic Truck object.
-	 * [This test obliges you to add a constructor]
-	 * 
-	 */
-	@Test
-	public void testConstruction() {			
-		truck = new Truck();
-	}
-	
-	/*
-	 * Test 2: Test delivery exception thrown when cargo exceeds capacity
+	 * Test 1: Test delivery exception thrown when cargo exceeds capacity
 	 */
 	@Test (expected = DeliveryException.class)
 	public void exceededCapacityTest() throws DeliveryException {
-		stock = new Stock();		
+		stock = new Stock();
 		stock.remove(item,1);
 		
 		

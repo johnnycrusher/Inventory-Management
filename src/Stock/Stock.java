@@ -81,6 +81,14 @@ public class Stock {
 		stock.put(item, newQuantityValue);
 	}
 	
+	public int getNumberOfItems() {
+		int numOfItems = 0;
+		for(Map.Entry<Item,Integer> entry : stock.entrySet()) {
+			numOfItems += entry.getValue();
+		}
+		return numOfItems;
+	}
+	
 	public int getNumOfItems() {
 		return stock.size();
 	}

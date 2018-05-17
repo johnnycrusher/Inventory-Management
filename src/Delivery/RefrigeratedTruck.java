@@ -31,10 +31,7 @@ public class RefrigeratedTruck extends Truck {
 	@Override
 	public void add(Stock stockObj) throws DeliveryException, StockException {
 		HashMap<Item, Integer> stockList =  stockObj.returnStockList();
-		int numOfItems = 0;
-		for(Map.Entry<Item,Integer> entry : stockList.entrySet()) {
-			numOfItems += entry.getValue();
-		}
+		int numOfItems = stockObj.getNumberOfItems(); 
 		if(numOfItems > 800) {
 			throw new DeliveryException("Cannot add as stock due to exceeding 800 items");
 		}

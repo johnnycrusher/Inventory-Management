@@ -101,7 +101,7 @@ public class OrdinaryTruckTest {
 				temperature = 40;
 			}
 			
-			int itemQty = randomInteger(0,500);
+			int itemQty = randomInteger(0,150);
 			Item item = new Item(itemNames.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 			stock.add(item, itemQty);
 		}
