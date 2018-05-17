@@ -70,6 +70,19 @@ public class StockTest {
 			return itemNames[random.nextInt(itemNames.length)];
 		}
 		
+		/**
+		 * This method generates a random double from a specified minimum value
+		 * and a specified mximum value
+		 * @param min - the specified minimum number that can be generated
+		 * @param max - the specified maximum number taht can be generated
+		 * @return randomDouble - the random number that was generated
+		 */
+		private static double randomDouble(double min, double max) {
+			double randomDouble = random.nextDouble() * (max - min) + min;
+			return randomDouble;
+		}
+		
+		
 		/* Can a collection of items be created DONE
 			Can you add items to the collection DONE
 			Can return an item object DONE
@@ -111,15 +124,25 @@ public class StockTest {
 		 */
 		@Test
 		public void testStockItems() {
+			String itemName = randomItemName();
+			double manufactureCost = randomDouble(0,100);
+			double sellCost = randomDouble(0,100);
+			int reorderPoint = randomInteger(0, 500);
+			int reorderAmount = randomInteger(0, 100);
+			int temperature = randomInteger(-40,10);
+			
+			Item item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
+			
 			int quantity = randomInteger(0,100);
+			
+			
 			
 			stock = new Stock();
 			
-			Item item = new Item(itemName /* random vars*/);
 			
 			stock.add(item, quantity);
 			
-			Item itemObj = stock.getItem(item);
+			Item itemObj = stock.getItem(itemName);
 			
 			//Maybe something like Item itemObj = stock.getItem(itemparam,quantityparam?);
 			
@@ -133,17 +156,22 @@ public class StockTest {
 		@Test
 		public void testStockItemQuantity() {
 			int quantity = randomInteger(0,100);
-			int itemQuantity;
 			
 			String itemName = randomItemName();
+			double manufactureCost = randomDouble(0,100);
+			double sellCost = randomDouble(0,100);
+			int reorderPoint = randomInteger(0, 500);
+			int reorderAmount = randomInteger(0, 100);
+			int temperature = randomInteger(-40,10);
+			
+			Item item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 			
 			stock = new Stock();
 			
-			Item item = new Item(/*random item variables*/);
 			
 			stock.add(item, quantity);
 			
-			itemQuantity = stock.getItemQuantity(item);
+			int itemQuantity = stock.getItemQuantity(itemName);
 			
 			assertEquals("Wrong Quantity Returned", quantity, itemQuantity);			
 		}
@@ -168,11 +196,16 @@ public class StockTest {
 			HashMap<Item, Integer> testStock = new Stock<Item, Integer>();
 
 			for(int index = 0; index < itemNumber; index++) {
-				itemName = randomItemName();
+				String itemName = randomItemName();
+				double manufactureCost = randomDouble(0,100);
+				double sellCost = randomDouble(0,100);
+				int reorderPoint = randomInteger(0, 500);
+				int reorderAmount = randomInteger(0, 100);
+				int temperature = randomInteger(-40,10);
+				
 				
 				itemQuantity = randomInteger(0,100);
-				
-				item = new Item(itemName /*other variables to be added*/ );
+				Item item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 				
 				testStock.put(item, itemQuantity);
 				stock.add(item, itemQuantity);
@@ -191,10 +224,19 @@ public class StockTest {
 		
 		@Test (expected = StockException.class)
 		public void testStockItemRemove() throws StockException{
+			
+			
 			stock = new Stock();		
+			
 			String itemName = randomItemName();
+			double manufactureCost = randomDouble(0,100);
+			double sellCost = randomDouble(0,100);
+			int reorderPoint = randomInteger(0, 500);
+			int reorderAmount = randomInteger(0, 100);
+			int temperature = randomInteger(-40,10);
+			
 			int itemQuantity = 1;
-			Item item = new Item(itemName /*other variables to be added*/ );
+			Item item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 
 			stock.add(item, itemQuantity);
 			stock.remove(item,1);
@@ -226,10 +268,19 @@ public class StockTest {
 		 */
 		@Test (expected = StockException.class)
 		public void getItemExceptionTest() throws StockException {
-			stock = new Stock();		
+			stock = new Stock();
+			
+			int itemQuantity = randomInteger(0,100);
+			
 			String itemName = randomItemName();
-			int itemQuantity = 1;
-			Item item = new Item(itemName /*other variables to be added*/ );
+			double manufactureCost = randomDouble(0,100);
+			double sellCost = randomDouble(0,100);
+			int reorderPoint = randomInteger(0, 500);
+			int reorderAmount = randomInteger(0, 100);
+			int temperature = randomInteger(-40,10);
+			
+			Item item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
+			
 			String invalidItem = "Wrong type";
 			
 			stock.add(item, itemQuantity);
@@ -242,26 +293,19 @@ public class StockTest {
 		@Test (expected = StockException.class)
 		public void stockQuantityExceptionTest() throws StockException {
 			stock = new Stock();		
+			int itemQuantity = randomInteger(0,100);
+			
 			String itemName = randomItemName();
-			int itemQuantity = 1;
-			Item item = new Item(itemName /*other variables to be added*/ );
+			double manufactureCost = randomDouble(0,100);
+			double sellCost = randomDouble(0,100);
+			int reorderPoint = randomInteger(0, 500);
+			int reorderAmount = randomInteger(0, 100);
+			int temperature = randomInteger(-40,10);
+			
+			Item item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 			String invalidItem = "Wrong type";
 			
 			stock.add(item, itemQuantity);
 			stock.getItemQuantity(invalidItem);
-		}
-		
-		/*
-		 * Test 10: Test Stock add method with invalid item given
-		 */
-		//Do not understand
-		@Test (expected = StockException.class)
-		public void stockAddExceptionTest() throws StockException {
-			stock = new Stock();		
-			String itemName = "Wrong Name";
-			int itemQuantity = 1;
-			Item item = new Item(itemName /*other variables to be added*/ );
-						
-			stock.add(item, itemQuantity);
 		}
 }
