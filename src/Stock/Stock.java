@@ -1,6 +1,7 @@
 package Stock;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import Exception.StockException;
 
@@ -18,19 +19,37 @@ public class Stock {
 		stock.put(item, quantity);
 	}
 	
-	public Item getItem(Item item) throws StockException {
-		if(!stock.containsKey(item)) {
+	public Item getItem(String item) throws StockException {
+		Item key = null;
+		String keyValue;
+		for(Map.Entry<Item,Integer> entry :stock.entrySet()) {
+			key = entry.getKey();
+			keyValue = entry.getKey().itemName;
+			if(keyValue.equals(item)) {
+				break;
+			}
+		}
+		if(key == null) {
 			throw new StockException("This item is not in the stock list");
 		}
-		Item stockItem = stock.get(item).keySet();
-		return null;
+		return key;
 	}
 	
-	public int getItemQuantity(Item item) throws StockException {
-		if(!stock.containsKey(item)) {
-			throw new StockException("Cannot return item quantity as it doesn't exist");
+	public int getItemQuantity(String itemName) throws StockException {
+		String keyItemName;
+		int itemQuantity = -11;
+		boolean detectedMatch = false;
+		for(Map.Entry<Item, Integer> entry: stock.entrySet()) {
+			keyItemName = entry.getKey().itemName;
+			itemQuantity = entry.getValue();
+			if(keyItemName.equals(itemName)) {
+				detectedMatch = true;
+				break;
+			}
 		}
-		int itemQuantity = stock.get(item);
+		if(detectedMatch == false) {
+			throw new StockException("This item is not in the stock list");
+		}
 		return itemQuantity;
 	}
 	
@@ -41,12 +60,16 @@ public class Stock {
 		return stock;
 	}
 	
-	public void remove(Item item, int quantity) throws StockException{
-		int currentValue = stock.get(item);
+	public void remove(String itemName, int quantity) throws StockException{
+		int currentValue = getItemQuantity(itemName);
+		Item item = getItem(itemName);
 		if(currentValue < quantity) {
 			throw new StockException("Cannot remove item due to remove quantity is greater then item quantity");
 		}
 		int newQuantityValue = currentValue - quantity;
 		stock.put(item, newQuantityValue);
+	}
+	public int getNumOfItems() {
+		return stock.size();
 	}
 }
