@@ -114,7 +114,7 @@ public class OrdinaryTruckTest {
 		Stock stock = new Stock();
 		int maxQuanitityForItem = quanitity;
 		int itemQuantity=0;
-		ArrayList<String> itemName = generateItemNames(3);
+		ArrayList<String> itemName = generateItemNames(numOfItems);
 		for(int index = 0; index < numOfItems; index++ ) {
 			double manufactureCost = randomDouble(0,100);
 			double sellCost = randomDouble(0,100);
@@ -230,7 +230,7 @@ public class OrdinaryTruckTest {
 		
 		ordinaryTruck = new OrdinaryTruck();
 		
-		Stock stock = generateRandomStock("dry");		
+		Stock stock = generateRandomStock("dry");
 		
 		ordinaryTruck.add(stock);
 		

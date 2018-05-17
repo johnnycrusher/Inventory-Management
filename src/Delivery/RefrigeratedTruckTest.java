@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.lang.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -115,7 +116,7 @@ public class RefrigeratedTruckTest {
 		Stock stock = new Stock();
 		int maxQuanitityForItem = quanitity;
 		int itemQuantity=0;
-		ArrayList<String> itemName = generateItemNames(3);
+		ArrayList<String> itemName = generateItemNames(numOfItems);
 		for(int index = 0; index < numOfItems; index++ ) {
 			double manufactureCost = randomDouble(0,100);
 			double sellCost = randomDouble(0,100);
@@ -130,6 +131,31 @@ public class RefrigeratedTruckTest {
 				maxQuanitityForItem -= itemQuantity;
 			}
 			
+			Item item = new Item(itemName.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
+			
+			stock.add(item, itemQuantity);
+		}
+		return stock;
+	}
+	
+	private static Stock generateFixedTempStock(int temp) throws StockException {
+		int numOfItems = 3;
+		int counter = 5;
+		int temperature = 20;
+		Stock stock = new Stock();
+		ArrayList<String> itemName = generateItemNames(numOfItems);
+		for(int index = 0; index < numOfItems; index++ ) {
+			double manufactureCost = randomDouble(0,100);
+			double sellCost = randomDouble(0,100);
+			int reorderPoint = randomInteger(0, 500);
+			int reorderAmount = randomInteger(0, 100);
+			int itemQuantity = randomInteger(0,200);
+			if(index < 2) {
+				temperature = temp + counter;
+				counter += counter;
+			}else {
+				temperature = temp;
+			}
 			Item item = new Item(itemName.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 			
 			stock.add(item, itemQuantity);
@@ -168,7 +194,7 @@ public class RefrigeratedTruckTest {
 		
 		refrigeratedTruck = new RefrigeratedTruck();
 		
-		Stock stock = generateRandomStock("refrigerated");		
+		Stock stock = generateFixedStock(700);		
 		
 		refrigeratedTruck.add(stock);
 	}
@@ -178,11 +204,11 @@ public class RefrigeratedTruckTest {
 	 * [This test obliges you to add a get method for the truck object]
 	 */
 	@Test
-	public void getStockTest() {
+	public void getStockTest() throws DeliveryException, StockException{
 		
 		refrigeratedTruck = new RefrigeratedTruck();
 		
-		Stock stock = new Stock();		
+		Stock stock = generateFixedStock(700);		
 		
 		refrigeratedTruck.add(stock);
 		
@@ -194,18 +220,12 @@ public class RefrigeratedTruckTest {
 	 * [This test obliges you to add a getQuantity method for the truck object]
 	 */
 	@Test
-	public void getQuantityTest() {
+	public void getQuantityTest() throws StockException, DeliveryException {
 		int randQuantity = randomInteger(1,10);
-		String itemName = randomItemName();
-		int temp = randomInteger(-40,10);
 		
 		refrigeratedTruck = new RefrigeratedTruck();
 		
-		Stock stock = new Stock();		
-		
-		Item item = new Item(itemName, temp /*other vars*/);
-		
-		stock.add(item, randQuantity);
+		Stock stock = generateFixedStock(randQuantity);		
 		
 		refrigeratedTruck.add(stock);
 		
@@ -217,19 +237,13 @@ public class RefrigeratedTruckTest {
 	 * [This test obliges you to add a getTemp() method for the truck object]
 	 */
 	@Test
-	public void getTempTest() {
+	public void getTempTest() throws StockException, DeliveryException {
 		int randTemp = randomInteger(-40,10);
-		int randQuantity = randomInteger(1,10);
-		String itemName = randomItemName();
 		
 		refrigeratedTruck = new RefrigeratedTruck();
 		
-		Stock stock = new Stock();		
-		
-		Item item = new Item(itemName, randTemp /*other vars*/);
-		
-		stock.add(item, randQuantity);
-		
+		Stock stock = generateFixedTempStock(randTemp);		
+
 		refrigeratedTruck.add(stock);
 		
 		assertEquals("Wrong Temp Returned", randTemp, refrigeratedTruck.getTemp());	
@@ -238,12 +252,15 @@ public class RefrigeratedTruckTest {
 	/*
 	 * Test 6: Test setting temp of refrigerated truck
 	 * [This test obliges you to add a setTemp() method for the truck object]
+	 * why would you need to set temperature that's done by automaticly 
 	 */
 	@Test
 	public void setTempTest() {
 		int randTemp = randomInteger(-40,10);
 		
 		refrigeratedTruck = new RefrigeratedTruck();
+		
+		Stock stock = generateRandomStock("refrigerated");
 		
 		refrigeratedTruck.setTemp(randTemp);
 		
@@ -255,27 +272,21 @@ public class RefrigeratedTruckTest {
 	 * [This test obliges you to add a getCost() method for the truck object]
 	 */
 	@Test
-	public void getCostTest() {
-		int expectedCost;
-		int currentTemp = randomInteger(-40,10);
+	public void getCostTest() throws StockException, DeliveryException {
+		double expectedCost;
+		int currentTemp = randomInteger(-20,10);
 		float exponent;
-		int randQuantity = randomInteger(1,10);
-		String itemName = randomItemName();
 		
 		refrigeratedTruck = new RefrigeratedTruck();
 		
-		Stock stock = new Stock();		
-		
-		Item item = new Item(itemName /*other vars*/);
-		
-		stock.add(item, randQuantity);
+		Stock stock = generateFixedTempStock(currentTemp);
 		
 		refrigeratedTruck.add(stock);
 
 		exponent = currentTemp / 5;
-		expectedCost = (int) (900 + (200 * java.lang.Math.pow(0.7, exponent)));
+		expectedCost = (900 + (200 * Math.pow(0.7, currentTemp / 5)));
 		
-		assertEquals("Wrong Stock Returned", expectedCost, refrigeratedTruck.getCost());	
+		assertEquals("Wrong Stock Returned", expectedCost, refrigeratedTruck.getCost(),0.1);	
 	}	
 	
 	/*
@@ -283,15 +294,15 @@ public class RefrigeratedTruckTest {
 	 * [This test obliges you to add a remove method for the truck object]
 	 */
 	@Test (expected = DeliveryException.class)
-	public void removeStockTest() throws DeliveryException {
+	public void removeStockTest() throws DeliveryException, StockException {
 		
 		refrigeratedTruck = new RefrigeratedTruck();
 		
-		Stock stock = new Stock();		
+		Stock stock = generateRandomStock("refrigerated");
 		
 		refrigeratedTruck.add(stock);
 		
-		refrigeratedTruck.remove(stock);
+		refrigeratedTruck.remove();
 		
 		refrigeratedTruck.getStock();
 	}
@@ -299,6 +310,8 @@ public class RefrigeratedTruckTest {
 	/*
 	 * Test 9: Test exception for putting ordinary item in refrigerated truck
 	 * [This test should throw an exception as the truck.add() should not accept items without a temp variable]
+	 *  pretty sure this is possible
+	 *  this should be allowed
 	 */
 	@Test (expected = DeliveryException.class)
 	public void wrongItemTest() throws DeliveryException {
@@ -320,16 +333,12 @@ public class RefrigeratedTruckTest {
 	 * [This test should throw an exception as the truck.add() should not accept items once at full capacity]
 	 */
 	@Test (expected = DeliveryException.class)
-	public void exceedCapacityTest() throws DeliveryException {
+	public void exceedCapacityTest() throws DeliveryException, StockException {
 		int randQuantity = 801;
 		String itemName = randomItemName();
 		refrigeratedTruck = new RefrigeratedTruck();
 		
-		Stock stock = new Stock();		
-		
-		Item item = new Item(itemName /*other vars but without Temp*/);
-		
-		stock.add(item, randQuantity);
+		Stock stock = generateFixedStock(900);
 		
 		refrigeratedTruck.add(stock);
 	}
