@@ -3,6 +3,8 @@
  */
 package Delivery;
 
+import Exception.DeliveryException;
+import Exception.StockException;
 import Stock.Stock;
 
 /**
@@ -11,23 +13,26 @@ import Stock.Stock;
  */
 public class RefrigeratedTruck extends Truck {
 
+	Stock cargoStock;
+	
 	/**
 	 * 
 	 */
 	public RefrigeratedTruck() {
-		// TODO Auto-generated constructor stub
+		cargoStock = null;
 	}
 
 	@Override
-	public void add(Stock storeObj) {
-		// TODO Auto-generated method stub
-		
+	public void add(Stock stockObj) throws DeliveryException {
+		cargoStock = stockObj;
 	}
 
 	@Override
-	public Stock getStock() {
-		// TODO Auto-generated method stub
-		return null;
+	public Stock getStock() throws DeliveryException {
+		if(cargoStock == null) {
+			throw new DeliveryException("Cannot Return an Empty Stock Item");
+		}
+		return cargoStock;
 	}
 
 	@Override
@@ -45,6 +50,12 @@ public class RefrigeratedTruck extends Truck {
 
 	@Override
 	public double getCost() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getQuantity() throws StockException {
 		// TODO Auto-generated method stub
 		return 0;
 	}

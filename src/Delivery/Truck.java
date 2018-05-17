@@ -22,7 +22,7 @@ public abstract class Truck {
 	
 	
 	public abstract void add(Stock storeObj) throws DeliveryException;
-	public abstract Stock getStock();
+	public abstract Stock getStock() throws DeliveryException;
 	public abstract void remove();
 	public abstract int getQuantity() throws StockException;
 	public abstract double getCost() throws StockException;

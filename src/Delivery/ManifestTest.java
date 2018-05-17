@@ -4,9 +4,13 @@ import static org.junit.Assert.*;
 
 import java.util.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import Exception.DeliveryException;
+import Exception.StockException;
+import Stock.Item;
+import Stock.Stock;
 
 
 /** This class represents the unit test for the Manifest object.
@@ -19,7 +23,7 @@ public class ManifestTest {
 	private static Random random = new Random();
 	
 	//Generate an array of dry food items
-	private static String[] dryFoodItemNames = new String[] {
+	private static String[] itemNames = new String[] {
 			"rice",
 			"breans",
 			"pasta",
@@ -28,9 +32,6 @@ public class ManifestTest {
 			"chips",
 			"chocolate",
 			"bread",
-	};
-	//generates an array of refridgerated food items
-	private static String[] refrideratedFoodItemNames = new String[] {
 			"mushroom",
 			"tomatoes",
 			"lettuce",
@@ -60,78 +61,57 @@ public class ManifestTest {
 		return random.nextInt((max - min) + 1) + min;
 	}
 	
-	/** This method generates 5 randomly selected dry food items and 
-	 *  5 randomly selected refridgerated foods and then stores them
-	 *  in another array list
-	 * @return the randomly generated cargo items
+	/**
+	 * This method generates a random double from a specified minimum value
+	 * and a specified mximum value
+	 * @param min - the specified minimum number that can be generated
+	 * @param max - the specified maximum number taht can be generated
+	 * @return randomDouble - the random number that was generated
 	 */
-	public static ArrayList<String> generateRandomFoodItem() {
-		ArrayList<String> dryFoodList = new ArrayList<String>();
-		ArrayList<String> refridratedFoodList = new ArrayList<String>();
+	private static double randomDouble(double min, double max) {
+		double randomDouble = random.nextDouble() * (max - min) + min;
+		return randomDouble;
+	}
+	
+	private static ArrayList<String> generateItemNames(int number) {
+		ArrayList<String> foodList = new ArrayList<String>();
 		ArrayList<String> randomCargoList = new ArrayList<String>();
-		for(int index = 0; index < dryFoodItemNames.length ; index++) {
-			dryFoodList.add(dryFoodItemNames[index]);
-		}
-		for(int index = 0; index < refrideratedFoodItemNames.length; index++) {
-			refridratedFoodList.add(refrideratedFoodItemNames[index]);
+		for(int index = 0; index < itemNames.length ; index++) {
+			foodList.add(itemNames[index]);
 		}
 		int randomIndex;
-		for(int index = 0; index < 5; index++) {
-			randomIndex = randomInteger(0,dryFoodList.size()-1);
-			String randomDryFood = dryFoodList.get(randomIndex);
-			dryFoodList.remove(randomIndex);
-			randomCargoList.add(randomDryFood);
-		}
-		for(int index = 5; index < 10; index++) {
-			randomIndex = randomInteger(0,refridratedFoodList.size()-1);
-			String randomRefridgeratedFood = refridratedFoodList.get(randomIndex);
-			refridratedFoodList.remove(randomIndex);
-			randomCargoList.add(randomRefridgeratedFood);
+		for(int index = 0; index < number; index++) {
+			randomIndex = randomInteger(0,foodList.size()-1);
+			String randomItemName = foodList.get(randomIndex);
+			foodList.remove(randomIndex);
+			randomCargoList.add(randomItemName);
 		}
 		return randomCargoList;
+	}
 		
+	private static Stock generateRandomStock() throws StockException {
+		Stock stock = new Stock();
+		int temperature;
+		String itemName;
+		ArrayList<String> itemNames = generateItemNames(10);
+		for(int index = 0; index < 10; index++) {
+			
+			double manufactureCost = randomDouble(0,100);
+			double sellCost = randomDouble(0,100);
+			int reorderPoint = randomInteger(0, 500);
+			int reorderAmount = randomInteger(0, 100);
+			if(index < 5) {
+				temperature = randomInteger(-20, 10);
+			}else {
+				temperature = 40;
+			}
+			int itemQty = randomInteger(0,500);
+			Item item = new Item(itemNames.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
+			stock.add(item, itemQty);
+		}
+		return stock;
 	}
 	
-	/** This method generates the item properties they are
-	 * a randomly generated integer to represent the reorder ammount
-	 * and a randomly generates integers the temperatues
-	 * and those are stored in a hashset.
-	 * @param type - the type of food (dry/refridgerated)
-	 * @return the randomly generates item properties
-	 */
-	public ArrayList<Integer> generateRandomItemProperties(String type ) {
-		ArrayList<Integer> itemProperties = new ArrayList<Integer>();
-		int randomReorderAmount = randomInteger(100,350);
-		int randomCost = randomInteger(1, 30);
-		itemProperties.add(randomReorderAmount);
-		itemProperties.add(randomCost);
-		if(type.equals("refridgerated")) {
-			int randomTemperature = randomInteger(-20, 10);
-			itemProperties.add(randomTemperature);
-		}
-		return itemProperties;
-	}	
-	
-	
-	/**This method combines the randomly generated food items and
-	 * the randomly generates items properties and stores them in
-	 * a hashmap.
-	 * @return a hashmap containing the item name and the item properties.
-	 */
-	public HashMap<String,ArrayList<Integer>> generateRandomCargoList() {
-		HashMap<String, ArrayList<Integer>> cargoList = new HashMap<String, ArrayList<Integer>>();
-		ArrayList<String> randomCargoList = generateRandomFoodItem();
-		ArrayList<Integer> itemProperties;
-		for (int index = 0; index < 5; index++) {
-			itemProperties = generateRandomItemProperties("dry");
-			cargoList.put(randomCargoList.get(index), itemProperties);
-		}
-		for(int index = 5; index < randomCargoList.size(); index++) {
-			itemProperties = generateRandomItemProperties("refridgerated");
-			cargoList.put(randomCargoList.get(index),itemProperties);
-		}
-		return cargoList;
-	}
 	
 	/* Test 0: Declaring a manifest object
 	 */
@@ -153,10 +133,10 @@ public class ManifestTest {
 	 */
 	@Test 
 	public void testAddingCargo() throws DeliveryException{
-		HashMap<String, Set<Integer>> cargoList = generateRandomCargoList();
+		Stock cargoList = generateRandomStock();
 		manifest = new Manifest();
 		manifest.addCargo(cargoList);
-		HashMap<String, Set<Integer>> cargoListReturned =  manifest.getCargo();
+		Stock cargoListReturned =  manifest.getCargo();
 		assertEquals("Cargo Object returned is not identical",cargoList,cargoListReturned);
 	}
 	/* Test 3: Test getting cargo list when it doesn't exist
@@ -164,7 +144,7 @@ public class ManifestTest {
 	@Test (expected = DeliveryException.class)
 	public void testGetCargoListWhenNoCargo() throws DeliveryException{
 		manifest = new Manifest();
-		HashMap<String, Set<Integer>> cargoList = manifest.getCargo();
+		Stock cargoList = manifest.getCargo();
 	}
 	/* Test 4: Test if Ordinary trucks can be added
 	 */
@@ -235,23 +215,24 @@ public class ManifestTest {
 	@Test
 	public void testSumCostOfCargo() throws DeliveryException{
 		manifest = new Manifest();
-		HashMap<String,ArrayList<Integer>> cargoList =  generateRandomCargoList();
-		int totalCost = 0;
-		final int costIndex = 1;
-		for(String key: cargoList.keySet()) {
-			totalCost += cargoList.get(key).get(costIndex);
+		Stock cargoList = generateRandomStock();
+		HashMap<Item,Integer> cargo = cargoList.returnStockList();
+		double totalCost = 0;
+		
+		for(Map.Entry<Item,Integer> entry : cargo.entrySet()) {
+			double cost = entry.getKey().getManufactureCost();
+			totalCost += cost;
 		}
 		manifest.addCargo(cargoList);
-		int cargoCost = manifest.getCargoCost();
+		double cargoCost = manifest.getCargoCost();
 		
-		assertEquals("Cargo Cost was not the same value",totalCost, cargoCost);
+		assertEquals("Cargo Cost was not the same value",totalCost, cargoCost,0.1);
 	}
 	/*Test 11: Test sum of all cargo when there is no cargo
 	 */
 	@Test (expected = DeliveryException.class)
 	public void testCargoSumWhenNoCargo() throws DeliveryException{
 		manifest = new Manifest();
-		HashMap<String,ArrayList<Integer>> cargoList =  generateRandomCargoList();
 		int cargoCost = manifest.getCargoCost();
 	}
 	/*Test 12: Test cargo optimisiation
@@ -276,7 +257,7 @@ public class ManifestTest {
 	 */
 	@Test
 	public void testManifiestCost() throws DeliveryException{
-		HashMap<String, Set<Integer>> cargoList = generateRandomCargoList();
+		Stock cargoList = generateRandomStock();
 
 		manifest = new Manifest();
 		

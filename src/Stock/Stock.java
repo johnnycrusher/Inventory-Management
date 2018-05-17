@@ -15,8 +15,19 @@ public class Stock {
 		stock = new HashMap<Item,Integer>(); 
 	}
 	
-	public void add(Item item, int quantity) {
-		stock.put(item, quantity);
+	public void add(Item item, int quantity) throws StockException {
+		String itemName = item.itemName;
+		boolean itemExist = false;
+		for(Map.Entry<Item, Integer> entry : stock.entrySet()) {
+			String stockItemName = entry.getKey().itemName;
+			if(itemName.equals(stockItemName)) {
+				itemExist = true;
+				throw new StockException("This item is already in the stock list");
+			}
+		}
+		if(itemExist == false) {
+			stock.put(item, quantity);
+		}
 	}
 	
 	public Item getItem(String item) throws StockException {
@@ -48,7 +59,7 @@ public class Stock {
 			}
 		}
 		if(detectedMatch == false) {
-			throw new StockException("This item is not in the stock list");
+			throw new StockException("Cannot get item quantity because item doesn't exsist in stock");
 		}
 		return itemQuantity;
 	}

@@ -2,12 +2,14 @@ package Delivery;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import Exception.DeliveryException;
+import Exception.StockException;
 import Stock.Item;
 import Stock.Stock;
 
@@ -54,6 +56,89 @@ public class RefrigeratedTruckTest {
 	private static String randomItemName() {
 		return itemNames[random.nextInt(itemNames.length)];
 	}
+	
+	/**
+	 * This method generates a random double from a specified minimum value
+	 * and a specified mximum value
+	 * @param min - the specified minimum number that can be generated
+	 * @param max - the specified maximum number taht can be generated
+	 * @return randomDouble - the random number that was generated
+	 */
+	private static double randomDouble(double min, double max) {
+		double randomDouble = random.nextDouble() * (max - min) + min;
+		return randomDouble;
+	}
+	
+	
+	private static ArrayList<String> generateItemNames(int number) {
+		ArrayList<String> foodList = new ArrayList<String>();
+		ArrayList<String> randomCargoList = new ArrayList<String>();
+		for(int index = 0; index < itemNames.length ; index++) {
+			foodList.add(itemNames[index]);
+		}
+		int randomIndex;
+		for(int index = 0; index < number; index++) {
+			randomIndex = randomInteger(0,foodList.size()-1);
+			String randomDryFood = foodList.get(randomIndex);
+			foodList.remove(randomIndex);
+			randomCargoList.add(randomDryFood);
+		}
+		return randomCargoList;
+	}
+
+	
+	private static Stock generateRandomStock(String type) throws StockException {
+		Stock stock = new Stock();
+		int temperature;
+		ArrayList<String> itemNames = generateItemNames(5);
+		for(int index = 0; index < 5; index++) {
+			double manufactureCost = randomDouble(0,100);
+			double sellCost = randomDouble(0,100);
+			int reorderPoint = randomInteger(0, 500);
+			int reorderAmount = randomInteger(0, 100);
+			if(type.equals("refridgetrated")) {
+				temperature = randomInteger(-20,10);
+			}else {
+				temperature = 40;
+			}
+			
+			int itemQty = randomInteger(0,500);
+			Item item = new Item(itemNames.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
+			stock.add(item, itemQty);
+		}
+		return stock;
+	}
+
+	
+	private static Stock generateFixedStock(int quanitity) throws StockException {
+		int numOfItems =  3;
+		Stock stock = new Stock();
+		int maxQuanitityForItem = quanitity;
+		int itemQuantity=0;
+		ArrayList<String> itemName = generateItemNames(3);
+		for(int index = 0; index < numOfItems; index++ ) {
+			double manufactureCost = randomDouble(0,100);
+			double sellCost = randomDouble(0,100);
+			int reorderPoint = randomInteger(0, 500);
+			int reorderAmount = randomInteger(0, 100);
+			int  temperature = 20;
+			
+			if(index == 2) {
+				itemQuantity = maxQuanitityForItem;	
+			}else {
+				itemQuantity = randomInteger(0,maxQuanitityForItem);
+				maxQuanitityForItem -= itemQuantity;
+			}
+			
+			Item item = new Item(itemName.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
+			
+			stock.add(item, itemQuantity);
+		}
+		return stock;
+	}
+	
+	
+	
 		
 	/* Test 0: Declaring a refrigerated Truck object
 	 */
@@ -79,11 +164,11 @@ public class RefrigeratedTruckTest {
 	 * [This test obliges you to add a Add() method for the truck object]
 	 */
 	@Test
-	public void addStockTest() {
+	public void addStockTest() throws StockException, DeliveryException {
 		
 		refrigeratedTruck = new RefrigeratedTruck();
 		
-		Stock stock = new Stock();		
+		Stock stock = generateRandomStock("refrigerated");		
 		
 		refrigeratedTruck.add(stock);
 	}

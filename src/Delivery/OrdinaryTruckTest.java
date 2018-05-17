@@ -2,6 +2,7 @@ package Delivery;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import org.junit.Before;
@@ -68,11 +69,28 @@ public class OrdinaryTruckTest {
 		return randomDouble;
 	}
 	
+	private static ArrayList<String> generateItemNames(int number) {
+		ArrayList<String> foodList = new ArrayList<String>();
+		ArrayList<String> randomCargoList = new ArrayList<String>();
+		for(int index = 0; index < itemNames.length ; index++) {
+			foodList.add(itemNames[index]);
+		}
+		int randomIndex;
+		for(int index = 0; index < number; index++) {
+			randomIndex = randomInteger(0,foodList.size()-1);
+			String randomDryFood = foodList.get(randomIndex);
+			foodList.remove(randomIndex);
+			randomCargoList.add(randomDryFood);
+		}
+		return randomCargoList;
+	}
+
+	
 	private static Stock generateRandomStock(String type) throws StockException {
 		Stock stock = new Stock();
 		int temperature;
-		for(int index = 0; index < 10; index++) {
-			String itemName = randomItemName();
+		ArrayList<String> itemNames = generateItemNames(5);
+		for(int index = 0; index < 5; index++) {
 			double manufactureCost = randomDouble(0,100);
 			double sellCost = randomDouble(0,100);
 			int reorderPoint = randomInteger(0, 500);
@@ -84,7 +102,7 @@ public class OrdinaryTruckTest {
 			}
 			
 			int itemQty = randomInteger(0,500);
-			Item item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
+			Item item = new Item(itemNames.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 			stock.add(item, itemQty);
 		}
 		return stock;
@@ -96,8 +114,8 @@ public class OrdinaryTruckTest {
 		Stock stock = new Stock();
 		int maxQuanitityForItem = quanitity;
 		int itemQuantity=0;
+		ArrayList<String> itemName = generateItemNames(3);
 		for(int index = 0; index < numOfItems; index++ ) {
-			String itemName = randomItemName();
 			double manufactureCost = randomDouble(0,100);
 			double sellCost = randomDouble(0,100);
 			int reorderPoint = randomInteger(0, 500);
@@ -111,7 +129,7 @@ public class OrdinaryTruckTest {
 				maxQuanitityForItem -= itemQuantity;
 			}
 			
-			Item item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
+			Item item = new Item(itemName.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 			
 			stock.add(item, itemQuantity);
 		}

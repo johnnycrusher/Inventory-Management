@@ -83,6 +83,22 @@ public class StockTest {
 		}
 		
 		
+		private static ArrayList<String> generateItemNames(int number) {
+			ArrayList<String> foodList = new ArrayList<String>();
+			ArrayList<String> randomCargoList = new ArrayList<String>();
+			for(int index = 0; index < itemNames.length ; index++) {
+				foodList.add(itemNames[index]);
+			}
+			int randomIndex;
+			for(int index = 0; index < number; index++) {
+				randomIndex = randomInteger(0,foodList.size()-1);
+				String randomDryFood = foodList.get(randomIndex);
+				foodList.remove(randomIndex);
+				randomCargoList.add(randomDryFood);
+			}
+			return randomCargoList;
+		}
+		
 		/* Can a collection of items be created DONE
 			Can you add items to the collection DONE
 			Can return an item object DONE
@@ -186,14 +202,13 @@ public class StockTest {
 			
 			stock = new Stock();		
 			
-			int itemNumber = randomInteger(0,100);
+			int itemNumber = randomInteger(1,10);
 			
 			int itemQuantity;
 			
 			HashMap<Item, Integer> testStock = new HashMap<Item, Integer>();
-
+			ArrayList<String> itemNames = generateItemNames(itemNumber);
 			for(int index = 0; index < itemNumber; index++) {
-				String itemName = randomItemName();
 				double manufactureCost = randomDouble(0,100);
 				double sellCost = randomDouble(0,100);
 				int reorderPoint = randomInteger(0, 500);
@@ -202,7 +217,7 @@ public class StockTest {
 				
 				
 				itemQuantity = randomInteger(0,100);
-				Item item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
+				Item item = new Item(itemNames.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 				
 				testStock.put(item, itemQuantity);
 				stock.add(item, itemQuantity);
@@ -305,4 +320,6 @@ public class StockTest {
 			stock.add(item, itemQuantity);
 			stock.getItemQuantity(invalidItem);
 		}
+		
+		//Test dupilcate item
 }

@@ -26,6 +26,7 @@ public class OrdinaryTruck extends Truck {
 		cargoStock = null;
 	}
 	
+	@Override
 	public void add(Stock stockObj) throws DeliveryException{
 		boolean anyRefridgeratedItems = false;
 		
@@ -41,14 +42,20 @@ public class OrdinaryTruck extends Truck {
 		cargoStock = stockObj;
 	}
 	
-	public Stock getStock() {
+	@Override
+	public Stock getStock() throws DeliveryException {
+		if(cargoStock == null) {
+			throw new DeliveryException("There is no cargo in the Truck");
+		}
 		return cargoStock;
 	}
 	
+	@Override
 	public void remove() {
 		cargoStock = null;
 	}
 	
+	@Override
 	public int getQuantity() throws StockException {
 		return getCargoAmount();
 	}
@@ -78,6 +85,7 @@ public class OrdinaryTruck extends Truck {
 		return numOfItems;
 	}
 	
+	@Override
 	public double getCost() throws StockException {
 		int cargoAmmount = getCargoAmount();
 		double cost = 750 + (0.25 * cargoAmmount);
