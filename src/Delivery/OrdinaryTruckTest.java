@@ -68,21 +68,28 @@ public class OrdinaryTruckTest {
 		return randomDouble;
 	}
 	
-	private static Stock generateRandomStock() throws StockException {
+	private static Stock generateRandomStock(String type) throws StockException {
 		Stock stock = new Stock();
+		int temperature;
 		for(int index = 0; index < 10; index++) {
 			String itemName = randomItemName();
 			double manufactureCost = randomDouble(0,100);
 			double sellCost = randomDouble(0,100);
 			int reorderPoint = randomInteger(0, 500);
 			int reorderAmount = randomInteger(0, 100);
-			int temperature = randomInteger(-40,10);
+			if(type.equals("refridgetrated")) {
+				temperature = randomInteger(-20,10);
+			}else {
+				temperature = 40;
+			}
+			
 			int itemQty = randomInteger(0,500);
 			Item item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 			stock.add(item, itemQty);
 		}
 		return stock;
 	}
+
 	
 	private static Stock generateFixedStock(int quanitity) throws StockException {
 		int numOfItems =  3;
@@ -95,7 +102,7 @@ public class OrdinaryTruckTest {
 			double sellCost = randomDouble(0,100);
 			int reorderPoint = randomInteger(0, 500);
 			int reorderAmount = randomInteger(0, 100);
-			int temperature = randomInteger(-40,10);
+			int  temperature = 20;
 			
 			if(index == 2) {
 				itemQuantity = maxQuanitityForItem;	
@@ -135,11 +142,11 @@ public class OrdinaryTruckTest {
 	 * [This test obliges you to add a Add() method for the truck object]
 	 */
 	@Test
-	public void addStockTest() throws StockException {
+	public void addStockTest() throws StockException, DeliveryException {
 		
 		ordinaryTruck = new OrdinaryTruck();
 		
-		Stock stock = generateRandomStock();
+		Stock stock = generateRandomStock("dry");
 		
 		ordinaryTruck.add(stock);
 	}
@@ -149,11 +156,11 @@ public class OrdinaryTruckTest {
 	 * [This test obliges you to add a get method for the truck object]
 	 */
 	@Test
-	public void getStockTest() throws StockException {
+	public void getStockTest() throws StockException, DeliveryException {
 		
 		ordinaryTruck = new OrdinaryTruck();
 		
-		Stock stock = generateRandomStock();	
+		Stock stock = generateRandomStock("dry");	
 		
 		ordinaryTruck.add(stock);
 		
@@ -165,7 +172,7 @@ public class OrdinaryTruckTest {
 	 * [This test obliges you to add a getQuantity method for the truck object]
 	 */
 	@Test
-	public void getQuantityTest() throws StockException {
+	public void getQuantityTest() throws StockException, DeliveryException {
 		int randQuantity = randomInteger(10,90);
 		
 		ordinaryTruck = new OrdinaryTruck();
@@ -182,7 +189,7 @@ public class OrdinaryTruckTest {
 	 * [This test obliges you to add a getCost method for the truck object]
 	 */
 	@Test
-	public void getCostTest() throws StockException {
+	public void getCostTest() throws StockException, DeliveryException {
 		double expectedCost;
 		int randQuantity = randomInteger(1,40);
 		
@@ -205,7 +212,7 @@ public class OrdinaryTruckTest {
 		
 		ordinaryTruck = new OrdinaryTruck();
 		
-		Stock stock = generateRandomStock();		
+		Stock stock = generateRandomStock("dry");		
 		
 		ordinaryTruck.add(stock);
 		
@@ -218,16 +225,15 @@ public class OrdinaryTruckTest {
 	 * Test 7: Test exception for putting refrigerated item in ordinary truck
 	 */
 	@Test (expected = DeliveryException.class)
-	public void wrongItemTest() throws DeliveryException {
+	public void wrongItemTest() throws DeliveryException, StockException {
 		int randQuantity = randomInteger(1,10);
 		String itemName = randomItemName();
 		int temp = randomInteger(-40,10);
 		ordinaryTruck = new OrdinaryTruck();
 		
-		Stock stock = new Stock();		
+		Stock stock = null;
+		stock = generateRandomStock("refridgetrated");
 		
-		Item item = new Item(itemName, temp/*other vars*/);
-		
-		stock.add(item, randQuantity);
+		ordinaryTruck.add(stock);
 	}
 }

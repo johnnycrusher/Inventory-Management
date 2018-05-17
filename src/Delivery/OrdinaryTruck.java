@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import Exception.DeliveryException;
 import Exception.StockException;
 import Stock.Item;
 import Stock.Stock;
@@ -22,11 +23,22 @@ public class OrdinaryTruck extends Truck {
 	 * 
 	 */
 	public OrdinaryTruck() {
-		// TODO Auto-generated constructor stub
+		cargoStock = null;
 	}
 	
-	public void add(Stock storeObj) {
-		cargoStock = storeObj;
+	public void add(Stock stockObj) throws DeliveryException{
+		boolean anyRefridgeratedItems = false;
+		
+		try {
+			anyRefridgeratedItems = findRefridgeratedItems(stockObj);
+		} catch (StockException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(anyRefridgeratedItems == true) {
+			throw new DeliveryException("This item is not in the stock list");
+		}
+		cargoStock = stockObj;
 	}
 	
 	public Stock getStock() {
@@ -39,6 +51,22 @@ public class OrdinaryTruck extends Truck {
 	
 	public int getQuantity() throws StockException {
 		return getCargoAmount();
+	}
+	
+	
+	
+	private boolean findRefridgeratedItems(Stock stock) throws DeliveryException, StockException {
+		HashMap<Item, Integer> stockItems = stock.returnStockList();
+		boolean refridgeratedItem = false;
+		int temp = 40;
+		for(Map.Entry<Item,Integer> entry : stockItems.entrySet()) {
+			temp = entry.getKey().getTemperature();		
+
+		}
+		if(temp < 10) {
+			refridgeratedItem =  true;
+		}
+		return refridgeratedItem;
 	}
 	private int getCargoAmount() throws StockException {
 		

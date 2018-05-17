@@ -51,8 +51,11 @@ public class Item {
 		
 		if(temperature <= 10) {
 			this.temperature = temperature;
+		}else {
+			this.temperature = 40;
 		}
 	}
+	
 	
 	public String getItemName() {
 		return itemName;

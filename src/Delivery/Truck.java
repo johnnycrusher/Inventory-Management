@@ -3,6 +3,7 @@
  */
 package Delivery;
 
+import Exception.DeliveryException;
 import Exception.StockException;
 import Stock.Stock;
 
@@ -20,7 +21,7 @@ public abstract class Truck {
 	}
 	
 	
-	public abstract void add(Stock storeObj);
+	public abstract void add(Stock storeObj) throws DeliveryException;
 	public abstract Stock getStock();
 	public abstract void remove();
 	public abstract int getQuantity() throws StockException;
