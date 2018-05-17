@@ -69,6 +69,7 @@ public class Stock {
 		int newQuantityValue = currentValue - quantity;
 		stock.put(item, newQuantityValue);
 	}
+	
 	public int getNumOfItems() {
 		return stock.size();
 	}

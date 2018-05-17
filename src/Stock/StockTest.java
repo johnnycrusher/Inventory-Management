@@ -123,7 +123,7 @@ public class StockTest {
 		 * - Possibly requires 2 params for each method but not sure at this point
 		 */
 		@Test
-		public void testStockItems() {
+		public void testStockItems() throws StockException {
 			String itemName = randomItemName();
 			double manufactureCost = randomDouble(0,100);
 			double sellCost = randomDouble(0,100);
@@ -154,7 +154,7 @@ public class StockTest {
 		 * [This test obliges you to add a getter method for the stock's item quantity]
 		 */
 		@Test
-		public void testStockItemQuantity() {
+		public void testStockItemQuantity() throws StockException{
 			int quantity = randomInteger(0,100);
 			
 			String itemName = randomItemName();
@@ -181,11 +181,8 @@ public class StockTest {
 		 * [This test obliges you to add a getter method for the stock's collection of items]
 		 */
 		@Test
-		public void testStockItemList() {
+		public void testStockItemList()throws StockException {
 
-			String itemName;
-			
-			Item item;
 			
 			stock = new Stock();		
 			
@@ -193,7 +190,7 @@ public class StockTest {
 			
 			int itemQuantity;
 			
-			HashMap<Item, Integer> testStock = new Stock<Item, Integer>();
+			HashMap<Item, Integer> testStock = new HashMap<Item, Integer>();
 
 			for(int index = 0; index < itemNumber; index++) {
 				String itemName = randomItemName();
@@ -222,7 +219,6 @@ public class StockTest {
 		 */
 		
 		
-		@Test (expected = StockException.class)
 		public void testStockItemRemove() throws StockException{
 			
 			
@@ -239,8 +235,8 @@ public class StockTest {
 			Item item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 
 			stock.add(item, itemQuantity);
-			stock.remove(item,1);
-			stock.getItem(0);
+			stock.remove(itemName,1);
+			stock.getItem(itemName);
 		}
 		
 		/*
@@ -250,8 +246,9 @@ public class StockTest {
 		@Test (expected = StockException.class)
 		public void removeItemExceptionTest() throws StockException {
 			stock = new Stock();
-			//huh u need to actually add the item first
-			stock.remove(item,1);
+			
+			
+			stock.remove(randomItemName(),1);
 		}
 		
 		/*

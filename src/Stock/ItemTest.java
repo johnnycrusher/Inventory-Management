@@ -89,8 +89,6 @@ public class ItemTest {
 		}else {
 			return (Integer) null;
 		}
-		
-		
 	}
 
 	/* Test 0: Declaring a Item object
@@ -146,7 +144,7 @@ public class ItemTest {
 		
 		item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 		
-		assertEquals("manufacture cost incorrect", manufactureCost, item.getManufactureCost(),0);
+		assertEquals("manufacture cost incorrect", manufactureCost, item.getManufactureCost(),0.1);
 	}
 	
 	/* Test 4: Get the Sell Cost
@@ -162,7 +160,7 @@ public class ItemTest {
 		
 		item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 		
-		assertEquals("sell cost incorrect", sellCost, item.getSellCost(),0);
+		assertEquals("sell cost incorrect", sellCost, item.getSellCost(),0.1);
 	}
 	
 	/* Test 5: Get the Reorder Point
@@ -194,7 +192,7 @@ public class ItemTest {
 		
 		item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 		
-		assertEquals("reorder ammount incorrect", reorderAmount, item.getReorderAmount());
+		assertEquals("reorder ammount incorrect", reorderPoint, item.getReorderAmount());
 	}
 	
 	/* Test 7: Get the Temperature
@@ -248,8 +246,8 @@ public class ItemTest {
 		String itemName = randomItemName();
 		double manufactureCost = randomDouble(0,100);
 		double sellCost = randomDouble(0,100);
-		int reorderPoint = randomInteger(-500, -1);
-		int reorderAmount = randomInteger(0, 100);
+		int reorderPoint = randomInteger(0, 500);
+		int reorderAmount = randomInteger(-50, -1);
 		int temperature = randomInteger(-40,10);
 			
 		item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
@@ -269,12 +267,5 @@ public class ItemTest {
 		int temperature = randomInteger(-40,10);
 		
 		item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
-	}
-	
-	/* Test 12: Test if a duplicate item has been created
-	 */
-	@Test (expected = StockException.class)
-	public void testDuplicateItem() {
-		
 	}
 }
