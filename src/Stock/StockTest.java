@@ -11,8 +11,8 @@ import java.util.Random;
 import org.junit.Before;
 import org.junit.Test;
 
+import OrdinaryTruck;
 import Delivery.Manifest;
-import Delivery.OrdinaryTruck;
 import Delivery.Truck;
 import Exception.DeliveryException;
 import Exception.StockException;

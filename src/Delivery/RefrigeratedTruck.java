@@ -1,7 +1,8 @@
+package Delivery;
 /**
  * 
  */
-package Delivery;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,13 +18,11 @@ import Stock.Stock;
  *
  */
 public class RefrigeratedTruck extends Truck {
-
-	Stock cargoStock;
-	int temperature = 40;
 	
 	/**
 	 * 
 	 */
+
 	public RefrigeratedTruck() {
 		cargoStock = null;
 	}
@@ -36,24 +35,6 @@ public class RefrigeratedTruck extends Truck {
 			throw new DeliveryException("Cannot add as stock due to exceeding 800 items");
 		}
 		cargoStock = stockObj;
-	}
-
-	@Override
-	public Stock getStock() throws DeliveryException {
-		if(cargoStock == null) {
-			throw new DeliveryException("Cannot Return an Empty Stock Item");
-		}
-		return cargoStock;
-	}
-
-	@Override
-	public void remove() {
-		cargoStock = null;	
-	}
-
-	@Override
-	public int getQuantity() throws StockException {
-		return getCargoAmount();
 	}
 
 	@Override
@@ -83,16 +64,6 @@ public class RefrigeratedTruck extends Truck {
 			}
 		}
 		return currentLowestTemp;
-	}
-	
-	private int getCargoAmount() throws StockException {
-		
-		HashMap<Item, Integer> stockList =  cargoStock.returnStockList();
-		int numOfItems = 0;
-		for(Map.Entry<Item,Integer> entry : stockList.entrySet()) {
-			numOfItems += entry.getValue();
-		}
-		return numOfItems;
 	}
 
 }

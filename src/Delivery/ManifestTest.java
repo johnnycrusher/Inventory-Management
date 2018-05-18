@@ -7,6 +7,7 @@ import java.util.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import OrdinaryTruck;
 import Exception.DeliveryException;
 import Exception.StockException;
 import Stock.Item;

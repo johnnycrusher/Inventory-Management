@@ -9,6 +9,7 @@ import java.lang.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import RefrigeratedTruck;
 import Exception.DeliveryException;
 import Exception.StockException;
 import Stock.Item;
@@ -225,7 +226,7 @@ public class RefrigeratedTruckTest {
 		
 		refrigeratedTruck = new RefrigeratedTruck();
 		
-		Stock stock = generateFixedStock(randQuantity);		
+		Stock stock = generateFixedStock(randQuantity);
 		
 		refrigeratedTruck.add(stock);
 		

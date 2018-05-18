@@ -16,18 +16,26 @@ public abstract class Truck {
 	/**
 	 * 
 	 */
+	Stock cargoStock;
 	public Truck() {
 		// TODO Auto-generated constructor stub
 	}
+	public void remove() {
+		cargoStock = null;
+	}
 	
+	public int getQuantity() throws StockException {
+		return cargoStock.getNumberOfItems();
+	}
+	
+	public Stock getStock() throws DeliveryException {
+		if(cargoStock == null) {
+			throw new DeliveryException("There is no cargo in the Truck");
+		}
+		return cargoStock;
+	}
 	
 	public abstract void add(Stock storeObj) throws DeliveryException, StockException;
-	public abstract Stock getStock() throws DeliveryException;
-	public abstract void remove();
-	public abstract int getQuantity() throws StockException;
 	public abstract double getCost() throws StockException;
 	public abstract int getTemp() throws StockException;
-	
-	
-
 }

@@ -1,7 +1,8 @@
+package Delivery;
 /**
  * 
  */
-package Delivery;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +19,6 @@ import Stock.Stock;
  */
 public class OrdinaryTruck extends Truck {
 
-	Stock cargoStock;
 	/**
 	 * 
 	 */
