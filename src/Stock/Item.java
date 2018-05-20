@@ -52,7 +52,7 @@ public class Item {
 		if(temperature <= 10) {
 			this.temperature = temperature;
 		}else {
-			this.temperature = 40;
+			this.temperature = 11;
 		}
 	}
 	
@@ -75,6 +75,16 @@ public class Item {
 	
 	public int getReorderAmount() {
 		return this.reorderAmount;
+	}
+	
+	public boolean isCold() throws StockException {
+		if (this.temperature <= 10){
+			return true;
+		} else if (this.temperature == 11) {
+			return false;
+		} else {
+			throw new StockException("Invalid Temperature Error");
+		}
 	}
 	
 	public int getTemperature() throws StockException {

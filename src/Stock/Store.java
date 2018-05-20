@@ -41,7 +41,7 @@ public class Store {
 	protected void addInventory(HashMap<String, Integer> inventory) throws StockException{
 		for (String key : inventory.keySet()) {
 		    if (this.stockInventory.containsKey(key)) {
-		        this.stockInventory.put(key, this.stockInventory.get(key) + 1);
+		        this.stockInventory.put(key, this.stockInventory.get(key) + inventory.get(key));
 		    } else {
 		    	this.stockInventory.put(key, inventory.get(key));
 		    }

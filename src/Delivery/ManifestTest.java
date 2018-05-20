@@ -161,7 +161,7 @@ public class ManifestTest {
 	 */
 	@Test 
 	public void testRefrigeratedTrucks() throws DeliveryException{
-		Trucks refridgeratedTruck = new RefridgeratedTruck();
+		Truck refridgeratedTruck = new RefrigeratedTruck();
 		manifest = new Manifest();
 		manifest.addTruck(refridgeratedTruck);
 		Truck refridgeratedTruckObject = manifest.getTruck(0);
