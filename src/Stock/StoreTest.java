@@ -96,6 +96,20 @@ public class StoreTest {
 		}
 	
 	/**
+	 * This method adds the contents of one hashmap (inventory) to another, iterating the int value
+	 * @author Tom
+	 */
+	private void addInventory(HashMap<String, Integer> baseInventory,HashMap<String, Integer> newInventory) throws StockException{
+		for (String key : newInventory.keySet()) {
+		    if (baseInventory.containsKey(key)) {
+		        baseInventory.put(key, baseInventory.get(key) + 1);
+		    } else {
+		    	baseInventory.put(key, newInventory.get(key));
+		    }
+		}
+	}
+		
+	/**
 	 * This method generates a random store name string from list
 	 * of stores names in the array.
 	 * @return the random storeName
@@ -126,42 +140,47 @@ public class StoreTest {
 	 */
 	@Test
 	public void testConstructor() {
-		store = new Store();
+		Store.getInstance();
 	}
 	/* Test 2 get starting capital
 	 */
 	@Test
 	public void testStartingCapital() {
-		int startingCapital = 100000;
-		store = new Store();
+		Store store = Store.getInstance();
+		int startingCapital = store.getCapital();
 		int storeStartingCapital = store.getCapital();
-		//Apparently assertEquals for doubles has been deprecated so a 0.1 delta will be added(may adjust in future)
-		assertEquals("Starting Capital is not the same", startingCapital,storeStartingCapital, 0.1);
+		
+		assertEquals("Starting Capital is not the same", startingCapital,storeStartingCapital);
 	}
 	/*Test 3: get capital after manifest is paid;
 	 */
 	@Test
 	public void testSubtractingCapital() throws StockException {
-		int startingCaptial = 100000;
+		Store store = Store.getInstance();
+		
+		int startingCaptial = store.getCapital();
+		
 		int substratedAmount = randomInteger(1000, 10000);
 		int resultingCapital = startingCaptial - substratedAmount;
 		
-		store = new Store();
+		
 		
 		store.subtractCapital(substratedAmount);
 		int storeCurrentCapital = store.getCapital();
-		//Apparently assertEquals for doubles has been deprecated so a 0.1 delta will be added( may adjust in future)
+		
 		assertEquals("Subtactracted Capital is not the same", resultingCapital, storeCurrentCapital);
 	}
 	/*Test 4: get capital after making profit from sales
 	 */
 	@Test
 	public void testProfitCapital() throws StockException {
-		int startingCapital = 100000;
+		Store store = Store.getInstance();
+		
+		int startingCapital = store.getCapital();
 		int addedAmount = randomInteger(1000,10000);
 		int resultingCapital = startingCapital + addedAmount;
 		
-		store = new Store();
+		
 		store.addCapital(addedAmount);
 		int storeCurrentCapital = store.getCapital();
 		
@@ -172,7 +191,7 @@ public class StoreTest {
 	@Test
 	public void testSetName() throws StockException {
 		String storeName = randomStoreName();
-		store = new Store();
+		Store store = Store.getInstance();
 		
 		store.setName(storeName);
 		String returnedStoreName = store.getName();
@@ -183,28 +202,55 @@ public class StoreTest {
 	 */
 	@Test (expected = StockException.class)
 	public void testGetNonExistingStoreName() throws StockException {
-		store = new Store();
+		Store store = Store.getInstance();
 		store.getName();
 	}
-	/*Test 7: Import store inventory
+	/*Test 7: Setting store inventory
 	 */
 	@Test
 	public void testUpdateStoreInventory() throws StockException {
 		//emulating a sample inventory input from the stocks class
 		HashMap<String,Integer> stockInventory = generateStockInventory();
 		
-		store = new Store();
+		Store store = Store.getInstance();
 		
 		store.setInventory(stockInventory);
 		HashMap<String,Integer> storeObjInventory = store.getInventory();
 		assertEquals("stock items are not the same", stockInventory,storeObjInventory);
 	}
+	
+	/*Test 7: Adding to store inventory
+	 */
+	@Test
+	public void testAddStoreInventory() throws StockException {
+		//emulating a sample inventory input from the stocks class
+		HashMap<String,Integer> stockInventory = generateStockInventory();
+		//Generating an inventory to add
+		HashMap<String,Integer> addInventory = generateStockInventory();
+		
+		Store store = Store.getInstance();
+		
+		store.setInventory(stockInventory);
+		
+		HashMap<String,Integer> storeTestInventory = store.getInventory();
+		
+		//Adding to the test inventory
+		addInventory(storeTestInventory,addInventory);
+		//Adding to the Store inventory
+		store.addInventory(addInventory);
+		
+		HashMap<String,Integer> storeObjInventory = store.getInventory();
+		
+		assertEquals("stock items are not the same", storeTestInventory,storeObjInventory);
+	}
+	
 	/*Test 8: get stock inventory when no stock is instantiated
 	 */
 	@Test (expected = StockException.class)
 	public void testGetNonExistingInventory() throws StockException {
-		store = new Store();
-		
+		Store store = Store.getInstance();
+		HashMap<String,Integer> storeObjInventory = new HashMap<String,Integer>();
+		store.setInventory(storeObjInventory);
 		store.getInventory();
 	}
 	
@@ -215,7 +261,7 @@ public class StoreTest {
 	public void testGetCapitalWhenNegtativeCostGiven() throws StockException {
 		int negativeAddedAmount = randomInteger(-10000,-1000);
 		
-		store = new Store();
+		Store store = Store.getInstance();
 		
 		store.subtractCapital(negativeAddedAmount);
 	}
@@ -227,7 +273,7 @@ public class StoreTest {
 	public void testGetCapitalWhenNegtativeMoneyFromSalesProfit() throws StockException {
 		int negativeAddedAmount = randomInteger(-10000,-1000);
 		
-		store = new Store();
+		Store store = Store.getInstance();
 		
 		store.addCapital(negativeAddedAmount);
 	}
@@ -238,10 +284,10 @@ public class StoreTest {
 	public void testManifestCostExceedsRemaindedCapital() throws StockException {
 		//Assume Capital is current at 100000 (starting capital)
 		int subtractedAmmount = randomInteger(100001, 1000000);
-		store = new Store();
+		Store store = Store.getInstance();
 		
 		store.subtractCapital(subtractedAmmount);
-		int storeCapital = store.getCapital();
+		store.getCapital();
 	}
 	
 }

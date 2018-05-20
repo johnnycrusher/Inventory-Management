@@ -98,20 +98,6 @@ public class StockTest {
 			}
 			return randomCargoList;
 		}
-		
-		/* Can a collection of items be created DONE
-			Can you add items to the collection DONE
-			Can return an item object DONE
-			Can return an item's quantity DONE
-			Can return a list of items and quantities DONE
-			Can you remove items from the collection DONE
-			
-			Is an exception thrown when invalid object given to collection
-			
-			Can stock quantites be added based on how many are incoming TO DO LATER?
-			can stock quantites be remove based on how many are being sold TO DO LATER?
-			*/
-
 	
 		/* Test 0: Declaring a Stock object
 		 */
@@ -320,6 +306,4 @@ public class StockTest {
 			stock.add(item, itemQuantity);
 			stock.getItemQuantity(invalidItem);
 		}
-		
-		//Test dupilcate item
 }
