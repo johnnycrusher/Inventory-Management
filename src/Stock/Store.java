@@ -11,30 +11,45 @@ public class Store {
 	int capital;
 	String storeName;
 	
-	//Construct a store object with starting capital
-	public Store() {
-		this.capital = startCapital;
-		this.storeName = null;
-	}
-	
-	
-	/*NOTE TO SELF
-	 * I DON'T THINK THIS IS THE WAY INVENTORY IS HANDLED BY THE STORE
-	 * I feel like the store accepts a hashmap and iterates thru it accepting certain items from it,
-	 * as opposed to currently just setting itself to the given hashmap
-	 * Think of a delivery coming in, your stock doesn't just become the small delivery you just got,
-	 * it adds the delivery to your even bigger hashmap
-	 * 
-	 * I need to make it add the hashmaps contents to the inventory hashmap within the store.
-	 */
+	//Singleton Store creation
+	private static Store store = new Store();
+
+   /* A private Constructor prevents any other
+    * class from instantiating.
+    */
+   private Store() {
+	   this.capital = startCapital;
+	   this.storeName = null;
+   }
+
+   /* Static 'instance' method */
+   public static Store getInstance() {
+      return store;
+   }
+
+   /* Other methods protected by singleton-ness */
+   protected static void demoMethod( ) {
+      System.out.println("demoMethod for singleton");
+   }
 	
 	//Set the inventory and protect from invalid input
-	public void setInventory(HashMap<String, Integer> inventory) throws StockException{
+	protected void setInventory(HashMap<String, Integer> inventory) throws StockException{
 		this.stockInventory = inventory;
 	}
 	
+	//Set the inventory and protect from invalid input
+	protected void addInventory(HashMap<String, Integer> inventory) throws StockException{
+		for (String key : inventory.keySet()) {
+		    if (this.stockInventory.containsKey(key)) {
+		        this.stockInventory.put(key, this.stockInventory.get(key) + 1);
+		    } else {
+		    	this.stockInventory.put(key, inventory.get(key));
+		    }
+		}
+	}
+	
 	//Get the inventory and ensure inventory is not empty
-	public HashMap<String,Integer> getInventory() throws StockException{
+	protected HashMap<String,Integer> getInventory() throws StockException{
 		if (this.stockInventory.isEmpty()) {
 			throw new StockException("No inventory");
 		} else {
@@ -43,12 +58,12 @@ public class Store {
 	}
 	
 	//return the capital
-	public int getCapital() {
+	protected int getCapital() {
 		return this.capital;
 	}
 	
 	//Set the capital and protect from invalid input
-	public void addCapital(int profit) throws StockException{
+	protected void addCapital(int profit) throws StockException{
 		if (profit <= 0) {
 			throw new StockException("invaid profit input!");
 		} else {
@@ -59,7 +74,7 @@ public class Store {
 	}
 	
 	//Set the capital and protect from invalid input
-	public void subtractCapital(int cost) throws StockException{
+	protected void subtractCapital(int cost) throws StockException{
 		if (cost <= 0) {
 			throw new StockException("invaid cost input!");
 		} else {
@@ -73,7 +88,7 @@ public class Store {
 	}
 
 	//Set the name and protect from invalid input
-	public void setName(String storeName) throws StockException {
+	protected void setName(String storeName) throws StockException {
 		if (storeName != "") {
 			this.storeName = storeName;			
 		} else {
@@ -82,7 +97,7 @@ public class Store {
 	}
 	
 	//get the storeName and check storeName isn't null
-	public String getName() throws StockException {
+	protected String getName() throws StockException {
 		if (this.storeName != null) {
 			return this.storeName;
 		} else {
