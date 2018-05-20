@@ -28,10 +28,10 @@ public class OrdinaryTruck extends Truck {
 	
 	@Override
 	public void add(Stock stockObj) throws DeliveryException, StockException{
-		boolean anyRefridgeratedItems = false;
+		boolean anyRefrigeratedItems = false;
 		
 		try {
-			anyRefridgeratedItems = findRefridgeratedItems(stockObj);
+			anyRefrigeratedItems = findRefrigeratedItems(stockObj);
 		} catch (StockException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,7 +69,7 @@ public class OrdinaryTruck extends Truck {
 	
 	
 	
-	private boolean findRefridgeratedItems(Stock stock) throws DeliveryException, StockException {
+	private boolean findRefrigeratedItems(Stock stock) throws DeliveryException, StockException {
 		HashMap<Item, Integer> stockItems = stock.returnStockList();
 		boolean refridgeratedItem = false;
 		int temp = 40;
