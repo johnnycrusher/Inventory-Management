@@ -105,7 +105,6 @@ public class CSVMachine {
 	        {
 	        	for (Item item : manifest.getCargo().returnStockList().keySet()) {
 	        		csvWriter.writeNext(new String[]{item.getItemName(),Integer.toString(manifest.getCargo().getItemQuantity(item.getItemName()))});
-	        	
 	        	}
 				return true;
 	        }
