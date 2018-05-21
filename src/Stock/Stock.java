@@ -11,22 +11,20 @@ public class Stock {
 	
 
 	public Stock() {
-		// TODO Auto-generated constructor stub
 		stock = new HashMap<Item,Integer>(); 
 	}
 	
 	public void add(Item item, int quantity) throws StockException {
 		String itemName = item.itemName;
-		boolean itemExist = false;
-		for(Map.Entry<Item, Integer> entry : stock.entrySet()) {
-			String stockItemName = entry.getKey().itemName;
+		
+		for(Item entry : stock.keySet()) {
+			String stockItemName = entry.itemName;
 			if(itemName.equals(stockItemName)) {
-				itemExist = true;
-				throw new StockException("This item is already in the stock list");
+				//REWRITTEN BY TOM TO ALLOW THE ADDING OF STOCK. BEFORE EDIT WAS THROWING ERROR WHEN ADDING ALREADY EXISTING STOCK???
+				this.stock.put(entry, this.stock.get(entry) + quantity);
+			} else {
+				this.stock.put(item, quantity);
 			}
-		}
-		if(itemExist == false) {
-			stock.put(item, quantity);
 		}
 	}
 	

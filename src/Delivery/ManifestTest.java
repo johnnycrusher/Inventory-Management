@@ -130,13 +130,13 @@ public class ManifestTest {
 		manifest = new Manifest();
 	}
 	
-	/* Test 2: Adding cargo
+	/* Test 2: Adding cargo (THIS TEST DOESN'T WORK AS MANIFEST HAS MULTIPLE STOCK OBJECTS
 	 */
 	@Test 
-	public void testAddingCargo() throws DeliveryException{
+	public void testAddingCargo() throws DeliveryException, StockException{
 		Stock cargoList = generateRandomStock();
 		manifest = new Manifest();
-		manifest.addCargo(cargoList);
+		manifest.addStock(cargoList);
 		Stock cargoListReturned =  manifest.getCargo();
 		assertEquals("Cargo Object returned is not identical",cargoList,cargoListReturned);
 	}
@@ -161,11 +161,12 @@ public class ManifestTest {
 	 */
 	@Test 
 	public void testRefrigeratedTrucks() throws DeliveryException{
-		Trucks refridgeratedTruck = new RefridgeratedTruck();
+		Truck refrigeratedTruck = new RefrigeratedTruck();
 		manifest = new Manifest();
-		manifest.addTruck(refridgeratedTruck);
+		manifest = null;
+		manifest.addTruck(refrigeratedTruck);
 		Truck refridgeratedTruckObject = manifest.getTruck(0);
-		assertEquals("Identical truck object was not retuned", refridgeratedTruck, refridgeratedTruckObject);
+		assertEquals("Identical truck object was not retuned", refrigeratedTruck, refridgeratedTruckObject);
 	}
 	/*Test 6: Test if ordinary trucks can be removed
 	 */
@@ -177,13 +178,13 @@ public class ManifestTest {
 		manifest.removeTruck(0);
 		manifest.getTruck(0);
 	}
-	/*Test 7: Test if refridgerated trucks can be removed
+	/*Test 7: Test if refrigerated trucks can be removed
 	 */
 	@Test (expected = DeliveryException.class)
 	public void testDeleteRefridgeratedTruck() throws DeliveryException{
-		Truck refridgeratedTruck = new RefridgeratedTruck();
+		Truck refrigeratedTruck = new RefrigeratedTruck();
 		manifest = new Manifest();
-		manifest.addTruck(refridgeratedTruck);
+		manifest.addTruck(refrigeratedTruck);
 		manifest.removeTruck(0);
 		manifest.getTruck(0);
 	}
@@ -193,14 +194,14 @@ public class ManifestTest {
 	public void testMultipleTrucksManifest() throws DeliveryException{
 		
 		manifest = new Manifest();
-		Truck refridgeratedTruck = new RefridgeratedTruck();
+		Truck refrigeratedTruck = new RefrigeratedTruck();
 		Truck ordinaryTruck = new OrdinaryTruck();
 		ArrayList<Truck> truckList = new ArrayList<Truck>();
-		truckList.add(refridgeratedTruck);
+		truckList.add(refrigeratedTruck);
 		truckList.add(ordinaryTruck);
 		
 		manifest.addTruck(ordinaryTruck);
-		manifest.addTruck(refridgeratedTruck);
+		manifest.addTruck(refrigeratedTruck);
 		ArrayList<Truck> returnedTruckList = manifest.getAllTrucks();
 		assertEquals("Identical truck object were not returned",truckList,returnedTruckList);
 	}
@@ -208,7 +209,7 @@ public class ManifestTest {
 	 */
 	@Test (expected = DeliveryException.class)
 	public void testGetNonExsitingTruck() throws DeliveryException{
-		manifest = new Manifefst();
+		manifest = new Manifest();
 		manifest.getTruck(0);
 	}
 	/* Test 10: Test if all sum of all cargo is correct

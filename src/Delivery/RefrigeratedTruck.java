@@ -57,7 +57,7 @@ public class RefrigeratedTruck extends Truck {
 			try {
 				itemTemp = entry.getKey().getTemperature();
 			}catch(StockException e) {
-				itemTemp = 20;
+				itemTemp = 11;
 			}
 			if(itemTemp < currentLowestTemp) {
 				currentLowestTemp = itemTemp;
