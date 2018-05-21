@@ -207,8 +207,7 @@ public class StockTest {
 				
 				testStock.put(item, itemQuantity);
 				stock.add(item, itemQuantity);
-			}
-			
+			}	
 			assertEquals("Wrong Stock Returned", testStock, stock.returnStockList());	
 			//I'm not too sure how to comparehashmaps so not 100% this is correct
 		}

@@ -16,22 +16,26 @@ public class Stock {
 	
 	public void add(Item item, int quantity) throws StockException {
 		String itemName = item.itemName;
-		
-		for(Item entry : stock.keySet()) {
-			String stockItemName = entry.itemName;
+		boolean itemExist = false;
+		for(Map.Entry<Item, Integer> entry : stock.entrySet()){
+			Item itemObj = entry.getKey();
+			String stockItemName = entry.getKey().getItemName();
 			if(itemName.equals(stockItemName)) {
 				//REWRITTEN BY TOM TO ALLOW THE ADDING OF STOCK. BEFORE EDIT WAS THROWING ERROR WHEN ADDING ALREADY EXISTING STOCK???
-				this.stock.put(entry, this.stock.get(entry) + quantity);
-			} else {
-				this.stock.put(item, quantity);
+				itemExist = true;
+				stock.put(itemObj, getItemQuantity(stockItemName) + quantity);
+				break;
 			}
+		}
+		if(itemExist == false) {
+			stock.put(item, quantity);
 		}
 	}
 	
 	public Item getItem(String item) throws StockException {
 		Item key = null;
 		String keyValue;
-		for(Map.Entry<Item,Integer> entry :stock.entrySet()) {
+		for(Map.Entry<Item,Integer> entry : stock.entrySet()) {
 			key = entry.getKey();
 			keyValue = entry.getKey().itemName;
 			if(keyValue.equals(item)) {

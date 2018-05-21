@@ -147,48 +147,8 @@ public class ManifestTest {
 		manifest = new Manifest();
 		Stock cargoList = manifest.getCargo();
 	}
-	/* Test 4: Test if Ordinary trucks can be added
-	 */
-	@Test 
-	public void testAddingTrucks() throws DeliveryException{
-		Truck ordinaryTruck = new OrdinaryTruck();
-		manifest = new Manifest();
-		manifest.addTruck(ordinaryTruck);
-		Truck ordinaryTruckObject = manifest.getTruck(0);
-		assertEquals("Identical truck object is not returned", ordinaryTruck, ordinaryTruckObject);
-	}
-	/*Test 5 :Test if refrigerated trucks can be added
-	 */
-	@Test 
-	public void testRefrigeratedTrucks() throws DeliveryException{
-		Truck refrigeratedTruck = new RefrigeratedTruck();
-		manifest = new Manifest();
-		manifest = null;
-		manifest.addTruck(refrigeratedTruck);
-		Truck refridgeratedTruckObject = manifest.getTruck(0);
-		assertEquals("Identical truck object was not retuned", refrigeratedTruck, refridgeratedTruckObject);
-	}
-	/*Test 6: Test if ordinary trucks can be removed
-	 */
-	@Test (expected = DeliveryException.class)
-	public void testDeleteOrdinaryTruck() throws DeliveryException {
-		Truck ordinaryTruck = new OrdinaryTruck();
-		manifest = new Manifest();
-		manifest.addTruck(ordinaryTruck);
-		manifest.removeTruck(0);
-		manifest.getTruck(0);
-	}
-	/*Test 7: Test if refrigerated trucks can be removed
-	 */
-	@Test (expected = DeliveryException.class)
-	public void testDeleteRefridgeratedTruck() throws DeliveryException{
-		Truck refrigeratedTruck = new RefrigeratedTruck();
-		manifest = new Manifest();
-		manifest.addTruck(refrigeratedTruck);
-		manifest.removeTruck(0);
-		manifest.getTruck(0);
-	}
-	/*Test 8: Test if all trucks are return in manifest object
+
+	/*Test 4: Test if all trucks are return in manifest object
 	 */
 	@Test 
 	public void testMultipleTrucksManifest() throws DeliveryException{
@@ -205,14 +165,7 @@ public class ManifestTest {
 		ArrayList<Truck> returnedTruckList = manifest.getAllTrucks();
 		assertEquals("Identical truck object were not returned",truckList,returnedTruckList);
 	}
-	/* Test 9: Test get truck object when it doesn't exist
-	 */
-	@Test (expected = DeliveryException.class)
-	public void testGetNonExsitingTruck() throws DeliveryException{
-		manifest = new Manifest();
-		manifest.getTruck(0);
-	}
-	/* Test 10: Test if all sum of all cargo is correct
+	/* Test 5: Test if all sum of all cargo is correct
 	 */
 	@Test
 	public void testSumCostOfCargo() throws DeliveryException{
@@ -230,32 +183,32 @@ public class ManifestTest {
 		
 		assertEquals("Cargo Cost was not the same value",totalCost, cargoCost,0.1);
 	}
-	/*Test 11: Test sum of all cargo when there is no cargo
+	/*Test 6: Test sum of all cargo when there is no cargo
 	 */
 	@Test (expected = DeliveryException.class)
 	public void testCargoSumWhenNoCargo() throws DeliveryException{
 		manifest = new Manifest();
 		int cargoCost = manifest.getCargoCost();
 	}
-	/*Test 12: Test cargo optimisiation
+	/*Test 7: Test cargo optimisiation
 	 */
 	
 	//need to figure out cargo optimisation algorithm
 	
-	/* Test 13: Returning the optimised cargo list
+	/* Test 8: Returning the optimised cargo list
 	 */
 	//need to figure out optimise cargo algorithm
 	
 	
 	
-	/* Test 14: Test getting optimised cargo when no cargo is inputed
+	/* Test 9: Test getting optimised cargo when no cargo is inputed
 	 */
 	@Test (expected = DeliveryException.class)
 	public void testGetOptimisedCargoWhenNoCargo() throws DeliveryException{
 		manifest = new Manifest();
 		manifest.getOptimisedCargo();
 	}
-	/*Test 15: Get Total Manifest Cost
+	/*Test 10: Get Total Manifest Cost
 	 */
 	@Test
 	public void testManifiestCost() throws DeliveryException{
@@ -269,7 +222,7 @@ public class ManifestTest {
 		int manifestCost = manifest.getManifestCost();
 	}
 	
-	/* Test 16: Get total cost when no cargo has been loaded
+	/* Test 11: Get total cost when no cargo has been loaded
 	 */
 	@Test (expected = DeliveryException.class)
 	public void testTotalCostNoCargo() throws DeliveryException{

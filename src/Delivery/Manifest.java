@@ -22,6 +22,7 @@ public class Manifest {
 	HashMap<String,Integer> refrigeratedItemManifest;
 	
 	ArrayList<Truck> truckList;
+	ArrayList<Stock> cargoStock;
 	
 	final static int coldCapacity = 800;
 	final static int ordinaryCapcity = 1000;
@@ -43,6 +44,8 @@ public class Manifest {
 		
 		ordinaryItemManifest = new HashMap<String,Integer>();
 		refrigeratedItemManifest = new HashMap<String,Integer>();
+		
+		cargoStock = new ArrayList<Stock>();
 	}
 	
 	//adder method to add cargo to a manifest in the form of a hashmap
@@ -81,6 +84,7 @@ public class Manifest {
 	}
 	
 	public void sortStock() throws StockException {
+		//Optimise for Refrigerated Items
 		for( int index = 0; index < determineColdTruckCount(); index++) {
 			Stock refrigeratedStock = new Stock();
 			for(int j = 0; j < coldStock.returnStockList().size(); j++) {
@@ -96,12 +100,18 @@ public class Manifest {
 					numberOfSpaceLeft = coldCapacity - refrigeratedStockQuantity; 
 					refrigeratedStock.add(itemObj, numberOfSpaceLeft);
 					coldStock.remove(coldestName, numberOfSpaceLeft);
+					// We can either disregard this and insert into truck object or we could keep and store this
+					// Ideally keep the cargoStock array list as we can use that to compare our optimisation method
+					cargoStock.add(refrigeratedStock);
 					break;
 				}
 			}
 		}
+		
+		//For Ordinary Items
+		
 	}
-	
+
 	private String determineColdestItem() throws StockException {
 		int currentLowestTemp = 11;
 		int itemObjectTemp = 11;
