@@ -250,23 +250,6 @@ public class RefrigeratedTruckTest {
 		assertEquals("Wrong Temp Returned", randTemp, refrigeratedTruck.getTemp());	
 	}
 	
-	/*
-	 * Test 6: Test setting temp of refrigerated truck
-	 * [This test obliges you to add a setTemp() method for the truck object]
-	 * why would you need to set temperature that's done by automaticly 
-	 */
-	@Test
-	public void setTempTest() {
-		int randTemp = randomInteger(-40,10);
-		
-		refrigeratedTruck = new RefrigeratedTruck();
-		
-		Stock stock = generateRandomStock("refrigerated");
-		
-		refrigeratedTruck.setTemp(randTemp);
-		
-		assertEquals("Wrong Temp Returned", randTemp, refrigeratedTruck.getTemp());	
-	}
 	
 	/*
 	 * Test 7: Test getting cost in dollars
@@ -306,27 +289,6 @@ public class RefrigeratedTruckTest {
 		refrigeratedTruck.remove();
 		
 		refrigeratedTruck.getStock();
-	}
-	
-	/*
-	 * Test 9: Test exception for putting ordinary item in refrigerated truck
-	 * [This test should throw an exception as the truck.add() should not accept items without a temp variable]
-	 *  pretty sure this is possible
-	 *  this should be allowed
-	 */
-	@Test (expected = DeliveryException.class)
-	public void wrongItemTest() throws DeliveryException {
-		int randQuantity = randomInteger(1,10);
-		String itemName = randomItemName();
-		refrigeratedTruck = new RefrigeratedTruck();
-		
-		Stock stock = new Stock();		
-		
-		Item item = new Item(itemName /*other vars but without Temp*/);
-		
-		stock.add(item, randQuantity);
-		
-		refrigeratedTruck.add(stock);
 	}
 	
 	/*

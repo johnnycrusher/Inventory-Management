@@ -81,7 +81,7 @@ public class CSVMachine {
 	}
 	
 	//A method which writes a line to Manifest.csv
-	public Boolean writeLineToManifest(String string) throws CSVFormatException, IOException{
+	public static void writeLineToManifest(String string) throws CSVFormatException, IOException{
         try (Writer writer = Files.newBufferedWriter(Paths.get(STRING_ARRAY_SAMPLE));
         		CSVWriter csvWriter = new CSVWriter(writer,
 								                    CSVWriter.DEFAULT_SEPARATOR,
@@ -90,7 +90,6 @@ public class CSVMachine {
 								                    CSVWriter.DEFAULT_LINE_END);)
         {
        		csvWriter.writeNext(new String[]{string});
-       		return true;
         }
 	}
 	
