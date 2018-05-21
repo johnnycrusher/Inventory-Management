@@ -86,8 +86,4 @@ public class Stock {
 		}
 		return numOfItems;
 	}
-	
-	public int getNumOfItems() {
-		return stock.size();
-	}
 }

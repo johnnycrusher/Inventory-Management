@@ -136,7 +136,7 @@ public class ManifestTest {
 	public void testAddingCargo() throws DeliveryException, StockException{
 		Stock cargoList = generateRandomStock();
 		manifest = new Manifest();
-		manifest.addStock(cargoList);
+		manifest.addItemStock(cargoList);
 		Stock cargoListReturned =  manifest.getCargo();
 		assertEquals("Cargo Object returned is not identical",cargoList,cargoListReturned);
 	}
