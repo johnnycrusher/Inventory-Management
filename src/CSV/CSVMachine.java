@@ -69,10 +69,10 @@ public class CSVMachine {
 	            	if (nextRecord[5] != null) {
 	                	temperature = Integer.parseInt(nextRecord[5]);
 	                	Item item = new Item(item_Name,cost,price,reorderPoint,reorderAmount,temperature);
-	                	initStock.add(item,1);
+	                	initStock.add(item,0);
 	                } else {
 	                	Item item = new Item(item_Name,cost,price,reorderPoint,reorderAmount,ordinaryTemp);
-		                initStock.add(item,1);	
+		                initStock.add(item,0);	
 	                }
 	            }
 	        }
