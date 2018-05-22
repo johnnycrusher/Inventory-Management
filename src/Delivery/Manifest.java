@@ -13,13 +13,6 @@ import Stock.Item;
 import Stock.Stock;
 
 public class Manifest {
-	HashMap<Item,Integer> stockManifest;
-	HashMap<String,Integer> nameManifest;
-	
-	HashMap<String,Integer> totalManifest;
-	
-	HashMap<String,Integer> ordinaryItemManifest;
-	HashMap<String,Integer> refrigeratedItemManifest;
 	
 	ArrayList<Truck> truckList;
 	ArrayList<Stock> cargoStock;
@@ -27,49 +20,20 @@ public class Manifest {
 	final static int coldCapacity = 800;
 	final static int ordinaryCapcity = 1000;
 	
-	
 	Stock ordinaryStock;
 	Stock coldStock;
+	Stock totalStock;
 	
 	//constructor method to create a Manifest object
 	public Manifest() {
+		
 		ordinaryStock = new Stock();
 		coldStock = new Stock();
+		totalStock = new Stock();
 		truckList = new ArrayList<Truck>();
-		
-		stockManifest = new HashMap<Item,Integer>();
-		nameManifest = new HashMap<String,Integer>();
-		
-		totalManifest = new HashMap<String,Integer>();
-		
-		ordinaryItemManifest = new HashMap<String,Integer>();
-		refrigeratedItemManifest = new HashMap<String,Integer>();
-		
 		cargoStock = new ArrayList<Stock>();
 	}
-	
-	//adder method to add cargo to a manifest in the form of a hashmap
-	public void addCargo(HashMap<String,Integer> cargo){
-		for (String key : cargo.keySet()) {
-		    if (nameManifest.containsKey(key)) {
-		        this.nameManifest.put(key, this.nameManifest.get(key) + cargo.get(key));
-		    } else {
-		    	this.nameManifest.put(key, cargo.get(key));
-		    }
-		}
-	}
-	
-	//adder method to add cargo to a manifest in the form of a stock object
-	public void addStock(Stock stock) throws StockException{
-		for (Item key : stock.returnStockList().keySet()) {
-		    if (stockManifest.containsKey(key)) {
-		        this.stockManifest.put(key, this.stockManifest.get(key) + stock.getItemQuantity(key.getItemName()));
-		    } else {
-		    	this.stockManifest.put(key, stock.getItemQuantity(key.getItemName()));
-		    }
-		}
-	}
-	
+			
 	//adder method to add cargo to a manifest in the form of a stock object and sort cold from ordinary
 	public void addItemStock(Stock stock) throws StockException{
 		
@@ -157,7 +121,6 @@ public class Manifest {
 		
 		int totalItems = numberOfColdItems + numberOfOrdinaryItems;
 		
-		
 		int remainingOrdinaryItems = totalItems - (determineColdTruckCount() * coldCapacity);
 		double numberOfOrdinaryTrucks = 0;
 		if(remainingOrdinaryItems > 0) {
@@ -167,16 +130,13 @@ public class Manifest {
 			return 0;
 		}
 	}
-	//NEED TO FIGURE OUT METHOD OF SORTING WHETHER DONE HERE OR IN CSV MACHINE
-	//NEED TO FIGURE OUT HOW THE FORMATTING OF A MANIFEST OBJECT IS DONE??????
-	//HASHMAP, TRUCK COLLECTION WHICH HAS A FUNCTION WHICH RETURNS ALL COLD ITEMS 
-	//AND A METHOD WHICH RETURNS ALL ORDINARY ITEMS??
 	
 	//Getter method to return total cargo
 	public Stock getCargo(){	
 		return null;
 	}
 
+	//Adder method to add truck objects to the ArrayList<Truck>
 	public void addTruck(Truck truck) {
 		this.truckList.add(truck);
 	}

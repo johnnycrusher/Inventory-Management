@@ -8,13 +8,16 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
 import Delivery.Manifest;
+import Delivery.Truck;
 import Exception.CSVFormatException;
+import Exception.DeliveryException;
 import Exception.StockException;
 import Stock.Item;
 import Stock.Stock;
@@ -34,19 +37,17 @@ public class CSVMachine {
 	private static final String SALES_LOG_4_CSV_FILE_PATH = "sales_log_4.csv";*/
 
 	//This method is used to read item_properties.csv and convert the contents into a stock object. This is primarily used for initialization
-	public Stock readItemProperties() throws CSVFormatException, IOException, StockException{
+	public static Stock readItemProperties() throws CSVFormatException, IOException, StockException{
 		//set up item property variables
 		String item_Name;
 		double cost;
 		double price;
 		int reorderPoint;
 		int reorderAmount;
-		
-		//not sure if this is an elegant solution
+		int temperature;
 		int ordinaryTemp = 11;
 		
-		int temperature = 10;
-		
+		//Create the initStock object
 		Stock initStock = new Stock();
 		
 		//try hook the CSV reader
@@ -65,49 +66,84 @@ public class CSVMachine {
 	            	reorderPoint = Integer.parseInt(nextRecord[3]);
 	            	reorderAmount = Integer.parseInt(nextRecord[4]);
 	            	
-	            	//Test if there is a temperature record in the line
-	            	if (nextRecord[5] != null) {
-	                	temperature = Integer.parseInt(nextRecord[5]);
-	                	Item item = new Item(item_Name,cost,price,reorderPoint,reorderAmount,temperature);
-	                	initStock.add(item,0);
-	                } else {
-	                	Item item = new Item(item_Name,cost,price,reorderPoint,reorderAmount,ordinaryTemp);
-		                initStock.add(item,0);	
-	                }
+	            	//Check if a temperature for the item is specified, 
+	            	if (nextRecord.length > 5) {
+                		temperature = Integer.parseInt(nextRecord[5]);
+                    } else { 	//Else assign the item's temperature to 11 (meaning ordinary)
+                    	temperature = ordinaryTemp;
+                    }
+	            	
+	            	//TESTING PURPOSES
+	            	System.out.println(Double.toString(cost));
+                	System.out.println(Double.toString(price));
+                	System.out.println(Integer.toString(reorderPoint));
+                	System.out.println(Integer.toString(reorderAmount));
+                	System.out.println(Integer.toString(temperature));
+                	
+                	//Create an item with the property variables
+                	Item item = new Item(item_Name,cost,price,reorderPoint,reorderAmount,temperature);
+	            	
+                	//Add the item into the initStock object
+                	initStock.add(item,0);
 	            }
 	        }
-		
+		//Return the initial stock object
 		return initStock;
 	}
 	
-	//A method which writes a line to Manifest.csv
+	//A testing method which writes a line to Manifest.csv
 	public static void writeLineToManifest(String string) throws CSVFormatException, IOException{
         try (Writer writer = Files.newBufferedWriter(Paths.get(STRING_ARRAY_SAMPLE));
         		CSVWriter csvWriter = new CSVWriter(writer,
 								                    CSVWriter.DEFAULT_SEPARATOR,
 								                    CSVWriter.NO_QUOTE_CHARACTER,
 								                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-								                    CSVWriter.DEFAULT_LINE_END);)
+								                    CSVWriter.RFC4180_LINE_END);)
         {
        		csvWriter.writeNext(new String[]{string});
         }
 	}
 	
 	//A Write method to generate a CSV manifest document. The method accepts manifest object and returns true upon successful writing
-	/*public Boolean writeManifest(Manifest manifest) throws CSVFormatException, IOException, StockException{
-	        try (Writer writer = Files.newBufferedWriter(Paths.get(STRING_ARRAY_SAMPLE));
-	        		CSVWriter csvWriter = new CSVWriter(writer,
-									                    CSVWriter.DEFAULT_SEPARATOR,
-									                    CSVWriter.NO_QUOTE_CHARACTER,
-									                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-									                    CSVWriter.DEFAULT_LINE_END);)
-	        {
-	        	for (Item item : manifest.getCargo().returnStockList().keySet()) {
-	        		csvWriter.writeNext(new String[]{item.getItemName(),Integer.toString(manifest.getCargo().getItemQuantity(item.getItemName()))});
-	        	}
-				return true;
-	        }
-	}*/
+	public static void writeManifest(Manifest manifest) throws CSVFormatException, IOException, StockException, DeliveryException{
+        try (Writer writer = Files.newBufferedWriter(Paths.get(STRING_ARRAY_SAMPLE));
+        		CSVWriter csvWriter = new CSVWriter(writer,
+								                    CSVWriter.DEFAULT_SEPARATOR,
+								                    CSVWriter.NO_QUOTE_CHARACTER,
+								                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+								                    CSVWriter.RFC4180_LINE_END);)
+        {
+        	for (int index=0; index < manifest.getAllTrucks().size() - 1; index++) {
+        		//Get the truck object
+        		Truck truck = manifest.getAllTrucks().get(index);
+        		
+        		//Get the truck's stock object
+        		Stock truckStock = truck.getStock();
+        		
+        		//Get the truckStockList from the stock object
+        		HashMap<Item, Integer> truckStockList = truckStock.returnStockList();
+        		
+        		//check if the truck is a refrigerated truck
+        		if (truck.getTemp() > 10) { 
+        			// the truck is refrigerated
+        			csvWriter.writeNext(new String[] {">Refrigerated"});
+        			//iterate through every item in the truck's cargo
+        			for (Item item : truckStockList.keySet()) {
+        				//Write the item and it's quantity to the .csv file
+        				csvWriter.writeNext(new String[] {item.getItemName(),Integer.toString( truckStock.getItemQuantity(item.getItemName()))});
+        			}
+        		} else { 
+        			//the truck is an ordinary truck
+        			csvWriter.writeNext(new String[] {">Ordinary"});
+        			//iterate through every item in the truck's cargo
+        			for (Item item : truckStockList.keySet()) {
+        				//Write the item and it's quantity to the .csv file
+        				csvWriter.writeNext(new String[] {item.getItemName(),Integer.toString( truckStock.getItemQuantity(item.getItemName()))});
+        			}
+        		}
+        	}
+        }
+	}
 	
 	public String readManifest() throws CSVFormatException, IOException{
 		//set up item property variables

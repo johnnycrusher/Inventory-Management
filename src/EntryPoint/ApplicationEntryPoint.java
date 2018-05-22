@@ -4,12 +4,19 @@ import java.io.IOException;
 
 import CSV.CSVMachine;
 import Exception.CSVFormatException;
+import Exception.StockException;
+
 public class ApplicationEntryPoint {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws StockException {
 		// TODO Auto-generated method stub
 		try {
-			CSVMachine.writeLineToManifest("Hello");
+			//WORKING METHOD CURRENTLY PRINTS RESULTS ALONG WITH CREATING THE INIT STOCK
+			CSVMachine.readItemProperties();
+			
+			//CSVMachine.writeManifest(manifest)
+			CSVMachine.writeLineToManifest("Test");
+
 		} catch (CSVFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
