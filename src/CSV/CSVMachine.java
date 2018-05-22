@@ -145,6 +145,7 @@ public class CSVMachine {
         }
 	}
 	
+	//TO DO
 	public String readManifest() throws CSVFormatException, IOException{
 		//set up item property variables
 		
@@ -163,6 +164,7 @@ public class CSVMachine {
 			}
 	}
 	
+	//TO DO
 	public String readSalesLog() throws CSVFormatException{
 		
 		return null;

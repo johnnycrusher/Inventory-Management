@@ -5,7 +5,6 @@
 package Delivery;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import Exception.StockException;
@@ -13,20 +12,22 @@ import Stock.Item;
 import Stock.Stock;
 
 public class Manifest {
-	
-	ArrayList<Truck> truckList;
-	ArrayList<Stock> cargoStock;
-	
+	//Capacity Declarations
 	final static int coldCapacity = 800;
 	final static int ordinaryCapcity = 1000;
 	
+	//ArrayList Declarations
+	ArrayList<Truck> truckList;
+	ArrayList<Stock> cargoStock;
+	
+	//Stock Declarations
 	Stock ordinaryStock;
 	Stock coldStock;
 	Stock totalStock;
 	
 	//constructor method to create a Manifest object
 	public Manifest() {
-		
+		//Instantiate a manifest with new Stock and ArrayList<> objects
 		ordinaryStock = new Stock();
 		coldStock = new Stock();
 		totalStock = new Stock();
@@ -34,9 +35,13 @@ public class Manifest {
 		cargoStock = new ArrayList<Stock>();
 	}
 			
-	//adder method to add cargo to a manifest in the form of a stock object and sort cold from ordinary
+	/**adder method to add cargo to a manifest in the form of a stock object and sort cold from ordinary
+	*/
 	public void addItemStock(Stock stock) throws StockException{
+		//Keep record of the total stock
+		totalStock = stock;
 		
+		//Assign each item in the given stock object to either coldStock, or ordinaryStock
 		for (Item key : stock.returnStockList().keySet()) {
 			
 			if (key.isCold()){
@@ -47,6 +52,10 @@ public class Manifest {
 		}
 	}
 	
+	/**
+	 * A method which optimizes truck cargo by analysis of stock
+	 * @throws StockException
+	*/
 	public void sortStock() throws StockException {
 		//Optimise for Refrigerated Items
 		for( int index = 0; index < determineColdTruckCount(); index++) {
@@ -76,6 +85,10 @@ public class Manifest {
 		
 	}
 
+	/**A method which determines the required temperature of a truck object 
+	 * by finding the coldest item temperature in the stock object
+	 * @throws StockException
+	*/
 	private String determineColdestItem() throws StockException {
 		int currentLowestTemp = 11;
 		int itemObjectTemp = 11;
@@ -98,6 +111,9 @@ public class Manifest {
 		return objectName;
 	}
 	
+	/**A method which creates the required trucks and adds them to the truckList
+	 * @throws StockException
+	*/
 	public void createTrucks() throws StockException {		
 		for (int i=0; i < determineColdTruckCount(); i++) {
 			Truck truck = new RefrigeratedTruck();
@@ -109,12 +125,20 @@ public class Manifest {
 		}
 	}
 	
+	/**
+	 * A method which determins the required number of cold trucks
+	 * @returns int numberOfColdTrucks
+	 */
 	private int determineColdTruckCount() {
 		int numberOfColdItems = coldStock.getNumberOfItems();
 		double numberOfColdTrucks = Math.ceil((double)numberOfColdItems/coldCapacity);
 		return (int) numberOfColdTrucks;
 	}
 	
+	/**
+	 * A method which determins the required number of ordinary trucks
+	 * @returns int numberOfOrdinaryTrucks
+	 */
 	private int determineOrdinaryTruckCount() {
 		int numberOfColdItems = coldStock.getNumberOfItems();
 		int numberOfOrdinaryItems = ordinaryStock.getNumberOfItems();
@@ -131,9 +155,11 @@ public class Manifest {
 		}
 	}
 	
-	//Getter method to return total cargo
+	/**Getter method to return total cargo
+	 * @returns Stock totalStock
+	*/
 	public Stock getCargo(){	
-		return null;
+		return totalStock;
 	}
 
 	//Adder method to add truck objects to the ArrayList<Truck>
