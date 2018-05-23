@@ -14,6 +14,9 @@ public class ApplicationEntryPoint {
 			//WORKING METHOD CURRENTLY PRINTS RESULTS ALONG WITH CREATING THE INIT STOCK
 			CSVMachine.readItemProperties();
 			
+			//Test
+			CSVMachine.readManifest();
+			
 			//CSVMachine.writeManifest(manifest)
 			CSVMachine.writeLineToManifest("Test");
 

@@ -28,8 +28,8 @@ import Stock.Stock;
  */
 public class CSVMachine {
 	private static final String STRING_ARRAY_SAMPLE = "./string-array-sample.csv";
-	private static final String ITEM_PROPERTIES_CSV_FILE_PATH = "item_properties.csv";
-	private static final String MANIFEST_CSV_FILE_PATH = "manifest.csv";
+	private static final String ITEM_PROPERTIES_CSV_FILE_PATH = "src/CSV/item_properties.csv";
+	private static final String MANIFEST_CSV_FILE_PATH = "src/CSV/manifest.csv";
 	/*private static final String SALES_LOG_0_CSV_FILE_PATH = "sales_log_0.csv";
 	private static final String SALES_LOG_1_CSV_FILE_PATH = "sales_log_1.csv";
 	private static final String SALES_LOG_2_CSV_FILE_PATH = "sales_log_2.csv";
@@ -145,23 +145,43 @@ public class CSVMachine {
         }
 	}
 	
-	//TO DO
-	public String readManifest() throws CSVFormatException, IOException{
-		//set up item property variables
+	/**
+	 * A method which 
+	 * @returns a HashMap containing Item names and their quantities
+	 * @throws CSVFormatException
+	 * @throws IOException
+	 */
+	public static HashMap<String, Integer> readManifest() throws CSVFormatException, IOException{
 		
-		//String item_Name;
-		//int quantity;
+		//set up item property variables
+		String item_Name;
+		int quantity;
+		
+		//Create the manifest's HashMap
+		HashMap<String, Integer> manifest = new HashMap<String, Integer>();		
+		 
 		//try hook the CSV reader
 		try (Reader reader = Files.newBufferedReader(Paths.get(MANIFEST_CSV_FILE_PATH));
 	         CSVReader csvReader = new CSVReader(reader);) 
 			{
 	            // Reading Records One by One in a String array
-	            List<String[]> buffer = csvReader.readAll();
-	            buffer.toString().split(">");
+	            String[] nextRecord;
 	            
-	            System.out.println(buffer.toString());
-	            return buffer.toString();
-			}
+	            while ((nextRecord = csvReader.readNext()) != null) {
+	                //Store the item properties in variables
+	            	item_Name = nextRecord[0];
+	            	quantity = Integer.parseInt(nextRecord[1]);
+	            	
+	            	//Print variables for testing purposes
+	            	System.out.println(item_Name);
+	            	System.out.println(Integer.toString(quantity));
+
+	            	manifest.put(item_Name, quantity);
+	            }
+	        }
+		
+		//Return the initial manifest HashMap
+		return manifest;
 	}
 	
 	//TO DO
