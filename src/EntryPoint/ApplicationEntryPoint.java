@@ -17,6 +17,9 @@ public class ApplicationEntryPoint {
 			//Test
 			CSVMachine.readManifest();
 			
+			//Test
+			CSVMachine.readSalesLog();
+			
 			//CSVMachine.writeManifest(manifest)
 			CSVMachine.writeLineToManifest("Test");
 
