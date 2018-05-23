@@ -144,8 +144,9 @@ public class ManifestTest {
 	 */
 	@Test (expected = DeliveryException.class)
 	public void testGetCargoListWhenNoCargo() throws DeliveryException{
+		manifest = null;
 		manifest = new Manifest();
-		Stock cargoList = manifest.getCargo();
+		manifest.getCargo();
 	}
 
 	/*Test 4: Test if all trucks are return in manifest object
@@ -160,8 +161,8 @@ public class ManifestTest {
 		truckList.add(refrigeratedTruck);
 		truckList.add(ordinaryTruck);
 		
-		manifest.addTruck(ordinaryTruck);
 		manifest.addTruck(refrigeratedTruck);
+		manifest.addTruck(ordinaryTruck);
 		ArrayList<Truck> returnedTruckList = manifest.getAllTrucks();
 		assertEquals("Identical truck object were not returned",truckList,returnedTruckList);
 	}

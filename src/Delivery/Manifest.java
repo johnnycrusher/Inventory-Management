@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import Exception.DeliveryException;
 import Exception.StockException;
 import Stock.Item;
 import Stock.Stock;
@@ -58,7 +59,7 @@ public class Manifest {
 	/**
 	 * A method which optimizes truck cargo by analysis of stock
 	 * @throws StockException
-	*/
+	 */
 	public void sortStock() throws StockException {
 		//Get ordinaryStock hashmap
 		HashMap<Item,Integer> ordinaryItems = null;
@@ -277,10 +278,16 @@ public class Manifest {
 	}
 	
 	/**Getter method to return total cargo
+	 * @throws DeliveryException 
 	 * @returns Stock totalStock
 	*/
-	public Stock getCargo(){	
-		return totalStock;
+	public Stock getCargo() throws DeliveryException{	
+		if (totalStock.getNumberOfItems() == 0)
+		{
+			throw new DeliveryException("No cargo in totalStock");
+		} else {
+			return totalStock;
+		}
 	}
 
 	//Adder method to add truck objects to the ArrayList<Truck>
