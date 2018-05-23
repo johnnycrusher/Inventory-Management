@@ -165,7 +165,6 @@ public class ManifestTest {
 	
 	/* Test 4: get Cargo Item that needs to be ordered
 	 */
-<<<<<<< HEAD
 	@Test
 	public void testGetCargo() throws StockException {
 		Stock importedStock = generateReorderStock();
@@ -196,7 +195,7 @@ public class ManifestTest {
 			int  itemQuantity = entry.getValue();
 			System.out.println("Iteme name:" + currentItem + ", " + itemQuantity);
 		}
-=======
+
 	@Test (expected = DeliveryException.class)
 	public void testGetCargoListWhenNoCargo() throws DeliveryException{
 		manifest = null;
@@ -208,18 +207,13 @@ public class ManifestTest {
 	 */
 	@Test 
 	public void testMultipleTrucksManifest() throws DeliveryException{
->>>>>>> CSV-Feature
-		
-		
-<<<<<<< HEAD
+
 		assertEquals("Cargo Object returned is not identical",cargoStock,returnCargo);
-		
-=======
+
 		manifest.addTruck(refrigeratedTruck);
 		manifest.addTruck(ordinaryTruck);
 		ArrayList<Truck> returnedTruckList = manifest.getAllTrucks();
 		assertEquals("Identical truck object were not returned",truckList,returnedTruckList);
->>>>>>> CSV-Feature
 	}
 
 	/* Test 3: Test if all sum of all cargo is correct
