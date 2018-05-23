@@ -81,12 +81,13 @@ public class Manifest {
 	public void sortStock() throws StockException {
 		//Get ordinaryStock hashmap
 		HashMap<Item,Integer> ordinaryItems = null;
-		
+		int coldTruckCount = determineColdTruckCount();
+		int coldStockCount = coldStock.returnStockList().size();
 		//Optimise each required refrigerated truck
-		for( int index = 0; index < determineColdTruckCount(); index++) {
+		for( int index = 0; index < coldTruckCount; index++) {
 			//Create refrigerated stock item for each refrigerated truck
 			Stock refrigeratedTruckStock = new Stock();
-			for(int item = 0; item < coldStock.returnStockList().size(); item++) {
+			for(int item = 0; item < coldStock.returnStockList().size()-1; item++) {
 				
 				//Get the name of the coldest current item in the coldStock
 				String coldestName = determineColdestItem();
@@ -110,6 +111,9 @@ public class Manifest {
 					
 					//Remove items from stock
 					coldStock.remove(coldestName, itemQuantity);
+					if(coldStock.getNumberOfItems() == 0 && ordinaryStock.getNumberOfItems() == 0) {
+						cargoStock.add(refrigeratedTruckStock);
+					}
 				}else { //If the entirety of the stock can't fit in one truck, fill truck as much as possible
 					//Determine space left
 					numberOfSpaceLeft = coldCapacity - refrigeratedStockQuantity; 
@@ -127,7 +131,6 @@ public class Manifest {
 					break;
 				}
 			}
-			
 			if (refrigeratedTruckStock.getNumberOfItems() < coldCapacity) {
 				//Update ordinaryItems
 				ordinaryItems = this.ordinaryStock.returnStockList();
@@ -153,7 +156,10 @@ public class Manifest {
 						refrigeratedTruckStock.add(itemObj, itemQuantity);
 						
 						//Remove items from stock
-						coldStock.remove(item.getItemName(), itemQuantity);
+						ordinaryStock.remove(item.getItemName(), itemQuantity);
+						if( ordinaryStock.getNumberOfItems() == 0) {
+							cargoStock.add(refrigeratedTruckStock);
+						}
 					}else { //If the entirety of the stock can't fit in one truck, fill truck as much as possible
 						//Determine space left
 						numberOfSpaceLeft = coldCapacity - refrigeratedStockQuantity; 
@@ -162,7 +168,7 @@ public class Manifest {
 						refrigeratedTruckStock.add(itemObj, numberOfSpaceLeft);
 						
 						//remove items from stock
-						coldStock.remove(item.getItemName(), numberOfSpaceLeft);
+						ordinaryStock.remove(item.getItemName(), numberOfSpaceLeft);
 						
 						// We can either disregard this and insert into truck object or we could keep and store this
 						// Ideally keep the cargoStock array list as we can use that to compare our optimisation method
@@ -204,6 +210,9 @@ public class Manifest {
 					
 					//Remove items from stock
 					ordinaryStock.remove(itemObj.getItemName(), itemQuantity);
+					if(ordinaryStock.getNumberOfItems() == 0) {
+						cargoStock.add(ordinaryTruckStock);
+					}
 				}else { //If the entirety of the stock can't fit in one truck, fill truck as much as possible
 					//Determine space left
 					numberOfSpaceLeft = ordinaryCapacity - ordinaryStockQuantity; 
@@ -288,7 +297,7 @@ public class Manifest {
 		int remainingOrdinaryItems = totalItems - (determineColdTruckCount() * coldCapacity);
 		double numberOfOrdinaryTrucks = 0;
 		if(remainingOrdinaryItems > 0) {
-			numberOfOrdinaryTrucks = Math.ceil((double)remainingOrdinaryItems/ordinaryCapcity);
+			numberOfOrdinaryTrucks = Math.ceil((double)remainingOrdinaryItems/ordinaryCapacity);
 			return (int) numberOfOrdinaryTrucks;
 		}else {
 			return 0;
@@ -313,6 +322,10 @@ public class Manifest {
 		} else {
 			return totalStock;
 		}
+	}
+	
+	public ArrayList<Stock> getOptimisedCargo(){
+		return cargoStock;
 	}
 
 	//Adder method to add truck objects to the ArrayList<Truck>
