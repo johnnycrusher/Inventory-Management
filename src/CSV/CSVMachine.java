@@ -1,5 +1,6 @@
 /**
- * 
+ *This class provides CSV features to the project
+ *@author Tom
  */
 package CSV;
 
@@ -22,21 +23,18 @@ import Exception.StockException;
 import Stock.Item;
 import Stock.Stock;
 
-/**
- *This class provides CSV features to the project
- *@author Tom
- */
 public class CSVMachine {
+	
+	//Define temporary file names, this will be replaced as a file explorer is added to the GUI
 	private static final String STRING_ARRAY_SAMPLE = "./string-array-sample.csv";
-	private static final String ITEM_PROPERTIES_CSV_FILE_PATH = "item_properties.csv";
-	private static final String MANIFEST_CSV_FILE_PATH = "manifest.csv";
-	/*private static final String SALES_LOG_0_CSV_FILE_PATH = "sales_log_0.csv";
-	private static final String SALES_LOG_1_CSV_FILE_PATH = "sales_log_1.csv";
-	private static final String SALES_LOG_2_CSV_FILE_PATH = "sales_log_2.csv";
-	private static final String SALES_LOG_3_CSV_FILE_PATH = "sales_log_3.csv";
-	private static final String SALES_LOG_4_CSV_FILE_PATH = "sales_log_4.csv";*/
-
-	//This method is used to read item_properties.csv and convert the contents into a stock object. This is primarily used for initialization
+	private static final String ITEM_PROPERTIES_CSV_FILE_PATH = "src/CSV/item_properties.csv";
+	private static final String MANIFEST_CSV_FILE_PATH = "src/CSV/manifest.csv";
+	private static final String SALES_LOG_0_FILE_PATH = "src/CSV/sales_log_0.csv";
+	
+	/**This method is used to read item_properties.csv and convert the contents into a stock object. This is primarily used for initialization
+	* @author Tom
+	* @returns initStock, a Stock object which contains all items in the item_properties.csv and the starting quantity of 0
+	*/
 	public static Stock readItemProperties() throws CSVFormatException, IOException, StockException{
 		//set up item property variables
 		String item_Name;
@@ -57,6 +55,7 @@ public class CSVMachine {
 	            // Reading Records One by One in a String array
 	            String[] nextRecord;
 	            
+	            //While the reader has another record, read the record
 	            while ((nextRecord = csvReader.readNext()) != null) {
 	                //Store the item properties in variables
 	            	item_Name = nextRecord[0];
@@ -91,7 +90,12 @@ public class CSVMachine {
 		return initStock;
 	}
 	
-	//A testing method which writes a line to Manifest.csv
+	/**A testing method which writes a line to a test csv file
+	 * TO BE REMOVED
+	 * @param string
+	 * @throws CSVFormatException
+	 * @throws IOException
+	 */
 	public static void writeLineToManifest(String string) throws CSVFormatException, IOException{
         try (Writer writer = Files.newBufferedWriter(Paths.get(STRING_ARRAY_SAMPLE));
         		CSVWriter csvWriter = new CSVWriter(writer,
@@ -104,7 +108,15 @@ public class CSVMachine {
         }
 	}
 	
-	//A Write method to generate a CSV manifest document. The method accepts manifest object and returns true upon successful writing
+	/**A Write method to generate a CSV manifest document. 
+	* The method accepts manifest object and writes to the CSV document
+	*@author Tom
+	*@param manifest
+	*@throws CSVFormatException
+	*@throws IOException
+	*@throws StockException
+	*@throws DeliveryException
+	*/
 	public static void writeManifest(Manifest manifest) throws CSVFormatException, IOException, StockException, DeliveryException{
         try (Writer writer = Files.newBufferedWriter(Paths.get(STRING_ARRAY_SAMPLE));
         		CSVWriter csvWriter = new CSVWriter(writer,
@@ -145,28 +157,77 @@ public class CSVMachine {
         }
 	}
 	
-	//TO DO
-	public String readManifest() throws CSVFormatException, IOException{
+	/**
+	 * A method which returns a hashmap of all item names and their variables which exist within the manifest.csv
+	 * @returns a HashMap containing Item names and their quantities
+	 * @throws CSVFormatException
+	 * @throws IOException
+	 */
+	public static HashMap<String, Integer> readManifest() throws CSVFormatException, IOException{
 		//set up item property variables
+		String item_Name = null;
+		int quantity = 0;
 		
-		//String item_Name;
-		//int quantity;
+		//Create the manifest's HashMap
+		HashMap<String, Integer> manifest = new HashMap<String, Integer>();		
+		 
 		//try hook the CSV reader
 		try (Reader reader = Files.newBufferedReader(Paths.get(MANIFEST_CSV_FILE_PATH));
 	         CSVReader csvReader = new CSVReader(reader);) 
 			{
 	            // Reading Records One by One in a String array
-	            List<String[]> buffer = csvReader.readAll();
-	            buffer.toString().split(">");
+	            String[] nextRecord;
 	            
-	            System.out.println(buffer.toString());
-	            return buffer.toString();
-			}
+	            while ((nextRecord = csvReader.readNext()) != null) {
+	                if (nextRecord.length > 1) {
+	                	//Store the item properties in variables
+		            	item_Name = nextRecord[0];
+		            	quantity = Integer.parseInt(nextRecord[1]);
+		            	
+		            	//Print variables for testing purposes
+		            	System.out.println(item_Name);
+		            	System.out.println(Integer.toString(quantity));
+	                }
+	            	manifest.put(item_Name, quantity);
+	            }
+	        }
+		//Return the initial manifest HashMap
+		return manifest;
 	}
 	
-	//TO DO
-	public String readSalesLog() throws CSVFormatException{
+	/**
+	 * A method which returns a hashmap of all item names and their variables which exist within the manifest.csv
+	 * @returns a HashMap containing Item names and their quantities
+	 * @throws CSVFormatException
+	 * @throws IOException
+	 */
+	public static HashMap<String, Integer> readSalesLog() throws CSVFormatException, IOException{
+		//set up item property variables
+		String item_Name = null;
+		int quantity = 0;
 		
-		return null;
+		//Create the manifest's HashMap
+		HashMap<String, Integer> salesLog = new HashMap<String, Integer>();		
+		 
+		//try hook the CSV reader
+		try (Reader reader = Files.newBufferedReader(Paths.get(SALES_LOG_0_FILE_PATH));
+	         CSVReader csvReader = new CSVReader(reader);) 
+			{
+	            // Reading Records One by One in a String array
+	            String[] nextRecord;
+	            
+	            while ((nextRecord = csvReader.readNext()) != null) {
+                	//Store the item properties in variables
+	            	item_Name = nextRecord[0];
+	            	quantity = Integer.parseInt(nextRecord[1]);
+	            	
+	            	//Print variables for testing purposes
+	            	System.out.println(item_Name);
+	            	System.out.println(Integer.toString(quantity));
+	            	salesLog.put(item_Name, quantity);
+	            }
+	        }
+		//Return the initial manifest HashMap
+		return salesLog;
 	}
 }
