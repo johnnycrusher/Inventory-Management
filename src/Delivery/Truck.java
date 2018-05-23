@@ -3,8 +3,12 @@
  */
 package Delivery;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import Exception.DeliveryException;
 import Exception.StockException;
+import Stock.Item;
 import Stock.Stock;
 
 /**
@@ -33,6 +37,14 @@ public abstract class Truck {
 			throw new DeliveryException("There is no cargo in the Truck");
 		}
 		return cargoStock;
+	}
+	public double getStockCost() throws StockException {
+		HashMap<Item, Integer> stockList =  cargoStock.returnStockList();
+		int costOfCargo = 0;
+		for(Map.Entry<Item,Integer> entry : stockList.entrySet()) {
+			costOfCargo += entry.getKey().getManufactureCost();
+		}
+		return costOfCargo;
 	}
 	
 	public abstract void add(Stock storeObj) throws DeliveryException, StockException;

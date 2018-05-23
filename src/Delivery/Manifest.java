@@ -203,32 +203,35 @@ public class Manifest {
 				//Create a variable to monitor remaining space
 				int numberOfSpaceLeft = 0;
 				
-				//Check if itemQuantity can fit in the truck
-				if((ordinaryStockQuantity + itemQuantity) <= ordinaryCapacity) {
-					//Add items to truck
-					ordinaryTruckStock.add(itemObj, itemQuantity);
-					
-					//Remove items from stock
-					ordinaryStock.remove(itemObj.getItemName(), itemQuantity);
-					if(ordinaryStock.getNumberOfItems() == 0) {
+				if(!(itemQuantity == 0)) {
+					//Check if itemQuantity can fit in the truck
+					if((ordinaryStockQuantity + itemQuantity) <= ordinaryCapacity) {
+						//Add items to truck
+						ordinaryTruckStock.add(itemObj, itemQuantity);
+						
+						//Remove items from stock
+						ordinaryStock.remove(itemObj.getItemName(), itemQuantity);
+						if(ordinaryStock.getNumberOfItems() == 0) {
+							cargoStock.add(ordinaryTruckStock);
+						}
+					}else { //If the entirety of the stock can't fit in one truck, fill truck as much as possible
+						//Determine space left
+						numberOfSpaceLeft = ordinaryCapacity - ordinaryStockQuantity; 
+						
+						//Add items to truck
+						ordinaryTruckStock.add(itemObj, numberOfSpaceLeft);
+						
+						//remove items from stock
+						ordinaryStock.remove(itemObj.getItemName(), numberOfSpaceLeft);
+						
+						// We can either disregard this and insert into truck object or we could keep and store this
+						// Ideally keep the cargoStock array list as we can use that to compare our optimisation method
 						cargoStock.add(ordinaryTruckStock);
+						
+						break;
 					}
-				}else { //If the entirety of the stock can't fit in one truck, fill truck as much as possible
-					//Determine space left
-					numberOfSpaceLeft = ordinaryCapacity - ordinaryStockQuantity; 
-					
-					//Add items to truck
-					ordinaryTruckStock.add(itemObj, numberOfSpaceLeft);
-					
-					//remove items from stock
-					ordinaryStock.remove(itemObj.getItemName(), numberOfSpaceLeft);
-					
-					// We can either disregard this and insert into truck object or we could keep and store this
-					// Ideally keep the cargoStock array list as we can use that to compare our optimisation method
-					cargoStock.add(ordinaryTruckStock);
-					
-					break;
 				}
+				
 			}
 		}
 		
@@ -304,23 +307,17 @@ public class Manifest {
 		}
 	}
 	
-	/**Getter method to return total cargo
-	 * @throws DeliveryException 
-	 * @returns Stock totalStock
-	*/
-	public Stock getImportedStock(){	
-		return importedStock;
-	}
 	
 	public Stock getCargoStock() {
 		return totalStock;
 	}
-	public Stock getCargo() throws DeliveryException{	
-		if (totalStock.getNumberOfItems() == 0)
+	
+	public Stock getImportStock() throws DeliveryException{	
+		if (importedStock.getNumberOfItems() == 0)
 		{
 			throw new DeliveryException("No cargo in totalStock");
 		} else {
-			return totalStock;
+			return importedStock;
 		}
 	}
 	

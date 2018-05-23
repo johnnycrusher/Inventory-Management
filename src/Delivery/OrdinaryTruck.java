@@ -36,15 +36,15 @@ public class OrdinaryTruck extends Truck {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(anyRefridgeratedItems == true) {
-			throw new DeliveryException("This item is not in the stock list");
+		if(anyRefrigeratedItems == true) {
+			throw new DeliveryException("This item should not be allowed on truck");
 		}
 		
 		int numOfItems = stockObj.getNumberOfItems();
 		
 		
 		if(numOfItems > 1000) {
-			throw new DeliveryException("Cannot add as stock due to exceeding 800 items");
+			throw new DeliveryException("Cannot add as stock due to exceeding 1000 items");
 		}
 		cargoStock = stockObj;
 	}
