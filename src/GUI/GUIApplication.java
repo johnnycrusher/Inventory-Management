@@ -29,6 +29,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import CSV.CSVMachine;
 import Exception.CSVFormatException;
@@ -56,6 +58,7 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 	private JLabel capitalTextLabel;
 	private JLabel capitalValueLabel;
 	private JTable stockTable;
+	private Object[] columnNames = {"Item Name", "Manifacturing Cost($)","Sell Price ($)","Reorder Point","Reorder Ammount", "Temperature (C)","Quantity"};
 	
 	/**
 	 * @param arg0
@@ -169,13 +172,8 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 	    constraints.weightx = 1;
 	    constraints.weighty = 1;
 	    
-	    Object[] columnNames = {"Item Name", "Manifacturing Cost($)","Sell Price ($)","Reorder Point","Reorder Ammount", "Temperature (C)","Quantity"};
-		Object[][] rowItems = {{"Potato","2","3","300","500","NULL","400"},
-				{"RedBean","2","3","300","500","NULL","400"},
-				{"Apple","2","3","300","500","NULL","400"},
-				{"Apple","2","3","300","500","NULL","400"},
-				{"Apple","2","3","300","500","NULL","400"},
-				{"Apple","2","3","300","500","NULL","400"}};
+	    
+		Object[][] rowItems = {};
 	    stockTable = new JTable(rowItems,columnNames);
 	    JScrollPane scrollPane = new JScrollPane(stockTable);
 	    int don = JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS;
@@ -227,10 +225,6 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		Object[][] rowItems = {{"Apple","2","3","300","500","NULL","400"},
-				{"Apple","2","3","300","500","NULL","400"},
-				{"Apple","2","3","300","500","NULL","400"},
-				{"Apple","2","3","300","500","NULL","400"}};
 		Object src = e.getSource();
 		if(src == btnLoadSales) {
 			String fileLocation = initialiseFileExplorer();
@@ -243,6 +237,9 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 		if(src == btnUpdateItems) {
 			try {
 				Stock inventory = CSVMachine.readItemProperties();
+				Object[][] invenTable = inventory.convertStockIntoTable();
+				TableModel mode = new DefaultTableModel(invenTable,columnNames);
+				stockTable.setModel(mode);
 			} catch (CSVFormatException | IOException | StockException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

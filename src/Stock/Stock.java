@@ -109,4 +109,28 @@ public class Stock {
 		}
 		return numOfItems;
 	}
+	public Object[][] convertStockIntoTable(){
+		Object[][] object = new Object[stock.size()][7];
+		int index = 0;
+		
+		for(Map.Entry<Item,Integer> entry : stock.entrySet()) {
+			Item item = entry.getKey();
+			int itemQty = entry.getValue();
+			String itemTemp;
+			try {
+				itemTemp = Integer.toString(item.getTemperature());
+			} catch (StockException e) {
+				itemTemp = "NULL";
+			}
+			object[index][0] = item.getItemName();
+			object[index][1] = Double.toString(item.getManufactureCost());
+			object[index][2] = Double.toString(item.getSellCost());
+			object[index][3] = Integer.toString(item.getReorderPoint());
+			object[index][4] = Integer.toString(item.getReorderAmount());
+			object[index][5] = itemTemp;
+			object[index][6] = Integer.toString(itemQty);
+			index++;
+		}
+		return object;
+	}
 }
