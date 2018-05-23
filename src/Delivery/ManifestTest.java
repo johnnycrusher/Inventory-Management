@@ -317,6 +317,7 @@ public class ManifestTest {
 	
 	/* Test 9: Test getting trucks with optimised cargo loaded into it
 	 */
+	@Test
 	public void testGetTrucksWithOptimisedCargo() throws StockException {
 		Stock importedStock = generateStaticImportedStock();
 		ArrayList<Stock> cargoStockList = generateStaticOptimisedStock();

@@ -13,10 +13,12 @@ import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,9 +27,13 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 
 import CSV.CSVMachine;
 import Exception.CSVFormatException;
+import Exception.StockException;
+import Stock.Stock;
 
 /**
  * @author John Huynh
@@ -36,7 +42,7 @@ import Exception.CSVFormatException;
 public class GUIApplication extends JFrame implements ActionListener, Runnable{
 	
 	public static final int WIDTH = 700;
-	public static final int HEIGHT = 900;
+	public static final int HEIGHT = 700;
 	
 	private JPanel pnlDisplay;
 	private JButton btnExtractMan;
@@ -216,7 +222,6 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 		JFrame.setDefaultLookAndFeelDecorated(true);
         SwingUtilities.invokeLater(new GUIApplication("BorderLayout"));
         
-
 	}
 
 	@Override
@@ -228,8 +233,35 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 				{"Apple","2","3","300","500","NULL","400"}};
 		Object src = e.getSource();
 		if(src == btnLoadSales) {
+			String fileLocation = initialiseFileExplorer();
+			System.out.println(fileLocation);			
 		}
-		
+		if(src == btnLoadMan) {
+			String fileLocation = initialiseFileExplorer();
+			System.out.println(fileLocation);
+		}
+		if(src == btnUpdateItems) {
+			try {
+				Stock inventory = CSVMachine.readItemProperties();
+			} catch (CSVFormatException | IOException | StockException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}
+	
+	private String initialiseFileExplorer() {
+		File workingDirectory = new File(System.getProperty("user.dir"));
+		JFileChooser jfc = new JFileChooser();
+		jfc.setCurrentDirectory(workingDirectory);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Comma Seperated Values Files","csv");
+		jfc.setFileFilter(filter);
+		int returnValue = jfc.showOpenDialog(null);
+		if(returnValue == jfc.APPROVE_OPTION) {
+			File selectedFile = jfc.getSelectedFile();
+			return selectedFile.getAbsolutePath();
+		}
+		return null;
 	}
 
 }
