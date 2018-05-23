@@ -24,6 +24,7 @@ public class Manifest {
 	Stock ordinaryStock;
 	Stock coldStock;
 	Stock totalStock;
+	Stock importedStock;
 	
 	//constructor method to create a Manifest object
 	public Manifest() {
@@ -33,21 +34,40 @@ public class Manifest {
 		totalStock = new Stock();
 		truckList = new ArrayList<Truck>();
 		cargoStock = new ArrayList<Stock>();
+		importedStock = new Stock();
 	}
 			
 	/**adder method to add cargo to a manifest in the form of a stock object and sort cold from ordinary
 	*/
+	//might need to modify add itemStock	
 	public void addItemStock(Stock stock) throws StockException{
 		//Keep record of the total stock
-		totalStock = stock;
+		importedStock = stock;
+		determineCargoStock();
+		splitRefridgeratedFromOrdinary();
 		
+	}
+	
+	
+	private void determineCargoStock() throws StockException {
+		for (Map.Entry<Item,Integer> entry : importedStock.returnStockList().entrySet()) {
+			Item currentItem = entry.getKey();
+			int  itemQuantity = entry.getValue();
+			int itemReorderPoint = entry.getKey().getReorderPoint();
+			int itemReorderAmmount = entry.getKey().getReorderAmount();
+			if(itemQuantity <= itemReorderPoint) {
+				totalStock.add(currentItem, itemReorderAmmount);
+			}
+		}
+	}
+	
+	private void splitRefridgeratedFromOrdinary() throws StockException {
 		//Assign each item in the given stock object to either coldStock, or ordinaryStock
-		for (Item key : stock.returnStockList().keySet()) {
-			
+		for (Item key : totalStock.returnStockList().keySet()) {
 			if (key.isCold()){
-		        this.coldStock.add(key, stock.getItemQuantity(key.getItemName()));  
+		        this.coldStock.add(key, totalStock.getItemQuantity(key.getItemName()));  
 			} else {
-				this.ordinaryStock.add(key, stock.getItemQuantity(key.getItemName()));  
+				this.ordinaryStock.add(key, totalStock.getItemQuantity(key.getItemName()));  
 			}
 		}
 	}
@@ -158,7 +178,11 @@ public class Manifest {
 	/**Getter method to return total cargo
 	 * @returns Stock totalStock
 	*/
-	public Stock getCargo(){	
+	public Stock getImportedStock(){	
+		return importedStock;
+	}
+	
+	public Stock getCargoStock() {
 		return totalStock;
 	}
 

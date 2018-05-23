@@ -104,9 +104,31 @@ public class ManifestTest {
 			if(index < 5) {
 				temperature = randomInteger(-20, 10);
 			}else {
-				temperature = 40;
+				temperature = 11;
 			}
 			int itemQty = randomInteger(0,500);
+			Item item = new Item(itemNames.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
+			stock.add(item, itemQty);
+		}
+		return stock;
+	}
+	
+	private static Stock generateReorderStock() throws StockException {
+		Stock stock = new Stock();
+		String itemName;
+		int temperature;
+		ArrayList<String> itemNames = generateItemNames(10);
+		for(int index = 0; index < 10; index++) {
+			double manufactureCost = randomDouble(0,100);
+			double sellCost = randomDouble(0,100);
+			int reorderPoint = randomInteger(0, 250);
+			int reorderAmount = randomInteger(0, 500);
+			if(index < 5) {
+				temperature = randomInteger(-20, 10);
+			}else {
+				temperature = 11;
+			}
+			int itemQty = randomInteger(0,249);
 			Item item = new Item(itemNames.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 			stock.add(item, itemQty);
 		}
@@ -133,39 +155,53 @@ public class ManifestTest {
 	/* Test 2: Adding cargo (THIS TEST DOESN'T WORK AS MANIFEST HAS MULTIPLE STOCK OBJECTS
 	 */
 	@Test 
-	public void testAddingCargo() throws DeliveryException, StockException{
+	public void testAddingStockStock() throws DeliveryException, StockException{
 		Stock cargoList = generateRandomStock();
 		manifest = new Manifest();
 		manifest.addItemStock(cargoList);
-		Stock cargoListReturned =  manifest.getCargo();
+		Stock cargoListReturned =  manifest.getImportedStock();
 		assertEquals("Cargo Object returned is not identical",cargoList,cargoListReturned);
 	}
-	/* Test 3: Test getting cargo list when it doesn't exist
+	
+	/* Test 4: get Cargo Item that needs to be ordered
 	 */
-	@Test (expected = DeliveryException.class)
-	public void testGetCargoListWhenNoCargo() throws DeliveryException{
+	@Test
+	public void testGetCargo() throws StockException {
+		Stock importedStock = generateReorderStock();
+		Stock cargoStock = new Stock();
+		for (Map.Entry<Item,Integer> entry : importedStock.returnStockList().entrySet()) {
+			Item currentItem = entry.getKey();
+			int  itemQuantity = entry.getValue();
+			int itemReorderPoint = entry.getKey().getReorderPoint();
+			int itemReorderAmmount = entry.getKey().getReorderAmount();
+			if(itemQuantity <= itemReorderPoint) {
+				cargoStock.add(currentItem, itemReorderAmmount);
+			}
+		}
 		manifest = new Manifest();
-		Stock cargoList = manifest.getCargo();
+		manifest.addItemStock(importedStock);
+		Stock returnCargo = manifest.getCargoStock();
+		
+		System.out.println("Expected Stock");
+		for (Map.Entry<Item,Integer> entry : cargoStock.returnStockList().entrySet()) {
+			String currentItem = entry.getKey().getItemName();
+			int  itemQuantity = entry.getValue();
+			System.out.println("Iteme name:" + currentItem + ", " + itemQuantity);
+		}
+		
+		System.out.println("returnStock Stock");
+		for (Map.Entry<Item,Integer> entry : returnCargo.returnStockList().entrySet()) {
+			String currentItem = entry.getKey().getItemName();
+			int  itemQuantity = entry.getValue();
+			System.out.println("Iteme name:" + currentItem + ", " + itemQuantity);
+		}
+		
+		
+		assertEquals("Cargo Object returned is not identical",cargoStock,returnCargo);
+		
 	}
 
-	/*Test 4: Test if all trucks are return in manifest object
-	 */
-	@Test 
-	public void testMultipleTrucksManifest() throws DeliveryException{
-		
-		manifest = new Manifest();
-		Truck refrigeratedTruck = new RefrigeratedTruck();
-		Truck ordinaryTruck = new OrdinaryTruck();
-		ArrayList<Truck> truckList = new ArrayList<Truck>();
-		truckList.add(refrigeratedTruck);
-		truckList.add(ordinaryTruck);
-		
-		manifest.addTruck(ordinaryTruck);
-		manifest.addTruck(refrigeratedTruck);
-		ArrayList<Truck> returnedTruckList = manifest.getAllTrucks();
-		assertEquals("Identical truck object were not returned",truckList,returnedTruckList);
-	}
-	/* Test 5: Test if all sum of all cargo is correct
+	/* Test 3: Test if all sum of all cargo is correct
 	 */
 	@Test
 	public void testSumCostOfCargo() throws DeliveryException{
@@ -183,32 +219,73 @@ public class ManifestTest {
 		
 		assertEquals("Cargo Cost was not the same value",totalCost, cargoCost,0.1);
 	}
-	/*Test 6: Test sum of all cargo when there is no cargo
+	/*Test 4: Test sum of all cargo when there is no cargo
 	 */
 	@Test (expected = DeliveryException.class)
 	public void testCargoSumWhenNoCargo() throws DeliveryException{
 		manifest = new Manifest();
 		int cargoCost = manifest.getCargoCost();
 	}
-	/*Test 7: Test cargo optimisiation
+	/*Test 5: Test cargo optimisiation
 	 */
+	@Test
+	public void testCargoOptimisation() throws StockException {
+		Stock importedStock = new Stock();
+		Item rice = new Item("rice",2,3,225,300,11);
+		Item beans = new Item("beans",4,6,450,525,11);
+		Item pasta = new Item("pasta",3,4,125,250,11);
+		Item icecream = new Item("icecream",8,14,175,250,-20);
+		Item ice = new Item("ice",2,5,225,325,-10);
+		Item frozenmeat = new Item("frozen meat",10,14,450,575,-14);
+		
+		importedStock.add(rice, 100);
+		importedStock.add(beans, 200);
+		importedStock.add(pasta, 100);
+		importedStock.add(icecream, 100);
+		importedStock.add(ice, 100);
+		importedStock.add(frozenmeat, 100);
+		
+		ArrayList<Stock> cargoStockList = new ArrayList<Stock>();
+		Stock T1Stock = new Stock();
+		T1Stock.add(icecream, 250);
+		T1Stock.add(frozenmeat, 550);
+		Stock T2Stock = new Stock();
+		T2Stock.add(icecream, 250);
+		T2Stock.add(ice, 325);
+		T2Stock.add(rice, 225);
+		Stock T3Stock = new Stock();
+		T3Stock.add(rice, 75);
+		T3Stock.add(beans, 525);
+		T3Stock.add(pasta, 250);
+		
+		cargoStockList.add(T1Stock);
+		cargoStockList.add(T2Stock);
+		cargoStockList.add(T3Stock);
+		
+		manifest.addItemStock(importedStock);
+		manifest.sortStock();
+		ArrayList<Stock> manifestCargo = manifest.getOptimisedCargo();
+		
+		assertEquals("Optimised cargo is not the same",CargoStockList,manifestCargo);
+		
+	}
 	
 	//need to figure out cargo optimisation algorithm
 	
-	/* Test 8: Returning the optimised cargo list
+	/* Test 6: Returning the optimised cargo list
 	 */
 	//need to figure out optimise cargo algorithm
 	
 	
 	
-	/* Test 9: Test getting optimised cargo when no cargo is inputed
+	/* Test 7: Test getting optimised cargo when no cargo is inputed
 	 */
 	@Test (expected = DeliveryException.class)
 	public void testGetOptimisedCargoWhenNoCargo() throws DeliveryException{
 		manifest = new Manifest();
 		manifest.getOptimisedCargo();
 	}
-	/*Test 10: Get Total Manifest Cost
+	/*Test 8: Get Total Manifest Cost
 	 */
 	@Test
 	public void testManifiestCost() throws DeliveryException{
@@ -222,7 +299,7 @@ public class ManifestTest {
 		int manifestCost = manifest.getManifestCost();
 	}
 	
-	/* Test 11: Get total cost when no cargo has been loaded
+	/* Test 9: Get total cost when no cargo has been loaded
 	 */
 	@Test (expected = DeliveryException.class)
 	public void testTotalCostNoCargo() throws DeliveryException{
