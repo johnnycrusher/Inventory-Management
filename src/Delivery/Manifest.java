@@ -28,7 +28,9 @@ public class Manifest {
 	Stock totalStock;
 	Stock importedStock;
 	
-	//constructor method to create a Manifest object
+	/**
+	 * constructor method to create a Manifest object
+	 */
 	public Manifest() {
 		//Instantiate a manifest with new Stock and ArrayList<> objects
 		ordinaryStock = new Stock();
@@ -39,9 +41,10 @@ public class Manifest {
 		importedStock = new Stock();
 	}
 			
-	/**adder method to add cargo to a manifest in the form of a stock object and sort cold from ordinary
-	*/
-	//might need to modify add itemStock	
+	/**
+	 * A method to add cargo to a manifest in the form of a stock object and sort cold from ordinary
+	 * @throws StockException
+	 */	
 	public void addItemStock(Stock stock) throws StockException{
 		//Keep record of the total stock
 		importedStock = stock;
@@ -50,19 +53,27 @@ public class Manifest {
 		
 	}
 	
-	
+	/**
+	 * A method which determins if an item needs to be reordered and added to the manifest's totalStock
+	 * @throws StockException
+	 */
 	private void determineCargoStock() throws StockException {
 		for (Map.Entry<Item,Integer> entry : importedStock.returnStockList().entrySet()) {
 			Item currentItem = entry.getKey();
 			int  itemQuantity = entry.getValue();
 			int itemReorderPoint = entry.getKey().getReorderPoint();
 			int itemReorderAmmount = entry.getKey().getReorderAmount();
+			
 			if(itemQuantity <= itemReorderPoint) {
 				totalStock.add(currentItem, itemReorderAmmount);
 			}
 		}
 	}
 	
+	/**
+	 * A method to separate the refrigerated items from the ordinary items
+	 * @throws StockException
+	 */
 	private void splitRefridgeratedFromOrdinary() throws StockException {
 		//Assign each item in the given stock object to either coldStock, or ordinaryStock
 		for (Item key : totalStock.returnStockList().keySet()) {
@@ -82,7 +93,7 @@ public class Manifest {
 		//Get ordinaryStock hashmap
 		HashMap<Item,Integer> ordinaryItems = null;
 		int coldTruckCount = determineColdTruckCount();
-		int coldStockCount = coldStock.returnStockList().size();
+		
 		//Optimise each required refrigerated truck
 		for( int index = 0; index < coldTruckCount; index++) {
 			//Create refrigerated stock item for each refrigerated truck
@@ -128,6 +139,7 @@ public class Manifest {
 					// Ideally keep the cargoStock array list as we can use that to compare our optimisation method
 					cargoStock.add(refrigeratedTruckStock);
 					
+					//Break out of for loop
 					break;
 				}
 			}
@@ -174,6 +186,7 @@ public class Manifest {
 						// Ideally keep the cargoStock array list as we can use that to compare our optimisation method
 						cargoStock.add(refrigeratedTruckStock);
 						
+						//Break out of for loop
 						break;
 					}
 				}
@@ -237,10 +250,12 @@ public class Manifest {
 		
 	}
 
-	/**A method which determines the required temperature of a truck object 
+	/**
+	 * A method which determines the required temperature of a truck object 
 	 * by finding the coldest item temperature in the stock object
 	 * @throws StockException
-	*/
+	 * @returns String objectName
+	 */
 	private String determineColdestItem() throws StockException {
 		int currentLowestTemp = 11;
 		int itemObjectTemp = 11;
@@ -263,7 +278,8 @@ public class Manifest {
 		return objectName;
 	}
 	
-	/**A manifest initialisation method which creates the required trucks and adds them to the truckList
+	/**
+	 * A manifest initialisation method which creates the required trucks and adds them to the truckList
 	 * @throws StockException
 	*/
 	public void createTrucks() throws StockException {		
@@ -321,26 +337,42 @@ public class Manifest {
 		}
 	}
 	
+	/**
+	 * A method to return the cargoStock ArrayList<Stock>
+	 * @return ArrayList<Stock> 
+	 */
 	public ArrayList<Stock> getOptimisedCargo(){
 		return cargoStock;
 	}
 
-	//Adder method to add truck objects to the ArrayList<Truck>
+	/**
+	 * Adder method to add truck objects to the ArrayList<Truck>
+	 */
 	public void addTruck(Truck truck) {
 		this.truckList.add(truck);
 	}
 
-	//Remove method to remove truck from truckList at given index
-	public void removeTruck(int i) {
-		this.truckList.remove(i);
+	/**
+	 * Remove method to remove truck from truckList at given index
+	 * @param Integer index
+	 */
+	public void removeTruck(int index) {
+		this.truckList.remove(index);
 	}
 
-	//getter method to retrieve truck at given index
-	public Truck getTruck(int i) {
-		return this.truckList.get(i);
+	/**
+	 * A getter method to retrieve a truck at given index
+	 * @returns Truck
+	 * @param Integer index
+	 */
+	public Truck getTruck(int index) {
+		return this.truckList.get(index);
 	}
 	
-	//getter method to return truck arrayList
+	/**
+	 * A getter method to return truckList ArrayList
+	 * @returns Truck
+	 */
 	public ArrayList<Truck> getAllTrucks() {
 		return truckList;
 	}
