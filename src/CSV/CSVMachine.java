@@ -80,6 +80,9 @@ public class CSVMachine {
                 	//Add the item into the initStock object
                 	initStock.add(item,0);
 	            }
+	        } catch (IOException e) { //Catch an invalid file exception
+	        	//Throw IOException to CSVFormatException
+	        	throw new CSVFormatException(e.toString());
 	        }
 		//Return the initial stock object
 		return initStock;
@@ -103,7 +106,7 @@ public class CSVMachine {
 								                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
 								                    CSVWriter.RFC4180_LINE_END);)
         {
-        	for (int index=0; index < manifest.getAllTrucks().size() - 1; index++) {
+        	for (int index=0; index < manifest.getAllTrucks().size(); index++) {
         		//Get the truck object
         		Truck truck = manifest.getAllTrucks().get(index);
         		
@@ -114,7 +117,7 @@ public class CSVMachine {
         		HashMap<Item, Integer> truckStockList = truckStock.returnStockList();
         		
         		//check if the truck is a refrigerated truck
-        		if (truck.getTemp() < 10) { 
+        		if (truck.getTemp() <= 10) { 
         			// the truck is refrigerated
         			csvWriter.writeNext(new String[] {">Refrigerated"});
         			//iterate through every item in the truck's cargo
@@ -132,6 +135,9 @@ public class CSVMachine {
         			}
         		}
         	}
+        } catch (IOException e) { //Catch an invalid file exception
+        	//Throw IOException to CSVFormatException
+        	throw new CSVFormatException(e.toString());
         }
 	}
 	
@@ -163,12 +169,20 @@ public class CSVMachine {
 		            	item_Name = nextRecord[0];
 		            	quantity = Integer.parseInt(nextRecord[1]);
 		            	
-		            	//Print variables for testing purposes
-		            	System.out.println(item_Name);
-		            	System.out.println(Integer.toString(quantity));
+		            	//Check if item already exist in manifest
+		            	if (manifest.containsKey(item_Name)) {
+		            		//If it does, add to quantity
+		            		manifest.put(item_Name, manifest.get(item_Name) + quantity);
+		            	} else {
+		            		//Add to manifest
+			            	manifest.put(item_Name, quantity);
+		            	}
 	                }
-	            	manifest.put(item_Name, quantity);
+	            	
 	            }
+			} catch (IOException e) { //Catch an invalid file exception
+	        	//Throw IOException to CSVFormatException
+	        	throw new CSVFormatException(e.toString());
 	        }
 		//Return the initial manifest HashMap
 		return manifest;
@@ -200,12 +214,13 @@ public class CSVMachine {
                 	//Store the item properties in variables
 	            	item_Name = nextRecord[0];
 	            	quantity = Integer.parseInt(nextRecord[1]);
-	            	
-	            	//Print variables for testing purposes
-	            	System.out.println(item_Name);
-	            	System.out.println(Integer.toString(quantity));
+
+	            	//Add to salesLog
 	            	salesLog.put(item_Name, quantity);
 	            }
+			} catch (IOException e) { //Catch an invalid file exception
+	        	//Throw IOException to CSVFormatException
+	        	throw new CSVFormatException(e.toString());
 	        }
 		//Return the initial manifest HashMap
 		return salesLog;

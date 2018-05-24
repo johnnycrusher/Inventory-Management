@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -269,11 +270,20 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 			String fileLocation = initialiseFileExplorer();
 			try {
 				HashMap<String,Integer> importedManifest = CSVMachine.readManifest(fileLocation);
+				for(Map.Entry<String, Integer> item : importedManifest.entrySet()) {
+					inventory.addQuantity(item.getKey(), item.getValue());
+				}
+				Object[][] invenTable = inventory.convertStockIntoTable();
+				TableModel mode = new DefaultTableModel(invenTable,columnNames);
+				stockTable.setModel(mode);
 				
 			} catch (CSVFormatException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (StockException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
