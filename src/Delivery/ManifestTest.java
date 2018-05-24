@@ -278,7 +278,7 @@ public class ManifestTest {
 			totalCost += cost;
 		}
 		manifest.addItemStock(cargoList);
-		double cargoCost = manifest.getCargoCost();
+		double cargoCost = manifest.getCargoStock();
 		
 		assertEquals("Cargo Cost was not the same value",totalCost, cargoCost,0.1);
 	}
@@ -287,7 +287,7 @@ public class ManifestTest {
 	@Test (expected = DeliveryException.class)
 	public void testCargoSumWhenNoCargo() throws DeliveryException{
 		manifest = new Manifest();
-		int cargoCost = manifest.getCargoCost();
+		int cargoCost = manifest.getCargoStock();
 	}
 	/*Test 7: Test cargo optimisiation
 	 */

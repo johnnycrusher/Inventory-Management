@@ -65,6 +65,7 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 	private Object[] columnNames = {"Item Name", "Manifacturing Cost($)","Sell Price ($)","Reorder Point","Reorder Ammount", "Temperature (C)","Quantity"};
 	private Manifest manifest;
 	private Stock inventory;
+	private double capital = 100000;
 	
 	/**
 	 * @param arg0
@@ -232,20 +233,33 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 		// TODO Auto-generated method stub
 		Object src = e.getSource();
 		if(src == btnLoadSales) {
-			String fileLocation = initialiseFileExplorer();
-			System.out.println(fileLocation);			
-		}
-		if(src == btnLoadMan) {
-			String fileLocation = initialiseFileExplorer();
-			System.out.println(fileLocation);
+			String fileLocation = initialiseFileExplorer();	
+			try {
+				HashMap<String,Integer> salesLog = CSVMachine.readSalesLog(fileLocation);
+				double cost = 0;
+				for(Map.Entry<String, Integer> items: salesLog.entrySet()) {
+					inventory.remove(items.getKey(), items.getValue());
+					double sellCost = inventory.getItem(items.getKey()).getSellCost();
+					double numberOfSold = items.getValue();
+					cost += (sellCost * numberOfSold);
+				}
+				capital += cost;
+				System.out.println("Current Capital: " + capital);
+				updateTable();
+				
+			} catch (CSVFormatException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (StockException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		if(src == btnUpdateItems) {
 			String fileLocation = initialiseFileExplorer();
 			try {
 				inventory = CSVMachine.readItemProperties(fileLocation);
-				Object[][] invenTable = inventory.convertStockIntoTable();
-				TableModel mode = new DefaultTableModel(invenTable,columnNames);
-				stockTable.setModel(mode);
+				updateTable();
 			} catch (CSVFormatException | IOException | StockException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -258,7 +272,6 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 				manifest.createTrucks();
 				manifest.sortStock();
 				manifest.loadCargoToTrucks();
-				System.out.println(manifest.getManifestCost());
 				String filePath = initialiseSaveExplorer();
 				CSVMachine.writeManifest(manifest, filePath);
 			} catch (StockException | DeliveryException | CSVFormatException | IOException e1) {
@@ -273,9 +286,9 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 				for(Map.Entry<String, Integer> item : importedManifest.entrySet()) {
 					inventory.addQuantity(item.getKey(), item.getValue());
 				}
-				Object[][] invenTable = inventory.convertStockIntoTable();
-				TableModel mode = new DefaultTableModel(invenTable,columnNames);
-				stockTable.setModel(mode);
+				capital -= manifest.getManifestCost();
+				System.out.println("Current Capital: " + capital);
+				updateTable();
 				
 			} catch (CSVFormatException e1) {
 				// TODO Auto-generated catch block
@@ -316,6 +329,9 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 		}
 		return null;
 	}
-
-	
+	private void updateTable() {
+		Object[][] invenTable = inventory.convertStockIntoTable();
+		TableModel mode = new DefaultTableModel(invenTable,columnNames);
+		stockTable.setModel(mode);
+	}
 }

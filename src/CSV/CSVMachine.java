@@ -54,7 +54,7 @@ public class CSVMachine {
 	            while ((nextRecord = csvReader.readNext()) != null) {
 	                //Store the item properties in variables
 	            	item_Name = nextRecord[0];
-	            	System.out.println(item_Name);
+//	            	System.out.println(item_Name);
 	            	cost = Integer.parseInt(nextRecord[1]);
 	            	price = Integer.parseInt(nextRecord[2]);
 	            	reorderPoint = Integer.parseInt(nextRecord[3]);
@@ -78,7 +78,7 @@ public class CSVMachine {
                 	Item item = new Item(item_Name,cost,price,reorderPoint,reorderAmount,temperature);
 	            	
                 	//Add the item into the initStock object
-                	initStock.add(item,0);
+                	initStock.addItem(item,0);
 	            }
 	        } catch (IOException e) { //Catch an invalid file exception
 	        	//Throw IOException to CSVFormatException
