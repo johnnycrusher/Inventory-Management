@@ -40,7 +40,7 @@ public abstract class Truck {
 	}
 	public double getStockCost() throws StockException {
 		HashMap<Item, Integer> stockList =  cargoStock.returnStockList();
-		int costOfCargo = 0;
+		double costOfCargo = 0;
 		for(Map.Entry<Item,Integer> entry : stockList.entrySet()) {
 			costOfCargo += entry.getKey().getManufactureCost();
 		}

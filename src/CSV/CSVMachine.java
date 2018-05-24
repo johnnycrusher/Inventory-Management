@@ -114,7 +114,7 @@ public class CSVMachine {
         		HashMap<Item, Integer> truckStockList = truckStock.returnStockList();
         		
         		//check if the truck is a refrigerated truck
-        		if (truck.getTemp() > 10) { 
+        		if (truck.getTemp() < 10) { 
         			// the truck is refrigerated
         			csvWriter.writeNext(new String[] {">Refrigerated"});
         			//iterate through every item in the truck's cargo

@@ -33,11 +33,10 @@ public class OrdinaryTruck extends Truck {
 		try {
 			anyRefrigeratedItems = findRefrigeratedItems(stockObj);
 		} catch (StockException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			anyRefrigeratedItems = true;
 		}
 		if(anyRefrigeratedItems == true) {
-			throw new DeliveryException("This item should not be allowed on truck");
+			throw new DeliveryException("This item should not be allowed on truck" );
 		}
 		
 		int numOfItems = stockObj.getNumberOfItems();
@@ -47,38 +46,26 @@ public class OrdinaryTruck extends Truck {
 			throw new DeliveryException("Cannot add as stock due to exceeding 1000 items");
 		}
 		cargoStock = stockObj;
-	}
-	
-	@Override
-	public Stock getStock() throws DeliveryException {
-		if(cargoStock == null) {
-			throw new DeliveryException("There is no cargo in the Truck");
-		}
-		return cargoStock;
-	}
-	
-	@Override
-	public void remove() {
-		cargoStock = null;
-	}
-	
-	@Override
-	public int getQuantity() throws StockException {
-		return getCargoAmount();
-	}
-	
-	
+	}	
 	
 	private boolean findRefrigeratedItems(Stock stock) throws DeliveryException, StockException {
 		HashMap<Item, Integer> stockItems = stock.returnStockList();
 		boolean refridgeratedItem = false;
 		int temp = 40;
+		int tempArray[] = new int[stock.returnStockList().size()];
+		int index = 0;
 		for(Map.Entry<Item,Integer> entry : stockItems.entrySet()) {
-			temp = entry.getKey().getTemperature();		
-
+			try {
+				tempArray[index] = entry.getKey().getTemperature();
+			}catch(StockException e) {
+				tempArray[index] = 11;
+			}
+			index++;
 		}
-		if(temp < 10) {
-			refridgeratedItem =  true;
+		for(int i = 0; i < tempArray.length; i++) {
+			if(tempArray[i] < 10) {
+				refridgeratedItem = false;
+			}
 		}
 		return refridgeratedItem;
 	}
@@ -97,5 +84,10 @@ public class OrdinaryTruck extends Truck {
 		int cargoAmmount = getCargoAmount();
 		double cost = 750 + (0.25 * cargoAmmount);
 		return cost;
+	}
+
+	@Override
+	public int getTemp() throws StockException {
+		return 11;
 	}
 }

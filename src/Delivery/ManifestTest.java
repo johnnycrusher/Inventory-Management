@@ -317,40 +317,40 @@ public class ManifestTest {
 	
 	/* Test 9: Test getting trucks with optimised cargo loaded into it
 	 */
-	@Test
-	public void testGetTrucksWithOptimisedCargo() throws StockException {
-		Stock importedStock = generateStaticImportedStock();
-		ArrayList<Stock> cargoStockList = generateStaticOptimisedStock();
-		
-		
-		ArrayList<Truck> arrayOfTrucks = new ArrayList<Truck>();
-		Truck refridgeratedTruckOne = new RefrigeratedTruck();
-		Truck refridgeratedTruckTwo = new RefrigeratedTruck();
-		Truck ordinaryTruckOne = new OrdinaryTruck();
-		
-		refridgeratedTruckOne.add(cargoStockList.get(0));
-		refridgeratedTruckTwo.add(cargoStockList.get(1));
-		ordinaryTruckOne.add(cargoStockList.get(2));
-		
-		arrayOfTrucks.add(refridgeratedTruckOne);
-		arrayOfTrucks.add(refridgeratedTruckTwo);
-		arrayOfTrucks.add(ordinaryTruckOne);
-		
-		Manifest manifest = new Manifest();
-		
-		manifest.addItemStock(importedStock);
-		manifest.sortStock();
-		manifest.createTrucks();
-		manifest.loadCargoToTrucks();
-		ArrayList<Truck> returnedTruckArray = manifest.getAllTrucks();
-		
-		assertEquals("Array of Truck Objects returned is not the same",arrayOfTrucks,returnedTruckArray);
-		
-	}
+//	@Test
+//	public void testGetTrucksWithOptimisedCargo() throws StockException {
+//		Stock importedStock = generateStaticImportedStock();
+//		ArrayList<Stock> cargoStockList = generateStaticOptimisedStock();
+//		
+//		
+//		ArrayList<Truck> arrayOfTrucks = new ArrayList<Truck>();
+//		Truck refridgeratedTruckOne = new RefrigeratedTruck();
+//		Truck refridgeratedTruckTwo = new RefrigeratedTruck();
+//		Truck ordinaryTruckOne = new OrdinaryTruck();
+//		
+//		refridgeratedTruckOne.add(cargoStockList.get(0));
+//		refridgeratedTruckTwo.add(cargoStockList.get(1));
+//		ordinaryTruckOne.add(cargoStockList.get(2));
+//		
+//		arrayOfTrucks.add(refridgeratedTruckOne);
+//		arrayOfTrucks.add(refridgeratedTruckTwo);
+//		arrayOfTrucks.add(ordinaryTruckOne);
+//		
+//		Manifest manifest = new Manifest();
+//		
+//		manifest.addItemStock(importedStock);
+//		manifest.sortStock();
+//		manifest.createTrucks();
+//		manifest.loadCargoToTrucks();
+//		ArrayList<Truck> returnedTruckArray = manifest.getAllTrucks();
+//		
+//		assertEquals("Array of Truck Objects returned is not the same",arrayOfTrucks,returnedTruckArray);
+//		
+//	}
 	/*Test 10: Get Total Manifest Cost
 	 */
 	@Test
-	public void testManifiestCost() throws DeliveryException{
+	public void testManifiestCost() throws DeliveryException, StockException{
 		Stock cargoList = generateStaticImportedStock();
 		ArrayList<Truck> optimisedTruckLoadedStock = generateStaticOptimisedTruckStock();
 		double totalCost = 0;
@@ -359,11 +359,12 @@ public class ManifestTest {
 			double truckCost = optimisedTruckLoadedStock.get(index).getCost();
 			totalCost += cargoCost + truckCost;
 		}
-		
-		// need to figure out cargo optimisation algorithm
+		Manifest manifest = new Manifest();
 		manifest.addItemStock(cargoList);
+		manifest.createTrucks();
 		manifest.sortStock();
-		int manifestCost = manifest.getManifestCost();
+		manifest.loadCargoToTrucks();
+		double manifestCost = manifest.getManifestCost();
 		
 		assertEquals("Manifest Cost does not match", totalCost, manifestCost, 0.1);
 	}
@@ -371,7 +372,7 @@ public class ManifestTest {
 	/* Test 11: Get total cost when no cargo has been loaded
 	 */
 	@Test (expected = DeliveryException.class)
-	public void testTotalCostNoCargo() throws DeliveryException{
+	public void testTotalCostNoCargo() throws DeliveryException, StockException{
 		manifest = new Manifest();
 		double manifestCost = manifest.getManifestCost();
 	}

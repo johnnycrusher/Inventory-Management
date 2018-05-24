@@ -80,7 +80,7 @@ public class Stock {
 			}
 		}
 		if(detectedMatch == false) {
-			throw new StockException("Cannot get item quantity because item doesn't exsist in stock");
+			throw new StockException("Cannot get item quantity because item doesn't exist in stock");
 		}
 		return itemQuantity;
 	}

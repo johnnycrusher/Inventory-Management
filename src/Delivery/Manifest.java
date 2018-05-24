@@ -102,45 +102,46 @@ public class Manifest {
 				
 				//Get the name of the coldest current item in the coldStock
 				String coldestName = determineColdestItem();
-				
+				if(!(coldestName == null)) {
 				//Get the coldest Item object
 				Item itemObj = coldStock.getItem(coldestName);
 				
-				//Get the quantity of the coldest item object
-				int itemQuantity = coldStock.getItemQuantity(coldestName);
-				
-				//Get quantity of the stock
-				int refrigeratedStockQuantity = refrigeratedTruckStock.getNumberOfItems();
-				
-				//Create a variable to monitor remaining space
-				int numberOfSpaceLeft = 0;
-				
-				//Check if itemQuantity can fit in the truck
-				if((refrigeratedStockQuantity + itemQuantity) <= coldCapacity) {
-					//Add items to truck
-					refrigeratedTruckStock.add(itemObj, itemQuantity);
+					//Get the quantity of the coldest item object
+					int itemQuantity = coldStock.getItemQuantity(coldestName);
 					
-					//Remove items from stock
-					coldStock.remove(coldestName, itemQuantity);
-					if(coldStock.getNumberOfItems() == 0 && ordinaryStock.getNumberOfItems() == 0) {
+					//Get quantity of the stock
+					int refrigeratedStockQuantity = refrigeratedTruckStock.getNumberOfItems();
+					
+					//Create a variable to monitor remaining space
+					int numberOfSpaceLeft = 0;
+					
+					//Check if itemQuantity can fit in the truck
+					if((refrigeratedStockQuantity + itemQuantity) <= coldCapacity) {
+						//Add items to truck
+						refrigeratedTruckStock.add(itemObj, itemQuantity);
+						
+						//Remove items from stock
+						coldStock.remove(coldestName, itemQuantity);
+						if(coldStock.getNumberOfItems() == 0 && ordinaryStock.getNumberOfItems() == 0) {
+							cargoStock.add(refrigeratedTruckStock);
+						}
+					}else { //If the entirety of the stock can't fit in one truck, fill truck as much as possible
+						//Determine space left
+						numberOfSpaceLeft = coldCapacity - refrigeratedStockQuantity; 
+						
+						//Add items to truck
+						refrigeratedTruckStock.add(itemObj, numberOfSpaceLeft);
+						
+						//remove items from stock
+						coldStock.remove(coldestName, numberOfSpaceLeft);
+						
+						// We can either disregard this and insert into truck object or we could keep and store this
+						// Ideally keep the cargoStock array list as we can use that to compare our optimisation method
 						cargoStock.add(refrigeratedTruckStock);
+						
+						//Break out of for loop
+						break;
 					}
-				}else { //If the entirety of the stock can't fit in one truck, fill truck as much as possible
-					//Determine space left
-					numberOfSpaceLeft = coldCapacity - refrigeratedStockQuantity; 
-					
-					//Add items to truck
-					refrigeratedTruckStock.add(itemObj, numberOfSpaceLeft);
-					
-					//remove items from stock
-					coldStock.remove(coldestName, numberOfSpaceLeft);
-					
-					// We can either disregard this and insert into truck object or we could keep and store this
-					// Ideally keep the cargoStock array list as we can use that to compare our optimisation method
-					cargoStock.add(refrigeratedTruckStock);
-					
-					//Break out of for loop
-					break;
 				}
 			}
 			if (refrigeratedTruckStock.getNumberOfItems() < coldCapacity) {
@@ -195,7 +196,8 @@ public class Manifest {
 		
 		//For Ordinary Items
 		//For each required ordinary truck
-		for( int index = 0; index < determineOrdinaryTruckCount(); index++) {
+		int ordinaryTruckCount = determineOrdinaryTruckCount();
+		for( int index = 0; index < ordinaryTruckCount; index++) {
 			//Create stock item for each ordinary truck
 			Stock ordinaryTruckStock = new Stock();
 			
@@ -226,6 +228,7 @@ public class Manifest {
 						ordinaryStock.remove(itemObj.getItemName(), itemQuantity);
 						if(ordinaryStock.getNumberOfItems() == 0) {
 							cargoStock.add(ordinaryTruckStock);
+							break;
 						}
 					}else { //If the entirety of the stock can't fit in one truck, fill truck as much as possible
 						//Determine space left
@@ -337,6 +340,12 @@ public class Manifest {
 		}
 	}
 	
+	public void loadCargoToTrucks() throws DeliveryException, StockException {
+		for(int index = 0; index < truckList.size(); index++) {
+			truckList.get(index).add(cargoStock.get(index));
+		}
+	}
+	
 	/**
 	 * A method to return the cargoStock ArrayList<Stock>
 	 * @return ArrayList<Stock> 
@@ -375,5 +384,14 @@ public class Manifest {
 	 */
 	public ArrayList<Truck> getAllTrucks() {
 		return truckList;
+	}
+	public double getManifestCost() throws StockException {
+		int totalCost = 0;
+		for(int index = 0; index < truckList.size(); index++) {
+			double cargoCost = truckList.get(index).getStockCost();
+			double truckCost = truckList.get(index).getCost();
+			totalCost += cargoCost + truckCost;
+		}
+		return totalCost;
 	}
 }

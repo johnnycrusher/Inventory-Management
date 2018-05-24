@@ -33,7 +33,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import CSV.CSVMachine;
+import Delivery.Manifest;
 import Exception.CSVFormatException;
+import Exception.DeliveryException;
 import Exception.StockException;
 import Stock.Stock;
 
@@ -59,6 +61,8 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 	private JLabel capitalValueLabel;
 	private JTable stockTable;
 	private Object[] columnNames = {"Item Name", "Manifacturing Cost($)","Sell Price ($)","Reorder Point","Reorder Ammount", "Temperature (C)","Quantity"};
+	private Manifest manifest;
+	private Stock inventory;
 	
 	/**
 	 * @param arg0
@@ -177,8 +181,7 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 	    stockTable = new JTable(rowItems,columnNames);
 	    JScrollPane scrollPane = new JScrollPane(stockTable);
 	    int don = JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS;
-	    addToPanel(pnlMiddle,scrollPane,constraints,0,10,1,100);  
-	   
+	    addToPanel(pnlMiddle,scrollPane,constraints,0,10,1,100);
 	}
 	
 	
@@ -235,12 +238,27 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 			System.out.println(fileLocation);
 		}
 		if(src == btnUpdateItems) {
+			String fileLocation = initialiseFileExplorer();
 			try {
-				Stock inventory = CSVMachine.readItemProperties();
+				inventory = CSVMachine.readItemProperties(fileLocation);
 				Object[][] invenTable = inventory.convertStockIntoTable();
 				TableModel mode = new DefaultTableModel(invenTable,columnNames);
 				stockTable.setModel(mode);
 			} catch (CSVFormatException | IOException | StockException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		if(src == btnExtractMan) {
+			manifest = new Manifest();
+			try {
+				manifest.addItemStock(inventory);
+				manifest.createTrucks();
+				manifest.sortStock();
+				manifest.loadCargoToTrucks();
+				String filePath = initialiseSaveExplorer();
+				CSVMachine.writeManifest(manifest, filePath);
+			} catch (StockException | DeliveryException | CSVFormatException | IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
@@ -260,5 +278,17 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 		}
 		return null;
 	}
-
+	private String initialiseSaveExplorer() {
+		File workingDirectory = new File(System.getProperty("user.dir"));
+		JFileChooser jfc= new JFileChooser();
+		jfc.setCurrentDirectory(workingDirectory);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Comma Seperated Values Files","csv");
+		jfc.setFileFilter(filter);
+		int returnValue = jfc.showSaveDialog(this);
+		if(returnValue == jfc.APPROVE_OPTION) {
+			File selectedFile = jfc.getSelectedFile();
+			return (selectedFile.getAbsolutePath() + ".csv");
+		}
+		return null;
+	}
 }
