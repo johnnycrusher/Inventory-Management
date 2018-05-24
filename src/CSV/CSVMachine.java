@@ -72,6 +72,9 @@ public class CSVMachine {
                 	//Add the item into the initStock object
                 	initStock.add(item,0);
 	            }
+	        } catch (IOException e) { //Catch an invalid file exception
+	        	//Throw IOException to CSVFormatException
+	        	throw new CSVFormatException(e.toString());
 	        }
 		//Return the initial stock object
 		return initStock;
@@ -124,6 +127,9 @@ public class CSVMachine {
         			}
         		}
         	}
+        } catch (IOException e) { //Catch an invalid file exception
+        	//Throw IOException to CSVFormatException
+        	throw new CSVFormatException(e.toString());
         }
 	}
 	
@@ -160,6 +166,9 @@ public class CSVMachine {
 	                }
 	            	
 	            }
+			} catch (IOException e) { //Catch an invalid file exception
+	        	//Throw IOException to CSVFormatException
+	        	throw new CSVFormatException(e.toString());
 	        }
 		//Return the initial manifest HashMap
 		return manifest;
@@ -195,6 +204,9 @@ public class CSVMachine {
 	            	//Add to salesLog
 	            	salesLog.put(item_Name, quantity);
 	            }
+			} catch (IOException e) { //Catch an invalid file exception
+	        	//Throw IOException to CSVFormatException
+	        	throw new CSVFormatException(e.toString());
 	        }
 		//Return the initial manifest HashMap
 		return salesLog;
