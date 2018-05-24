@@ -55,6 +55,8 @@ public class Stock {
 			keyValue = entry.getKey().itemName;
 			if(keyValue.equals(item)) {
 				break;
+			} else {
+				throw new StockException("This item is not in the stock list");
 			}
 		}
 		if(key == null) {
