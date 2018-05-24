@@ -12,17 +12,15 @@ public class ApplicationEntryPoint {
 		// TODO Auto-generated method stub
 		try {
 			//WORKING METHOD CURRENTLY PRINTS RESULTS ALONG WITH CREATING THE INIT STOCK
-			CSVMachine.readItemProperties();
+			CSVMachine.readItemProperties("src/CSV/item_properties.csv");
 			
 			//Test
-			CSVMachine.readManifest();
+			CSVMachine.readManifest("src/CSV/manifest.csv");
 			
 			//Test
-			CSVMachine.readSalesLog();
-			
-			//CSVMachine.writeManifest(manifest)
-			CSVMachine.writeLineToManifest("Test");
+			CSVMachine.readSalesLog("src/CSV/sales_log_0.csv");
 
+			//69696969696969696969696969696
 		} catch (CSVFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

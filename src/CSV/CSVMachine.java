@@ -54,7 +54,6 @@ public class CSVMachine {
 	            while ((nextRecord = csvReader.readNext()) != null) {
 	                //Store the item properties in variables
 	            	item_Name = nextRecord[0];
-	            	System.out.println(item_Name);
 	            	cost = Integer.parseInt(nextRecord[1]);
 	            	price = Integer.parseInt(nextRecord[2]);
 	            	reorderPoint = Integer.parseInt(nextRecord[3]);
@@ -66,13 +65,6 @@ public class CSVMachine {
                     } else { 	//Else assign the item's temperature to 11 (meaning ordinary)
                     	temperature = ordinaryTemp;
                     }
-	            	
-	            	//TESTING PURPOSES
-	            	System.out.println(Double.toString(cost));
-                	System.out.println(Double.toString(price));
-                	System.out.println(Integer.toString(reorderPoint));
-                	System.out.println(Integer.toString(reorderAmount));
-                	System.out.println(Integer.toString(temperature));
                 	
                 	//Create an item with the property variables
                 	Item item = new Item(item_Name,cost,price,reorderPoint,reorderAmount,temperature);
@@ -163,11 +155,10 @@ public class CSVMachine {
 		            	item_Name = nextRecord[0];
 		            	quantity = Integer.parseInt(nextRecord[1]);
 		            	
-		            	//Print variables for testing purposes
-		            	System.out.println(item_Name);
-		            	System.out.println(Integer.toString(quantity));
+		            	//Add to manifest
+		            	manifest.put(item_Name, quantity);
 	                }
-	            	manifest.put(item_Name, quantity);
+	            	
 	            }
 	        }
 		//Return the initial manifest HashMap
@@ -200,10 +191,8 @@ public class CSVMachine {
                 	//Store the item properties in variables
 	            	item_Name = nextRecord[0];
 	            	quantity = Integer.parseInt(nextRecord[1]);
-	            	
-	            	//Print variables for testing purposes
-	            	System.out.println(item_Name);
-	            	System.out.println(Integer.toString(quantity));
+
+	            	//Add to salesLog
 	            	salesLog.put(item_Name, quantity);
 	            }
 	        }
