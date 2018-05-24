@@ -99,12 +99,12 @@ public class OrdinaryTruckTest {
 			if(type.equals("refridgetrated")) {
 				temperature = randomInteger(-20,10);
 			}else {
-				temperature = 40;
+				temperature = 11;
 			}
 			
 			int itemQty = randomInteger(0,150);
 			Item item = new Item(itemNames.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
-			stock.add(item, itemQty);
+			stock.addItem(item, itemQty);
 		}
 		return stock;
 	}
@@ -121,7 +121,7 @@ public class OrdinaryTruckTest {
 			double sellCost = randomDouble(0,100);
 			int reorderPoint = randomInteger(0, 500);
 			int reorderAmount = randomInteger(0, 100);
-			int  temperature = 20;
+			int  temperature = 11;
 			
 			if(index == 2) {
 				itemQuantity = maxQuanitityForItem;	
@@ -132,7 +132,7 @@ public class OrdinaryTruckTest {
 			
 			Item item = new Item(itemName.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 			
-			stock.add(item, itemQuantity);
+			stock.addItem(item, itemQuantity);
 		}
 		return stock;
 	}
@@ -163,10 +163,11 @@ public class OrdinaryTruckTest {
 	@Test
 	public void addStockTest() throws StockException, DeliveryException {
 		
+		Stock stock;
 		ordinaryTruck = new OrdinaryTruck();
-		
-		Stock stock = generateRandomStock("dry");
-		
+
+		stock = generateFixedStock(1);
+
 		ordinaryTruck.add(stock);
 	}
 	

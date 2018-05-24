@@ -15,7 +15,7 @@ public class Stock {
 	}
 	
 	
-	public void add(Item item, int quantity) throws StockException {
+	public void addItem(Item item, int quantity) throws StockException {
 		String itemName = item.itemName;
 		boolean itemExist = false;
 		for(Map.Entry<Item, Integer> entry : stock.entrySet()) {
@@ -47,10 +47,6 @@ public class Stock {
 		}
 	}
 	
-	public void addItemQuantity() {
-		
-	}
-	
 	public Item getItem(String item) throws StockException {
 		Item key = null;
 		String keyValue;
@@ -59,6 +55,8 @@ public class Stock {
 			keyValue = entry.getKey().itemName;
 			if(keyValue.equals(item)) {
 				break;
+			} else {
+				throw new StockException("This item is not in the stock list");
 			}
 		}
 		if(key == null) {
