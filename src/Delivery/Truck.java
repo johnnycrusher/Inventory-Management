@@ -11,44 +11,82 @@ import Exception.StockException;
 import Stock.Item;
 import Stock.Stock;
 
-/**
- * @author John
+/** An abstract class that for Truck Objects
+ * @author John Huynh
+ * @version 1.0
  *
  */
 public abstract class Truck {
 
-	/**
-	 * 
-	 */
+	//Cargo Stock item
 	Stock cargoStock;
+	
 	public Truck() {
 		// TODO Auto-generated constructor stub
 	}
+	/**Removes the Truck cargo Stock from the truck
+	 */
 	public void remove() {
+		//Set the cargo Stock to null
 		cargoStock = null;
 	}
 	
+	
+	/** A method that returns the number of items in a truck
+	 * @return - the number of cargo Items in the truck
+	 * @throws StockException 
+	 */
 	public int getQuantity() throws StockException {
 		return cargoStock.getNumberOfItems();
 	}
 	
+	
+	/**A method that gets the stock of the truck 
+	 * @return the cargo that truck is holding
+	 * @throws DeliveryException occurs when there is no cargo in the truck
+	 */
 	public Stock getStock() throws DeliveryException {
 		if(cargoStock == null) {
 			throw new DeliveryException("There is no cargo in the Truck");
 		}
 		return cargoStock;
 	}
+	
+	
+	/**Determines the cost of the cargo
+	 * @return returns the cost of the cargo
+	 * @throws StockException 
+	 */
 	public double getStockCost() throws StockException {
+		//get the HashMap collector from the cargo
 		HashMap<Item, Integer> stockList =  cargoStock.returnStockList();
+		//intialise cost as 0
 		double costOfCargo = 0;
-		for(Map.Entry<Item,Integer> item : stockList.entrySet()) {
-			int itemQTY = item.getValue();
-			costOfCargo += (item.getKey().getManufactureCost() * itemQTY);
+		//loop in the hashmap and grab the manufacture cost and multiply it with the quantity
+		for(Map.Entry<Item,Integer> currentItem : stockList.entrySet()) {
+			int itemQTY = currentItem.getValue();
+			costOfCargo += (currentItem.getKey().getManufactureCost() * itemQTY);
 		}
+		//return the cost of the cargo
 		return costOfCargo;
 	}
 	
+	/** Adds an stock object as the truck cargo
+	 * @param storeObj - the stock object that will be the truck cargo
+	 * @throws DeliveryException occurs item exceeds cargo limit or refrigeated item in ordinary truck
+	 * @throws StockException
+	 */
 	public abstract void add(Stock storeObj) throws DeliveryException, StockException;
+	
+	/** Gets the cost of the truck 
+	 * @return cost - the cost of the truck in dollars
+	 * @throws StockException
+	 */
 	public abstract double getCost() throws StockException;
+	
+	/** gets the set temperature of that specfic truck
+	 * @return truckTemperature - the temperature of the truck
+	 * @throws StockException
+	 */
 	public abstract int getTemp() throws StockException;
 }

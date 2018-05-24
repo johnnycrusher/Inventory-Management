@@ -13,17 +13,20 @@ import Exception.StockException;
 import Stock.Item;
 import Stock.Stock;
 
-/**
- * @author John
- *
+/**A sub class of the Truck Object to
+ * show the refrigerated truck functionality
+ * @author John Huynh
+ * @version 1.0
  */
 public class RefrigeratedTruck extends Truck {
-	
+	//set a truck temperature to 11 which will be overwrite
+	//when truck is created
 	private int truckTemperature = 11;
-	/**
-	 * 
-	 */
 
+
+	/**Intialises the refrigerated Truck object with
+	 * no cargo 
+	 */
 	public RefrigeratedTruck() {
 		cargoStock = null;
 	}
@@ -45,26 +48,40 @@ public class RefrigeratedTruck extends Truck {
 		double cost = (900 + (200 * Math.pow(0.7,exponent)));
 		return cost;
 	}
-	
+	@Override
 	public int getTemp() throws StockException {
 		return truckTemperature;
 	}
 
+	/**Private helper method used to find the lowest temperature
+	 * in the cargo stock
+	 * @return currentLowestTemp - the lowest temperate item in the cargo
+	 * @throws StockException
+	 */
 	private int findLowestTemp() throws StockException {
+		//gets hashmap of the cargo object
 		HashMap<Item,Integer> stockList = cargoStock.returnStockList();
+		//set an intalise lowest temp that will always be beaten
 		int currentLowestTemp = 11;
+		//set an item temp variable to store item temperature
 		int itemTemp = 0;
 		boolean refrigeratedItemExist = false;
-		for(Map.Entry<Item, Integer> entry : stockList.entrySet()) {
+		//loops and find the lowest item temperature
+		for(Map.Entry<Item, Integer> currentItem : stockList.entrySet()) {
 			try {
-				itemTemp = entry.getKey().getTemperature();
+				//find the item temperature
+				itemTemp = currentItem.getKey().getTemperature();
 			}catch(StockException e) {
+				//if not a refrigated item set the temp to 11 deg
 				itemTemp = 11;
 			}
+			//compare to check if new item is lower then current lowest temp
+			//if so then replace as new current lowest temp
 			if(itemTemp < currentLowestTemp) {
 				currentLowestTemp = itemTemp;
 			}
 		}
+		//returns the lowest temp
 		return currentLowestTemp;
 	}
 }
