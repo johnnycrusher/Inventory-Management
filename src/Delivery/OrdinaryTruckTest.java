@@ -96,7 +96,7 @@ public class OrdinaryTruckTest {
 			double sellCost = randomDouble(0,100);
 			int reorderPoint = randomInteger(0, 500);
 			int reorderAmount = randomInteger(0, 100);
-			if(type.equals("refridgetrated")) {
+			if(type.equals("refrigetrated")) {
 				temperature = randomInteger(-20,10);
 			}else {
 				temperature = 11;
@@ -246,13 +246,10 @@ public class OrdinaryTruckTest {
 	 */
 	@Test (expected = DeliveryException.class)
 	public void wrongItemTest() throws DeliveryException, StockException {
-		int randQuantity = randomInteger(1,10);
-		String itemName = randomItemName();
-		int temp = randomInteger(-40,10);
 		ordinaryTruck = new OrdinaryTruck();
 		
 		Stock stock = null;
-		stock = generateRandomStock("refridgetrated");
+		stock = generateRandomStock("refrigetrated");
 		
 		ordinaryTruck.add(stock);
 	}

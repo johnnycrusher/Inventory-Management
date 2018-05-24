@@ -101,7 +101,7 @@ public class RefrigeratedTruckTest {
 			if(type.equals("refridgetrated")) {
 				temperature = randomInteger(-20,10);
 			}else {
-				temperature = 40;
+				temperature = 11;
 			}
 			
 			int itemQty = randomInteger(0,500);
@@ -123,7 +123,7 @@ public class RefrigeratedTruckTest {
 			double sellCost = randomDouble(0,100);
 			int reorderPoint = randomInteger(0, 500);
 			int reorderAmount = randomInteger(0, 100);
-			int  temperature = 20;
+			int  temperature = 11;
 			
 			if(index == 2) {
 				itemQuantity = maxQuanitityForItem;	
@@ -142,7 +142,7 @@ public class RefrigeratedTruckTest {
 	private static Stock generateFixedTempStock(int temp) throws StockException {
 		int numOfItems = 3;
 		int counter = 5;
-		int temperature = 20;
+		int temperature = 11;
 		Stock stock = new Stock();
 		ArrayList<String> itemName = generateItemNames(numOfItems);
 		for(int index = 0; index < numOfItems; index++ ) {
