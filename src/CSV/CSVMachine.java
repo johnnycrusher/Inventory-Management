@@ -161,8 +161,14 @@ public class CSVMachine {
 		            	item_Name = nextRecord[0];
 		            	quantity = Integer.parseInt(nextRecord[1]);
 		            	
-		            	//Add to manifest
-		            	manifest.put(item_Name, quantity);
+		            	//Check if item already exist in manifest
+		            	if (manifest.containsKey(item_Name)) {
+		            		//If it does, add to quantity
+		            		manifest.put(item_Name, manifest.get(item_Name) + quantity);
+		            	} else {
+		            		//Add to manifest
+			            	manifest.put(item_Name, quantity);
+		            	}
 	                }
 	            	
 	            }

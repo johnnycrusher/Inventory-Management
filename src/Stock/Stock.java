@@ -15,7 +15,7 @@ public class Stock {
 	}
 	
 	
-	public void add(Item item, int quantity) throws StockException {
+	public void addItem(Item item, int quantity) throws StockException {
 		String itemName = item.itemName;
 		boolean itemExist = false;
 		for(Map.Entry<Item, Integer> entry : stock.entrySet()) {
@@ -45,10 +45,6 @@ public class Stock {
 		if (itemExist == false) {
 			throw new StockException("THis item doesn't exist in stock can't add quantity");
 		}
-	}
-	
-	public void addItemQuantity() {
-		
 	}
 	
 	public Item getItem(String item) throws StockException {
