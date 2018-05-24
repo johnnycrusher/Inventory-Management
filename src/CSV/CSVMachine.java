@@ -24,12 +24,14 @@ import Stock.Item;
 import Stock.Stock;
 
 public class CSVMachine {
-	
-	/**This method is used to read item_properties.csv and convert the contents into a stock object. This is primarily used for initialization
-	* @author Tom
-	* @param String filePath
-	* @returns initStock, a Stock object which contains all items in the item_properties.csv and the starting quantity of 0
-	*/
+	/**
+	 * This method is used to read item_properties.csv and convert the contents into a stock object. This is primarily used for initialization
+	 * @param filePath
+	 * @returns initStock
+	 * @throws CSVFormatException
+	 * @throws IOException
+	 * @throws StockException
+	 */
 	public static Stock readItemProperties(String filePath) throws CSVFormatException, IOException, StockException{
 		//set up item property variables
 		String item_Name;
@@ -52,6 +54,7 @@ public class CSVMachine {
 	            
 	            //While the reader has another record, read the record
 	            while ((nextRecord = csvReader.readNext()) != null) {
+	            	
 	                //Store the item properties in variables
 	            	item_Name = nextRecord[0];
 	            	cost = Integer.parseInt(nextRecord[1]);
@@ -65,23 +68,17 @@ public class CSVMachine {
                     } else { 	//Else assign the item's temperature to 11 (meaning ordinary)
                     	temperature = ordinaryTemp;
                     }
-	            	
-	            	//TESTING PURPOSES
-//	            	System.out.println(Double.toString(cost));
-//                	System.out.println(Double.toString(price));
-//                	System.out.println(Integer.toString(reorderPoint));
-//                	System.out.println(Integer.toString(reorderAmount));
-//                	System.out.println(Integer.toString(temperature));
-                	
+
                 	//Create an item with the property variables
                 	Item item = new Item(item_Name,cost,price,reorderPoint,reorderAmount,temperature);
 	            	
                 	//Add the item into the initStock object
-                	initStock.add(item,0);
+                	initStock.addItem(item,0);
 	            }
 	        } catch (IOException e) { //Catch an invalid file exception
 	        	//Throw IOException to CSVFormatException
-	        	throw new CSVFormatException(e.toString());
+	        	e.printStackTrace();
+	        	throw new CSVFormatException(e.getMessage());
 	        }
 		//Return the initial stock object
 		return initStock;
@@ -135,8 +132,9 @@ public class CSVMachine {
         		}
         	}
         } catch (IOException e) { //Catch an invalid file exception
+        	e.printStackTrace();
         	//Throw IOException to CSVFormatException
-        	throw new CSVFormatException(e.toString());
+        	throw new CSVFormatException(e.getMessage());
         }
 	}
 	
@@ -181,7 +179,8 @@ public class CSVMachine {
 	            }
 			} catch (IOException e) { //Catch an invalid file exception
 	        	//Throw IOException to CSVFormatException
-	        	throw new CSVFormatException(e.toString());
+				e.printStackTrace();
+	        	throw new CSVFormatException(e.getMessage());
 	        }
 		//Return the initial manifest HashMap
 		return manifest;
@@ -218,8 +217,9 @@ public class CSVMachine {
 	            	salesLog.put(item_Name, quantity);
 	            }
 			} catch (IOException e) { //Catch an invalid file exception
+				e.printStackTrace();
 	        	//Throw IOException to CSVFormatException
-	        	throw new CSVFormatException(e.toString());
+	        	throw new CSVFormatException(e.getMessage());
 	        }
 		//Return the initial manifest HashMap
 		return salesLog;
