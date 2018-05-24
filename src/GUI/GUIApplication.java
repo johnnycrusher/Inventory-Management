@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -256,9 +257,23 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 				manifest.createTrucks();
 				manifest.sortStock();
 				manifest.loadCargoToTrucks();
+				System.out.println(manifest.getManifestCost());
 				String filePath = initialiseSaveExplorer();
 				CSVMachine.writeManifest(manifest, filePath);
 			} catch (StockException | DeliveryException | CSVFormatException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		if(src == btnLoadMan) {
+			String fileLocation = initialiseFileExplorer();
+			try {
+				HashMap<String,Integer> importedManifest = CSVMachine.readManifest(fileLocation);
+				
+			} catch (CSVFormatException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
@@ -291,4 +306,6 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 		}
 		return null;
 	}
+
+	
 }

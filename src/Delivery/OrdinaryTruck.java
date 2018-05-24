@@ -82,7 +82,7 @@ public class OrdinaryTruck extends Truck {
 	@Override
 	public double getCost() throws StockException {
 		int cargoAmmount = getCargoAmount();
-		double cost = 750 + (0.25 * cargoAmmount);
+		double cost = (750 + (0.25 * cargoAmmount));
 		return cost;
 	}
 

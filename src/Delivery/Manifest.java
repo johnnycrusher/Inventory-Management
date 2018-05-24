@@ -385,13 +385,21 @@ public class Manifest {
 	public ArrayList<Truck> getAllTrucks() {
 		return truckList;
 	}
+	
 	public double getManifestCost() throws StockException {
-		int totalCost = 0;
+		double totalCost = 0;
+		double sumCargoCost = 0;
+		double sumTruckCost = 0;
 		for(int index = 0; index < truckList.size(); index++) {
 			double cargoCost = truckList.get(index).getStockCost();
+			sumCargoCost += cargoCost;
 			double truckCost = truckList.get(index).getCost();
-			totalCost += cargoCost + truckCost;
+			System.out.println("Cost Of T"+ index + ": " + truckCost);
+			sumTruckCost += truckCost;
 		}
+		System.out.println("Cargo Cost: " + sumCargoCost);
+		System.out.println("Sum Truck Cost: " + sumTruckCost);
+		totalCost = sumCargoCost + sumTruckCost;
 		return totalCost;
 	}
 }

@@ -68,11 +68,11 @@ public class CSVMachine {
                     }
 	            	
 	            	//TESTING PURPOSES
-	            	System.out.println(Double.toString(cost));
-                	System.out.println(Double.toString(price));
-                	System.out.println(Integer.toString(reorderPoint));
-                	System.out.println(Integer.toString(reorderAmount));
-                	System.out.println(Integer.toString(temperature));
+//	            	System.out.println(Double.toString(cost));
+//                	System.out.println(Double.toString(price));
+//                	System.out.println(Integer.toString(reorderPoint));
+//                	System.out.println(Integer.toString(reorderAmount));
+//                	System.out.println(Integer.toString(temperature));
                 	
                 	//Create an item with the property variables
                 	Item item = new Item(item_Name,cost,price,reorderPoint,reorderAmount,temperature);

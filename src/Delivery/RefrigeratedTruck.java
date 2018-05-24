@@ -19,6 +19,7 @@ import Stock.Stock;
  */
 public class RefrigeratedTruck extends Truck {
 	
+	private int truckTemperature = 11;
 	/**
 	 * 
 	 */
@@ -35,17 +36,18 @@ public class RefrigeratedTruck extends Truck {
 			throw new DeliveryException("Cannot add as stock due to exceeding 800 items");
 		}
 		cargoStock = stockObj;
+		truckTemperature = findLowestTemp();
 	}
 
 	@Override
 	public double getCost() throws StockException {
-		double exponent = findLowestTemp()/5;
-		double cost = 900 + (200 * Math.pow(0.7,exponent));
+		double exponent = truckTemperature/(double)5;
+		double cost = (900 + (200 * Math.pow(0.7,exponent)));
 		return cost;
 	}
 	
 	public int getTemp() throws StockException {
-		return findLowestTemp();
+		return truckTemperature;
 	}
 
 	private int findLowestTemp() throws StockException {
@@ -65,5 +67,4 @@ public class RefrigeratedTruck extends Truck {
 		}
 		return currentLowestTemp;
 	}
-
 }
