@@ -105,7 +105,7 @@ public class CSVMachine {
 								                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
 								                    CSVWriter.RFC4180_LINE_END);)
         {
-        	for (int index=0; index < manifest.getAllTrucks().size() - 1; index++) {
+        	for (int index=0; index < manifest.getAllTrucks().size(); index++) {
         		//Get the truck object
         		Truck truck = manifest.getAllTrucks().get(index);
         		
@@ -116,7 +116,7 @@ public class CSVMachine {
         		HashMap<Item, Integer> truckStockList = truckStock.returnStockList();
         		
         		//check if the truck is a refrigerated truck
-        		if (truck.getTemp() < 10) { 
+        		if (truck.getTemp() <= 10) { 
         			// the truck is refrigerated
         			csvWriter.writeNext(new String[] {">Refrigerated"});
         			//iterate through every item in the truck's cargo

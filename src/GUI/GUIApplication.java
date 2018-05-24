@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
@@ -35,6 +36,7 @@ import javax.swing.table.TableModel;
 
 import CSV.CSVMachine;
 import Delivery.Manifest;
+import Delivery.Truck;
 import Exception.CSVFormatException;
 import Exception.DeliveryException;
 import Exception.StockException;
@@ -257,6 +259,7 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 				manifest.createTrucks();
 				manifest.sortStock();
 				manifest.loadCargoToTrucks();
+				ArrayList<Truck> trucks = manifest.getAllTrucks();
 				System.out.println(manifest.getManifestCost());
 				String filePath = initialiseSaveExplorer();
 				CSVMachine.writeManifest(manifest, filePath);
