@@ -106,7 +106,7 @@ public class RefrigeratedTruckTest {
 			
 			int itemQty = randomInteger(0,500);
 			Item item = new Item(itemNames.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
-			stock.add(item, itemQty);
+			stock.addItem(item, itemQty);
 		}
 		return stock;
 	}
@@ -134,7 +134,7 @@ public class RefrigeratedTruckTest {
 			
 			Item item = new Item(itemName.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 			
-			stock.add(item, itemQuantity);
+			stock.addItem(item, itemQuantity);
 		}
 		return stock;
 	}
@@ -159,7 +159,7 @@ public class RefrigeratedTruckTest {
 			}
 			Item item = new Item(itemName.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 			
-			stock.add(item, itemQuantity);
+			stock.addItem(item, itemQuantity);
 		}
 		return stock;
 	}
@@ -268,7 +268,7 @@ public class RefrigeratedTruckTest {
 		refrigeratedTruck.add(stock);
 
 		exponent = currentTemp / 5;
-		expectedCost = (900 + (200 * Math.pow(0.7, currentTemp / 5)));
+		expectedCost = (900 + (200 * Math.pow(0.7, exponent)));
 		
 		assertEquals("Wrong Stock Returned", expectedCost, refrigeratedTruck.getCost(),0.1);	
 	}	
@@ -297,8 +297,6 @@ public class RefrigeratedTruckTest {
 	 */
 	@Test (expected = DeliveryException.class)
 	public void exceedCapacityTest() throws DeliveryException, StockException {
-		
-		String itemName = randomItemName();
 		refrigeratedTruck = new RefrigeratedTruck();
 		
 		Stock stock = generateFixedStock(900);

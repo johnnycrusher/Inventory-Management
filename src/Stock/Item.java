@@ -137,8 +137,7 @@ public class Item {
 		if (this.temperature <= 10) {
 			return this.temperature;
 		} else {
-			//else throw an exception stating the item is not cold
-			throw new StockException("This item is not a cold item");
+			return 11; //return the item's ordinary item temperature
 		}
 	}
 }

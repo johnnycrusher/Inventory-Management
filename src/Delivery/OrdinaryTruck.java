@@ -82,6 +82,7 @@ public class OrdinaryTruck extends Truck {
 		}
 		return refridgeratedItem;
 	}
+	
 	private int getCargoAmount() throws StockException {
 		
 		HashMap<Item, Integer> stockList =  cargoStock.returnStockList();
