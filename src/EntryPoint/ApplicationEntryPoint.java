@@ -1,11 +1,19 @@
 /**
  * A class to act as the application's entry point
+ * @author Tom
  */
 package EntryPoint;
 
-public class ApplicationEntryPoint {
+import Stock.Store;
 
+public class ApplicationEntryPoint {
+	
+	/**
+	 * The EntryPoint's Main method which initializes the store object
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		System.out.println("TEST");
+		//Create the instance of the Store()
+		Store.getInstance();
 	}
 }

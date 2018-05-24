@@ -29,7 +29,7 @@ public class Manifest {
 	Stock importedStock;
 	
 	/**
-	 * constructor method to create a Manifest object
+	 * Constructor method to create a Manifest object
 	 */
 	public Manifest() {
 		//Instantiate a manifest with new Stock and ArrayList<> objects
@@ -40,11 +40,12 @@ public class Manifest {
 		cargoStock = new ArrayList<Stock>();
 		importedStock = new Stock();
 	}
-			
+
 	/**
 	 * A method to add cargo to a manifest in the form of a stock object and sort cold from ordinary
+	 * @param stock
 	 * @throws StockException
-	 */	
+	 */
 	public void addItemStock(Stock stock) throws StockException{
 		//Keep record of the total stock
 		importedStock = stock;
@@ -197,8 +198,7 @@ public class Manifest {
 				}
 			}
 		}
-		
-		//For Ordinary Items
+
 		//For each required ordinary truck
 		int ordinaryTruckCount = determineOrdinaryTruckCount();
 		for( int index = 0; index < ordinaryTruckCount; index++) {
@@ -250,11 +250,9 @@ public class Manifest {
 						
 						break;
 					}
-				}
-				
+				}		
 			}
 		}
-		
 	}
 
 	/**
@@ -287,7 +285,7 @@ public class Manifest {
 	/**
 	 * A manifest initialisation method which creates the required trucks and adds them to the truckList
 	 * @throws StockException
-	*/
+	 */
 	public void createTrucks() throws StockException {		
 		for (int i=0; i < determineColdTruckCount(); i++) {
 			Truck truck = new RefrigeratedTruck();
@@ -389,6 +387,11 @@ public class Manifest {
 		return truckList;
 	}
 	
+	/**
+	 * A method to calculate the manifest's totalCost for capital adjustment purposes
+	 * @returns totalCost
+	 * @throws StockException
+	 */
 	public double getManifestCost() throws StockException {
 		double totalCost = 0;
 		double sumCargoCost = 0;

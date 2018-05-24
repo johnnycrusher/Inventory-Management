@@ -3,8 +3,6 @@ package Delivery;
  * 
  */
 
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,24 +49,24 @@ public class OrdinaryTruck extends Truck {
 	private boolean findRefrigeratedItems(Stock stock) throws DeliveryException, StockException {
 		HashMap<Item, Integer> stockItems = stock.returnStockList();
 		boolean refridgeratedItem = false;
-		int temp = 40;
 		int tempArray[] = new int[stock.returnStockList().size()];
 		int index = 0;
 		for(Map.Entry<Item,Integer> entry : stockItems.entrySet()) {
 			try {
 				tempArray[index] = entry.getKey().getTemperature();
 			}catch(StockException e) {
-				tempArray[index] = 11;
+				throw new DeliveryException("Error accessing truck stock");
 			}
 			index++;
 		}
 		for(int i = 0; i < tempArray.length; i++) {
-			if(tempArray[i] < 10) {
-				refridgeratedItem = false;
+			if(tempArray[i] <= 10) {
+				refridgeratedItem = true;
 			}
 		}
 		return refridgeratedItem;
 	}
+	
 	private int getCargoAmount() throws StockException {
 		
 		HashMap<Item, Integer> stockList =  cargoStock.returnStockList();
