@@ -192,7 +192,7 @@ public class ItemTest {
 		
 		item = new Item(itemName, manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
 		
-		assertEquals("reorder ammount incorrect", reorderPoint, item.getReorderAmount());
+		assertEquals("reorder ammount incorrect", reorderAmount, item.getReorderAmount());
 	}
 	
 	/* Test 7: Get the Temperature
