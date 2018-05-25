@@ -26,7 +26,7 @@ public class ManifestTest {
 	//Generate an array of dry food items
 	private static String[] itemNames = new String[] {
 			"rice",
-			"breans",
+			"beans",
 			"pasta",
 			"biscuits",
 			"nuts",
@@ -222,7 +222,7 @@ public class ManifestTest {
 		manifest = new Manifest();
 	}
 	
-	/* Test 2: Adding cargo (THIS TEST DOESN'T WORK AS MANIFEST HAS MULTIPLE STOCK OBJECTS
+	/* Test 2: Adding cargo
 	 */
 	@Test 
 	public void testAddingStockStock() throws DeliveryException, StockException{
@@ -234,10 +234,12 @@ public class ManifestTest {
 	}
 	
 	/* Test 3: get Cargo Item that needs to be ordered
+	 * Works but there seems to be an issue with hashmap being exactly equal
+	 * most likely cause of doubles
 	 */
 	@Test
-	public void testGetCargo() throws StockException {
-		Stock importedStock = generateReorderStock();
+	public void testGetCargo() throws StockException, DeliveryException {
+		Stock importedStock = generateRandomStock();
 		Stock cargoStock = new Stock();
 		
 		for (Map.Entry<Item,Integer> entry : importedStock.returnStockList().entrySet()) {
@@ -267,29 +269,46 @@ public class ManifestTest {
 	/* Test 5: Test if all sum of all cargo is correct
 	 */
 	@Test
-	public void testSumCostOfCargo() throws DeliveryException{
+	public void testSumCostOfCargo() throws DeliveryException, StockException{
 		manifest = new Manifest();
-		Stock cargoList = generateRandomStock();
-		HashMap<Item,Integer> cargo = cargoList.returnStockList();
+		Stock importedStock = generateRandomStock();
+		HashMap<Item,Integer> cargo = importedStock.returnStockList();
 		double totalCost = 0;
 		
-		for(Map.Entry<Item,Integer> entry : cargo.entrySet()) {
-			double cost = entry.getKey().getManufactureCost();
-			totalCost += cost;
+		Stock cargoStock = new Stock();
+		
+		for (Map.Entry<Item,Integer> entry : cargo.entrySet()) {
+			Item currentItem = entry.getKey();
+			int  itemQuantity = entry.getValue();
+			int itemReorderPoint = entry.getKey().getReorderPoint();
+			int itemReorderAmmount = entry.getKey().getReorderAmount();
+			if(itemQuantity <= itemReorderPoint) {
+				cargoStock.addItem(currentItem, itemReorderAmmount);
+			}
 		}
-		manifest.addItemStock(cargoList);
-		double cargoCost = manifest.getCargoStock();
+		
+		HashMap<Item,Integer> cargoHash = cargoStock.returnStockList();
+		
+		for(Map.Entry<Item,Integer> entry : cargoHash.entrySet()) {
+			double cost = entry.getKey().getManufactureCost();
+			int quantity = entry.getValue();
+			totalCost += (cost * quantity);
+		}
+		manifest.addItemStock(importedStock);
+		double cargoCost = manifest.getCargoCost();
 		
 		assertEquals("Cargo Cost was not the same value",totalCost, cargoCost,0.1);
 	}
 	/*Test 6: Test sum of all cargo when there is no cargo
 	 */
 	@Test (expected = DeliveryException.class)
-	public void testCargoSumWhenNoCargo() throws DeliveryException{
+	public void testCargoSumWhenNoCargo() throws DeliveryException, StockException{
 		manifest = new Manifest();
-		int cargoCost = manifest.getCargoStock();
+		double cargoCost = manifest.getCargoCost();
 	}
 	/*Test 7: Test cargo optimisiation
+	 * Works but Stock objects do not equal mostlikely due to all doubles not being
+	 * the same
 	 */
 	@Test
 	public void testCargoOptimisation() throws StockException {
@@ -317,36 +336,36 @@ public class ManifestTest {
 	
 	/* Test 9: Test getting trucks with optimised cargo loaded into it
 	 */
-//	@Test
-//	public void testGetTrucksWithOptimisedCargo() throws StockException {
-//		Stock importedStock = generateStaticImportedStock();
-//		ArrayList<Stock> cargoStockList = generateStaticOptimisedStock();
-//		
-//		
-//		ArrayList<Truck> arrayOfTrucks = new ArrayList<Truck>();
-//		Truck refridgeratedTruckOne = new RefrigeratedTruck();
-//		Truck refridgeratedTruckTwo = new RefrigeratedTruck();
-//		Truck ordinaryTruckOne = new OrdinaryTruck();
-//		
-//		refridgeratedTruckOne.add(cargoStockList.get(0));
-//		refridgeratedTruckTwo.add(cargoStockList.get(1));
-//		ordinaryTruckOne.add(cargoStockList.get(2));
-//		
-//		arrayOfTrucks.add(refridgeratedTruckOne);
-//		arrayOfTrucks.add(refridgeratedTruckTwo);
-//		arrayOfTrucks.add(ordinaryTruckOne);
-//		
-//		Manifest manifest = new Manifest();
-//		
-//		manifest.addItemStock(importedStock);
-//		manifest.sortStock();
-//		manifest.createTrucks();
-//		manifest.loadCargoToTrucks();
-//		ArrayList<Truck> returnedTruckArray = manifest.getAllTrucks();
-//		
-//		assertEquals("Array of Truck Objects returned is not the same",arrayOfTrucks,returnedTruckArray);
-//		
-//	}
+	@Test
+	public void testGetTrucksWithOptimisedCargo() throws StockException, DeliveryException {
+		Stock importedStock = generateStaticImportedStock();
+		ArrayList<Stock> cargoStockList = generateStaticOptimisedStock();
+		
+		
+		ArrayList<Truck> arrayOfTrucks = new ArrayList<Truck>();
+		Truck refridgeratedTruckOne = new RefrigeratedTruck();
+		Truck refridgeratedTruckTwo = new RefrigeratedTruck();
+		Truck ordinaryTruckOne = new OrdinaryTruck();
+		
+		refridgeratedTruckOne.add(cargoStockList.get(0));
+		refridgeratedTruckTwo.add(cargoStockList.get(1));
+		ordinaryTruckOne.add(cargoStockList.get(2));
+		
+		arrayOfTrucks.add(refridgeratedTruckOne);
+		arrayOfTrucks.add(refridgeratedTruckTwo);
+		arrayOfTrucks.add(ordinaryTruckOne);
+		
+		Manifest manifest = new Manifest();
+		
+		manifest.addItemStock(importedStock);
+		manifest.sortStock();
+		manifest.createTrucks();
+		manifest.loadCargoToTrucks();
+		ArrayList<Truck> returnedTruckArray = manifest.getAllTrucks();
+		
+		assertEquals("Array of Truck Objects returned is not the same",arrayOfTrucks,returnedTruckArray);
+		
+	}
 	/*Test 10: Get Total Manifest Cost
 	 */
 	@Test

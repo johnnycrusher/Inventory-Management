@@ -371,7 +371,7 @@ public class Manifest {
 	 * Remove method to remove truck from truckList at given index
 	 * @param Integer index
 	 */
-	public void removeTruck(int index) {
+	private void removeTruck(int index) {
 		this.truckList.remove(index);
 	}
 
@@ -380,7 +380,7 @@ public class Manifest {
 	 * @returns Truck
 	 * @param Integer index
 	 */
-	public Truck getTruck(int index) {
+	private Truck getTruck(int index) {
 		return this.truckList.get(index);
 	}
 	
@@ -392,12 +392,31 @@ public class Manifest {
 		return truckList;
 	}
 	
+	
+	public double getCargoCost() throws DeliveryException, StockException {
+		if(totalStock.getNumberOfItems() == 0) {
+			throw new DeliveryException("Cannot Get Cost of Cargo as there is no cargo");
+		}
+		HashMap<Item,Integer> totalStockHash = totalStock.returnStockList();
+		double totalCost = 0;
+		for(Map.Entry<Item,Integer> entry : totalStockHash.entrySet()) {
+			double cost = entry.getKey().getManufactureCost();
+			int quantity = entry.getValue();
+			totalCost += (cost * quantity);
+		}
+		return totalCost;
+	}
+	
 	/**
 	 * A method to calculate the manifest's totalCost for capital adjustment purposes
 	 * @returns totalCost
 	 * @throws StockException
+	 * @throws DeliveryException 
 	 */
-	public double getManifestCost() throws StockException {
+	public double getManifestCost() throws StockException, DeliveryException {
+		if(truckList.size() == 0 ) {
+			throw new DeliveryException("Cannot get manifest cost when there are no Stock");
+		}
 		double totalCost = 0;
 		double sumCargoCost = 0;
 		double sumTruckCost = 0;

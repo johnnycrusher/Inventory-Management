@@ -158,15 +158,15 @@ public class StoreTest {
 	public void testSubtractingCapital() throws StockException {
 		Store store = Store.getInstance();
 		
-		int startingCaptial = store.getCapital();
+		double startingCaptial = store.getCapital();
 		
-		int substratedAmount = randomInteger(1000, 10000);
-		int resultingCapital = startingCaptial - substratedAmount;
+		double substratedAmount = randomInteger(1000, 10000);
+		double resultingCapital = startingCaptial - substratedAmount;
 		
 		
 		
 		store.subtractCapital(substratedAmount);
-		int storeCurrentCapital = store.getCapital();
+		double storeCurrentCapital = store.getCapital();
 		
 		assertEquals("Subtactracted Capital is not the same", resultingCapital, storeCurrentCapital);
 	}
@@ -176,15 +176,15 @@ public class StoreTest {
 	public void testProfitCapital() throws StockException {
 		Store store = Store.getInstance();
 		
-		int startingCapital = store.getCapital();
-		int addedAmount = randomInteger(1000,10000);
-		int resultingCapital = startingCapital + addedAmount;
+		double startingCapital = store.getCapital();
+		double addedAmount = randomInteger(1000,10000);
+		double resultingCapital = startingCapital + addedAmount;
 		
 		
 		store.addCapital(addedAmount);
-		int storeCurrentCapital = store.getCapital();
+		double storeCurrentCapital = store.getCapital();
 		
-		assertEquals("added Capital is not the same", resultingCapital, storeCurrentCapital, 0.1);
+		assertEquals("added Capital is not the same", resultingCapital, storeCurrentCapital, 0.01);
 	}
 	/*Test 5: test setting store name
 	 */

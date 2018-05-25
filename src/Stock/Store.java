@@ -4,6 +4,11 @@
  */
 package Stock;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.Map;
+
 import Exception.StockException;
 
 public class Store {
@@ -16,7 +21,8 @@ public class Store {
 	Stock stockInventory;
 	
 	//Singleton Store creation
-	private static Store store = new Store();
+	private static Store store;
+
 
    /**
     * A private constructor method which prevents any other
@@ -33,6 +39,9 @@ public class Store {
     * @return store
     */
    public static Store getInstance() {
+	   if(store == null) {
+		   store = new Store();
+	   }
       return store;
    }
 	
@@ -41,7 +50,7 @@ public class Store {
 	 * @param inventory
 	 * @throws StockException
 	 */
-	protected void setInventory(Stock stock) throws StockException{
+	public void setInventory(Stock stock) throws StockException{
 		this.stockInventory = stock;
 	}
 	
@@ -51,17 +60,16 @@ public class Store {
 	 * @param inventory
 	 * @throws StockException
 	 */
-	protected void addInventory(Stock inventory) throws StockException{
-		//For every item in the stock object
-		for (Item key : inventory.returnStockList().keySet()) {
-			//Check if item is already in the store's stock
-		    if (this.stockInventory.returnStockList().containsKey(key)) {
-		    	//If it is, add to the store's item quantity
-		        this.stockInventory.addQuantity(key.getItemName(), this.stockInventory.returnStockList().get(key) + inventory.returnStockList().get(key));
-		    } else {
-		    	//If not, add the item
-		    	this.stockInventory.addItem(key, inventory.returnStockList().get(key));
-		    }
+	public void addInventory(Stock inventory) throws StockException{
+		HashMap<Item,Integer> inventoryHash = inventory.returnStockList();
+		for (Map.Entry<Item, Integer> items: inventoryHash.entrySet()) {
+			stockInventory.addQuantity(items.getKey().getItemName(), items.getValue());
+		}
+	}
+	
+	public void removeInventroy(HashMap<String,Integer> salesInventory) throws StockException{
+		for(Map.Entry<String, Integer> items: salesInventory.entrySet()) {
+			stockInventory.remove(items.getKey(), items.getValue());
 		}
 	}
 	
@@ -70,7 +78,7 @@ public class Store {
 	 * @return stockInventory
 	 * @throws StockException
 	 */
-	protected Stock getInventory() throws StockException{
+	public Stock getInventory() throws StockException{
 		if (this.stockInventory.getNumberOfItems() == 0) {
 			throw new StockException("No inventory");
 		} else {
@@ -82,8 +90,8 @@ public class Store {
 	 * A getter method to return the capital
 	 * @return capital
 	 */
-	protected int getCapital() {
-		return this.capital;
+	public double getCapital() {
+		return roundTo2DecimcalPlace(capital);
 	}
 	
 	/**
@@ -91,7 +99,7 @@ public class Store {
 	 * @param profit
 	 * @throws StockException
 	 */
-	protected void addCapital(double profit) throws StockException{
+	public void addCapital(double profit) throws StockException{
 		if (profit <= 0) {
 			throw new StockException("invaid profit input!");
 		} else {
@@ -106,7 +114,7 @@ public class Store {
 	 * @param cost
 	 * @throws StockException
 	 */
-	protected void subtractCapital(int cost) throws StockException{
+	public void subtractCapital(double cost) throws StockException{
 		if (cost <= 0) {
 			//If invalid input, throw exception
 			throw new StockException("invaid cost input!");
@@ -126,7 +134,7 @@ public class Store {
 	 * @param storeName
 	 * @throws StockException
 	 */
-	protected void setName(String storeName) throws StockException {
+	public void setName(String storeName) throws StockException {
 		if (storeName != "") {
 			this.storeName = storeName;			
 		} else {
@@ -139,11 +147,17 @@ public class Store {
 	 * @return storeName
 	 * @throws StockException
 	 */
-	protected String getName() throws StockException {
+	public String getName() throws StockException {
 		if (this.storeName != null) {
 			return this.storeName;
 		} else {
 			throw new StockException("storeName NULL!");
 		}
+	}
+	
+	public static double roundTo2DecimcalPlace(double value) {
+	    BigDecimal currencyValue = new BigDecimal(value);
+	    currencyValue = currencyValue.setScale(2, RoundingMode.HALF_UP);
+	    return currencyValue.doubleValue();
 	}
 }

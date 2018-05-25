@@ -40,6 +40,7 @@ import Exception.DeliveryException;
 import Exception.StockException;
 import Stock.Item;
 import Stock.Stock;
+import Stock.Store;
 
 /**
  * @author John Huynh
@@ -66,7 +67,7 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 	private Manifest manifest;
 	private Stock inventory;
 	private Stock intialInventory;
-	private double capital = 100000;
+	private Store myStore = Store.getInstance();
 	
 	/**
 	 * @param arg0
@@ -77,7 +78,7 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 		// TODO Auto-generated constructor stub
 	}
 	
-	private void createGUI() {
+	private void createGUI() throws StockException {
 		setSize(WIDTH, HEIGHT);
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setLayout(new BorderLayout());
@@ -108,6 +109,16 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 	    this.getContentPane().add(pnlTop,BorderLayout.NORTH);
 	    this.getContentPane().add(pnlMiddle, BorderLayout.CENTER);
 	    this.getContentPane().add(pnlBtn,BorderLayout.SOUTH);
+	    
+	    String storeName = JOptionPane.showInputDialog(pnlDisplay,"Whats the Store Name?");
+	    myStore.setName(storeName);
+	    
+	    storeNameLabel.setText(myStore.getName());
+	    
+	    double capital = myStore.getCapital();
+	    String capitalValue = String.format("%.02f", capital);
+		capitalValueLabel.setText("$" + capitalValue);
+	    
 	    repaint(); 
 	    this.setVisible(true);
 	}
@@ -215,7 +226,12 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 	 */
 	@Override
 	public void run() {
-		createGUI(); 
+		try {
+			createGUI();
+		} catch (StockException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 	}
 
 	/**
@@ -239,14 +255,17 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 			try {
 				HashMap<String,Integer> salesLog = CSVMachine.readSalesLog(fileLocation);
 				double cost = 0;
+				myStore.removeInventroy(salesLog);
 				for(Map.Entry<String, Integer> items: salesLog.entrySet()) {
-					inventory.remove(items.getKey(), items.getValue());
 					double sellCost = inventory.getItem(items.getKey()).getSellCost();
 					double numberOfSold = items.getValue();
 					cost += (sellCost * numberOfSold);
 				}
-				capital += cost;
-				System.out.println("Current Capital: " + capital);
+				
+				myStore.addCapital(cost);
+				double capital = myStore.getCapital();
+				String capitalValue = String.format("%.02f", capital);
+				capitalValueLabel.setText("$" + capitalValue);
 				updateTable();
 				
 			} catch (CSVFormatException | IOException e1) {
@@ -262,6 +281,7 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 			try {
 				inventory = CSVMachine.readItemProperties(fileLocation);
 				intialInventory = inventory;
+				myStore.setInventory(inventory);
 				updateTable();
 			} catch (CSVFormatException | IOException  e1) {
 				// TODO Auto-generated catch block
@@ -295,17 +315,22 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 			try {
 				importedManifest = CSVMachine.readManifestV2(fileLocation,intialInventory);
 				Stock importedStock = importedManifest.getCargoStock();
-				HashMap<Item,Integer> importedStockHash = importedStock.returnStockList();
-				for(Map.Entry<Item, Integer> item : importedStockHash.entrySet()) {
-					inventory.addQuantity(item.getKey().getItemName(), item.getValue());
-				}
-				capital -= importedManifest.getManifestCost();
-				System.out.println("Current Capital: " + capital);
+				myStore.addInventory(importedStock);
+//				HashMap<Item,Integer> importedStockHash = importedStock.returnStockList();
+//				for(Map.Entry<Item, Integer> item : importedStockHash.entrySet()) {
+//					inventory.addQuantity(item.getKey().getItemName(), item.getValue());
+//				}
+				inventory = myStore.getInventory();
+				myStore.subtractCapital(importedManifest.getManifestCost());
+				double capital = myStore.getCapital();
+				String capitalValue = String.format("%.02f", capital);
+				capitalValueLabel.setText("$" + capitalValue);
 				updateTable();
 				
 			} catch (CSVFormatException | IOException e1) {
 				JOptionPane.showMessageDialog(this, "CSV Error :" + e1.getMessage(),"A CSV Error",JOptionPane.ERROR_MESSAGE);
 			} catch (StockException e1) {
+				e1.getStackTrace();
 				JOptionPane.showMessageDialog(this,"Stock Error :" + e1.getMessage(),"A Stock Error",JOptionPane.ERROR_MESSAGE);
 			} catch (DeliveryException e1) {
 				// TODO Auto-generated catch block
