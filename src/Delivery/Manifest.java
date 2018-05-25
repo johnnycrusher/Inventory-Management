@@ -54,6 +54,11 @@ public class Manifest {
 		
 	}
 	
+	
+	public void importTotalStock(Stock importedTotalStock) {
+		totalStock = importedTotalStock;
+	}
+	
 	/**
 	 * A method which determins if an item needs to be reordered and added to the manifest's totalStock
 	 * @throws StockException
@@ -360,6 +365,10 @@ public class Manifest {
 	 */
 	public void addTruck(Truck truck) {
 		this.truckList.add(truck);
+	}
+	
+	public void addCargoDirectlyToTruck(Stock stock, int index) throws DeliveryException, StockException {
+		truckList.get(index).add(stock);
 	}
 
 	/**

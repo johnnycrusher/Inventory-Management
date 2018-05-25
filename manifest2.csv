@@ -1,42 +1,31 @@
 >Refrigerated
-frozen meat,550
 ice cream,250
+frozen meat,550
 >Refrigerated
 frozen meat,25
-ice,325
-fish,125
+fish,450
 frozen vegetable mix,325
 >Refrigerated
-milk,425
-beef,25
-fish,350
->Refrigerated
-beef,525
-yoghurt,275
->Refrigerated
-chicken,300
-yoghurt,50
 cheese,450
+beef,325
+fish,25
 >Refrigerated
-chicken,125
-celery,350
-grapes,50
-asparagus,275
+beef,225
+chicken,425
+asparagus,150
 >Refrigerated
-lettuce,350
-mushrooms,275
-grapes,175
->Ordinary
-chips,200
-chocolate,150
-mushrooms,50
 tomatoes,400
+asparagus,125
+mushrooms,50
+grapes,225
+>Refrigerated
+biscuits,175
+mushrooms,275
+lettuce,350
 >Ordinary
-chocolate,225
+biscuits,400
 rice,300
-beans,475
+beans,300
 >Ordinary
-beans,50
-pasta,250
+beans,225
 bread,200
-biscuits,500

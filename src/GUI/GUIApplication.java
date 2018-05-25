@@ -15,7 +15,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,20 +26,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.JOptionPane;
 
 import CSV.CSVMachine;
 import Delivery.Manifest;
-import Delivery.Truck;
 import Exception.CSVFormatException;
 import Exception.DeliveryException;
 import Exception.StockException;
+import Stock.Item;
 import Stock.Stock;
 
 /**
@@ -67,6 +65,7 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 	private Object[] columnNames = {"Item Name", "Manifacturing Cost($)","Sell Price ($)","Reorder Point","Reorder Ammount", "Temperature (C)","Quantity"};
 	private Manifest manifest;
 	private Stock inventory;
+	private Stock intialInventory;
 	private double capital = 100000;
 	
 	/**
@@ -255,17 +254,18 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 				e1.printStackTrace();
 			} catch (StockException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(this, "An Error Message","Stock Error :" + e1.getMessage(),JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		if(src == btnUpdateItems) {
 			String fileLocation = initialiseFileExplorer();
 			try {
 				inventory = CSVMachine.readItemProperties(fileLocation);
+				intialInventory = inventory;
 				updateTable();
 			} catch (CSVFormatException | IOException | StockException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(this, "An Error Message","CSV Error :" + e1.getMessage(),JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		if(src == btnExtractMan) {
@@ -277,19 +277,28 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 				manifest.loadCargoToTrucks();
 				String filePath = initialiseSaveExplorer();
 				CSVMachine.writeManifest(manifest, filePath);
-			} catch (StockException | DeliveryException | CSVFormatException | IOException e1) {
-				// TODO Auto-generated catch block
+			} catch (CSVFormatException | IOException e1) {
+				JOptionPane.showMessageDialog(this, "An Error Message","CSV Error :" + e1.getMessage(),JOptionPane.ERROR_MESSAGE);
 				e1.printStackTrace();
+			} catch (StockException e1) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(this, "An Error Message","Stock Error :" + e1.getMessage(),JOptionPane.ERROR_MESSAGE);
+			} catch (DeliveryException e1) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(this, "An Error Message","Delivery Error :" + e1.getMessage(),JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		if(src == btnLoadMan) {
 			String fileLocation = initialiseFileExplorer();
+			Manifest importedManifest = new Manifest();
 			try {
-				HashMap<String,Integer> importedManifest = CSVMachine.readManifest(fileLocation);
-				for(Map.Entry<String, Integer> item : importedManifest.entrySet()) {
-					inventory.addQuantity(item.getKey(), item.getValue());
+				importedManifest = CSVMachine.readManifestV2(fileLocation,intialInventory);
+				Stock importedStock = importedManifest.getCargoStock();
+				HashMap<Item,Integer> importedStockHash = importedStock.returnStockList();
+				for(Map.Entry<Item, Integer> item : importedStockHash.entrySet()) {
+					inventory.addQuantity(item.getKey().getItemName(), item.getValue());
 				}
-				capital -= manifest.getManifestCost();
+				capital -= importedManifest.getManifestCost();
 				System.out.println("Current Capital: " + capital);
 				updateTable();
 				
@@ -300,6 +309,9 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (StockException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (DeliveryException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}

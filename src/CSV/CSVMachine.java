@@ -16,6 +16,8 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
 import Delivery.Manifest;
+import Delivery.OrdinaryTruck;
+import Delivery.RefrigeratedTruck;
 import Delivery.Truck;
 import Exception.CSVFormatException;
 import Exception.DeliveryException;
@@ -139,6 +141,7 @@ public class CSVMachine {
         }
 	}
 	
+	
 	/**
 	 * A method which returns a hashmap of all item names and their variables which exist within the manifest.csv
 	 * @param String filePath
@@ -184,6 +187,71 @@ public class CSVMachine {
 	        	throw new CSVFormatException(e.getMessage());
 	        }
 		//Return the initial manifest HashMap
+		return manifest;
+	}
+	
+	public static Manifest readManifestV2(String filePath, Stock inventory) throws CSVFormatException, IOException, DeliveryException, StockException{
+		//try hook the CSV reader
+		Reader reader = Files.newBufferedReader(Paths.get("./Manifest.csv"));
+        CSVReader csvReader = new CSVReader(reader);
+		List<String[]> records = csvReader.readAll();
+		Manifest manifest = new Manifest();
+		boolean newTruck = false;
+		Stock currentStock = new Stock();
+		Stock totalStock = new Stock();
+		int TruckCounter = 0;
+		boolean firstTruck = true;
+		
+		for(int index = 0; index < records.size(); index++) {
+			if(records.get(index).length == 1) {
+				String TruckObject = records.get(index)[0];
+				if(TruckObject.equals(">Refrigerated")) {
+					newTruck = true;
+					Truck refrigeratedTruck = new RefrigeratedTruck();
+					manifest.addTruck(refrigeratedTruck);
+					TruckCounter++;
+				}else {
+					Truck OrdinaryTruck = new OrdinaryTruck();
+					manifest.addTruck(OrdinaryTruck);
+					newTruck = true;
+					TruckCounter++;
+				}
+			}else if(records.get(index).length == 2) {
+				if(newTruck) {
+					if(!firstTruck) {
+						manifest.addCargoDirectlyToTruck(currentStock, TruckCounter - 2);
+						currentStock = new Stock();
+					}else {
+						firstTruck = false;
+						currentStock = new Stock();
+					}
+				}
+				if(!(index == records.size()-1)) {
+					newTruck = false;
+					String itemName = records.get(index)[0];
+					int itemQty = Integer.parseInt(records.get(index)[1]);
+					Item itemObject = inventory.getItem(itemName);
+					currentStock.addItem(itemObject, itemQty);
+					try {
+						totalStock.addItem(itemObject, itemQty);
+					}catch(StockException error) {
+						totalStock.addQuantity(itemName, itemQty);
+					}
+				}else {
+					String itemName = records.get(index)[0];
+					int itemQty = Integer.parseInt(records.get(index)[1]);
+					Item itemObject = inventory.getItem(itemName);
+					currentStock.addItem(itemObject, itemQty);
+					try {
+						totalStock.addItem(itemObject, itemQty);
+					}catch(StockException error) {
+						totalStock.addQuantity(itemName, itemQty);
+					}
+					manifest.addCargoDirectlyToTruck(currentStock, TruckCounter - 1);
+					manifest.importTotalStock(totalStock);
+				}
+			}
+		}	
 		return manifest;
 	}
 	
