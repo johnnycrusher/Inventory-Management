@@ -108,7 +108,7 @@ public class ManifestTest {
 			}
 			int itemQty = randomInteger(0,500);
 			Item item = new Item(itemNames.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
-			stock.add(item, itemQty);
+			stock.addItem(item, itemQty);
 		}
 		return stock;
 	}
@@ -130,7 +130,7 @@ public class ManifestTest {
 			}
 			int itemQty = randomInteger(0,249);
 			Item item = new Item(itemNames.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
-			stock.add(item, itemQty);
+			stock.addItem(item, itemQty);
 		}
 		return stock;
 	}
@@ -144,12 +144,12 @@ public class ManifestTest {
 		Item ice = new Item("ice",2,5,225,325,-10);
 		Item frozenmeat = new Item("frozen meat",10,14,450,575,-14);
 		
-		importedStock.add(rice, 100);
-		importedStock.add(beans, 200);
-		importedStock.add(pasta, 100);
-		importedStock.add(icecream, 100);
-		importedStock.add(ice, 100);
-		importedStock.add(frozenmeat, 100);
+		importedStock.addItem(rice, 100);
+		importedStock.addItem(beans, 200);
+		importedStock.addItem(pasta, 100);
+		importedStock.addItem(icecream, 100);
+		importedStock.addItem(ice, 100);
+		importedStock.addItem(frozenmeat, 100);
 		return importedStock;
 	}
 	
@@ -162,25 +162,25 @@ public class ManifestTest {
 		Item ice = new Item("ice",2,5,225,325,-10);
 		Item frozenmeat = new Item("frozen meat",10,14,450,575,-14);
 		
-		importedStock.add(rice, 100);
-		importedStock.add(beans, 200);
-		importedStock.add(pasta, 100);
-		importedStock.add(icecream, 100);
-		importedStock.add(ice, 100);
-		importedStock.add(frozenmeat, 100);
+		importedStock.addItem(rice, 100);
+		importedStock.addItem(beans, 200);
+		importedStock.addItem(pasta, 100);
+		importedStock.addItem(icecream, 100);
+		importedStock.addItem(ice, 100);
+		importedStock.addItem(frozenmeat, 100);
 		
 		ArrayList<Stock> cargoStockList = new ArrayList<Stock>();
 		Stock T1Stock = new Stock();
-		T1Stock.add(icecream, 250);
-		T1Stock.add(frozenmeat, 550);
+		T1Stock.addItem(icecream, 250);
+		T1Stock.addItem(frozenmeat, 550);
 		Stock T2Stock = new Stock();
-		T2Stock.add(frozenmeat, 25);
-		T2Stock.add(ice, 325);
-		T2Stock.add(pasta, 250);
-		T2Stock.add(beans, 200);
+		T2Stock.addItem(frozenmeat, 25);
+		T2Stock.addItem(ice, 325);
+		T2Stock.addItem(pasta, 250);
+		T2Stock.addItem(beans, 200);
 		Stock T3Stock = new Stock();
-		T3Stock.add(beans, 325);
-		T3Stock.add(rice, 300);
+		T3Stock.addItem(beans, 325);
+		T3Stock.addItem(rice, 300);
 		
 		cargoStockList.add(T1Stock);
 		cargoStockList.add(T2Stock);
@@ -246,7 +246,7 @@ public class ManifestTest {
 			int itemReorderPoint = entry.getKey().getReorderPoint();
 			int itemReorderAmmount = entry.getKey().getReorderAmount();
 			if(itemQuantity <= itemReorderPoint) {
-				cargoStock.add(currentItem, itemReorderAmmount);
+				cargoStock.addItem(currentItem, itemReorderAmmount);
 			}
 		}
 		manifest = new Manifest();

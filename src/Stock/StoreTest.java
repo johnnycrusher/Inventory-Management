@@ -85,7 +85,7 @@ public class StoreTest {
 		 * a hashmap.
 		 * @return a hashmap containing the item name and the item properties.
 		 */
-		public HashMap<String,Integer> generateStockInventory() {
+		public Stock generateStockInventory() {
 			HashMap<String, Integer> stockInventory = new HashMap<String,Integer>();
 			ArrayList<String> itemNames = generateFoodItems();
 			for (int index = 0; index < itemNames.size();index++) {

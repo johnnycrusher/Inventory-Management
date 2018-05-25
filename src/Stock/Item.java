@@ -33,28 +33,28 @@ public class Item {
 		
 		//Set the manufactureCost and protect from negative input
 		if (manufactureCost < 0) {
-			throw new StockException("Negative manufacture cost given!");
+			throw new StockException("The item " + itemName + " has a negative manufacture cost!");
 		} else {
 			this.manufactureCost = manufactureCost;
 		}
 		
 		//Set the sellCost and protect from negative input
 		if (sellCost < 0) {
-			throw new StockException("negative sell cost given!");
+			throw new StockException("The item " + itemName + " has a negative sell cost!");
 		} else {
 			this.sellCost = sellCost;
 		}
 		
 		//Set the reorderPoint and protect from negative input
 		if (reorderPoint < 0) {
-			throw new StockException("negative reorder point given!");
+			throw new StockException("The item " + itemName + " has a negative reorder point!");
 		} else {
 			this.reorderPoint = reorderPoint;
 		}
 		
 		//Set the reorderAmount and protect from negative input
 		if (reorderAmount < 0) {
-			throw new StockException("negative reorderAmount given!");
+			throw new StockException("The item " + itemName + " has a negative reorderAmount!");
 		} else {
 			this.reorderAmount = reorderAmount;
 		}
@@ -132,7 +132,7 @@ public class Item {
 	 * @return temperature
 	 * @throws StockException
 	 */
-	public int getTemperature() throws StockException {
+	public int getTemperature() {
 		//If temp is less than 10, then item is cold
 		if (this.temperature <= 10) {
 			return this.temperature;

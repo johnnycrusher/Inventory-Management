@@ -81,6 +81,7 @@ public class Stock {
 	public Item getItem(String itemName) throws StockException {
 		//Set an Item variable as null
 		Item key = null;
+		boolean detectItem = false;
 		//Intialise a string Variable to store the itemName
 		String keyValue;
 		for(Map.Entry<Item,Integer> currentItem : stock.entrySet()) {
@@ -89,13 +90,14 @@ public class Stock {
 			keyValue = currentItem.getKey().itemName;
 			//checks if the Stock item name equals with the input item name
 			if(keyValue.equals(itemName)) {
+				detectItem = true;
 				//exits out of the forloop as it knows the key value
 				break;
 			}
 		}
 		//Throws stock exception when stock is not in the list
-		if(key == null) {
-			throw new StockException("This item is not in the stock list");
+		if(!detectItem) {
+			throw new StockException("This item " + itemName + " is not in the stock list");
 		}
 		return key;
 	}
@@ -179,6 +181,7 @@ public class Stock {
 	
 	/**A method used to convert the Stock Object into a Object[][] for JTable GUI
 	 * @return object - An Object[][] for JTable GUI
+	 * @throws StockException 
 	 */
 	public Object[][] convertStockIntoTable(){
 		//Define the Object Size
@@ -190,13 +193,16 @@ public class Stock {
 			//get the currentItem Key and Value
 			Item item = currentItem.getKey();
 			int itemQty = currentItem.getValue();
-			String itemTemp;
+			String itemTemp = null;
 			//Determine the temperature of the current item
 			try {
-				itemTemp = Integer.toString(item.getTemperature());
+				if(item.isCold()) {
+					itemTemp = Integer.toString(item.getTemperature());
+				}
 			} catch (StockException e) {
 				itemTemp = "";
 			}
+
 			//Set the item name as the first column of the Item Object
 			object[index][0] = item.getItemName();
 			//Set the item manufacture cost as the second column of the Item Object

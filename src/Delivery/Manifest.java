@@ -274,11 +274,7 @@ public class Manifest {
 			Item itemObject = entry.getKey();
 			int itemQuantity = entry.getValue();
 			if (itemQuantity > 0) {
-				try {
-					itemObjectTemp = itemObject.getTemperature();
-				}catch(StockException e) {
-					itemObjectTemp = 11;
-				}
+				itemObjectTemp = itemObject.getTemperature();
 				if(itemObjectTemp < currentLowestTemp) {
 					currentLowestTemp = itemObjectTemp;
 					objectName = itemObject.getItemName();

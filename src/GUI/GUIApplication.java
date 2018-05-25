@@ -251,7 +251,7 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 				
 			} catch (CSVFormatException | IOException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(this, "CSV Error :" + e1.getMessage(),"A CSV Error",JOptionPane.ERROR_MESSAGE);
 			} catch (StockException e1) {
 				// TODO Auto-generated catch block
 				JOptionPane.showMessageDialog(this, "An Error Message","Stock Error :" + e1.getMessage(),JOptionPane.ERROR_MESSAGE);
@@ -263,9 +263,11 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 				inventory = CSVMachine.readItemProperties(fileLocation);
 				intialInventory = inventory;
 				updateTable();
-			} catch (CSVFormatException | IOException | StockException e1) {
+			} catch (CSVFormatException | IOException  e1) {
 				// TODO Auto-generated catch block
-				JOptionPane.showMessageDialog(this, "An Error Message","CSV Error :" + e1.getMessage(),JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "CSV Error :" + e1.getMessage(),"A CSV Error",JOptionPane.ERROR_MESSAGE);
+			} catch (StockException e1) {
+				JOptionPane.showMessageDialog(this,"Stock Error :" + e1.getMessage(), "An Error Message",JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		if(src == btnExtractMan) {
@@ -278,11 +280,10 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 				String filePath = initialiseSaveExplorer();
 				CSVMachine.writeManifest(manifest, filePath);
 			} catch (CSVFormatException | IOException e1) {
-				JOptionPane.showMessageDialog(this, "An Error Message","CSV Error :" + e1.getMessage(),JOptionPane.ERROR_MESSAGE);
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(this, "CSV Error :" + e1.getMessage(),"A CSV Error",JOptionPane.ERROR_MESSAGE);
 			} catch (StockException e1) {
 				// TODO Auto-generated catch block
-				JOptionPane.showMessageDialog(this, "An Error Message","Stock Error :" + e1.getMessage(),JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this,"Stock Error :" + e1.getMessage(), "An Error Message",JOptionPane.ERROR_MESSAGE);
 			} catch (DeliveryException e1) {
 				// TODO Auto-generated catch block
 				JOptionPane.showMessageDialog(this, "An Error Message","Delivery Error :" + e1.getMessage(),JOptionPane.ERROR_MESSAGE);
@@ -302,18 +303,15 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 				System.out.println("Current Capital: " + capital);
 				updateTable();
 				
-			} catch (CSVFormatException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (CSVFormatException | IOException e1) {
+				JOptionPane.showMessageDialog(this, "CSV Error :" + e1.getMessage(),"A CSV Error",JOptionPane.ERROR_MESSAGE);
 			} catch (StockException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(this,"Stock Error :" + e1.getMessage(),"A Stock Error",JOptionPane.ERROR_MESSAGE);
 			} catch (DeliveryException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(this,"Delivery Error :" + e1.getMessage(),"A Delivery Error",JOptionPane.ERROR_MESSAGE);
+			} catch (Exception e2) {
+				JOptionPane.showMessageDialog(this,"An Application Error : no manifest selected or importing manifest when no item in inventory","An Application Error",JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}

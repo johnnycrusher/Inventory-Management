@@ -192,7 +192,7 @@ public class CSVMachine {
 	
 	public static Manifest readManifestV2(String filePath, Stock inventory) throws CSVFormatException, IOException, DeliveryException, StockException{
 		//try hook the CSV reader
-		Reader reader = Files.newBufferedReader(Paths.get("./Manifest.csv"));
+		Reader reader = Files.newBufferedReader(Paths.get(filePath));
         CSVReader csvReader = new CSVReader(reader);
 		List<String[]> records = csvReader.readAll();
 		Manifest manifest = new Manifest();
@@ -286,7 +286,6 @@ public class CSVMachine {
 	            	salesLog.put(item_Name, quantity);
 	            }
 			} catch (IOException e) { //Catch an invalid file exception
-				e.printStackTrace();
 	        	//Throw IOException to CSVFormatException
 	        	throw new CSVFormatException(e.getMessage());
 	        }

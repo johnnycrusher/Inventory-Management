@@ -34,14 +34,15 @@ public class OrdinaryTruck extends Truck {
 		boolean anyRefrigeratedItems = false;
 		
 		//determines if there are any refrigerated items if there are set to true
-		try {
-			anyRefrigeratedItems = findRefrigeratedItems(stockObj);
-		} catch (StockException e) {
+		String refrigeratedItemName = findRefrigeratedItems(stockObj);
+		
+		if(!(refrigeratedItemName == null)) {
 			anyRefrigeratedItems = true;
 		}
+
 		//if there is a refrigerated item then throw delivery exception
 		if(anyRefrigeratedItems == true) {
-			throw new DeliveryException("This item should not be allowed on truck" );
+			throw new DeliveryException("This item " + refrigeratedItemName + " should not be allowed in an Ordinary truck" );
 		}
 		
 		//get number of cargo item in the truck
@@ -62,36 +63,36 @@ public class OrdinaryTruck extends Truck {
 	 * @throws DeliveryException - when it can't access truck stock
 	 * @throws StockException 
 	 */
-	private boolean findRefrigeratedItems(Stock stock) throws DeliveryException, StockException {
+	private String findRefrigeratedItems(Stock stock) throws DeliveryException, StockException {
 		//Hashmap of the stock object
 		HashMap<Item, Integer> stockItems = stock.returnStockList();
 		
 		//Intialise a boolean variable for true of falce
 		boolean anyRefridgeratedItem = false;
+		
+		String itemName = null;
 		//Intialise an array of tempertures
-		int tempArray[] = new int[stock.returnStockList().size()];
+		int itemTemp = 0;
 		
 		//set index to 0
 		int index = 0;
 		
 		//Loop to get all the tempertures of any objects
 		for(Map.Entry<Item,Integer> entry : stockItems.entrySet()) {
-			try {
-				tempArray[index] = entry.getKey().getTemperature();
-			}catch(StockException e) {
-				tempArray[index] = 11;
+			itemName = entry.getKey().getItemName();
+			itemTemp = entry.getKey().getTemperature();
+			if(itemTemp <= 10) {
+				anyRefridgeratedItem = true;
+				break;
 			}
-			//increment index
-			index++;
+		}
+		
+		if(anyRefridgeratedItem == false) {
+			itemName = null;
 		}
 		//search if any temperature is below 10 degrees
-		for(int location = 0; location < tempArray.length; location++) {
-			if(tempArray[location] <= 10) {
-				anyRefridgeratedItem = true;
-			}
-		}
 		//returns boolean variable
-		return anyRefridgeratedItem;
+		return itemName;
 	}
 	
 	@Override

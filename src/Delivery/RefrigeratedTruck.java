@@ -68,13 +68,9 @@ public class RefrigeratedTruck extends Truck {
 		boolean refrigeratedItemExist = false;
 		//loops and find the lowest item temperature
 		for(Map.Entry<Item, Integer> currentItem : stockList.entrySet()) {
-			try {
-				//find the item temperature
-				itemTemp = currentItem.getKey().getTemperature();
-			}catch(StockException e) {
-				//if not a refrigated item set the temp to 11 deg
-				itemTemp = 11;
-			}
+			//find the item temperature
+			itemTemp = currentItem.getKey().getTemperature();
+
 			//compare to check if new item is lower then current lowest temp
 			//if so then replace as new current lowest temp
 			if(itemTemp < currentLowestTemp) {

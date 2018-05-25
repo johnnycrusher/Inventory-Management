@@ -8,10 +8,10 @@ import Exception.StockException;
 
 public class Store {
 	//Declare a startCapital value for the store
-	static int startCapital = 100000;
+	private static double startCapital = 100000;
 	
 	//Declare some variables
-	int capital;
+	double capital;
 	String storeName;
 	Stock stockInventory;
 	
@@ -91,7 +91,7 @@ public class Store {
 	 * @param profit
 	 * @throws StockException
 	 */
-	protected void addCapital(int profit) throws StockException{
+	protected void addCapital(double profit) throws StockException{
 		if (profit <= 0) {
 			throw new StockException("invaid profit input!");
 		} else {
