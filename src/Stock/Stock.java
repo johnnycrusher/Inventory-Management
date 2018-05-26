@@ -37,7 +37,7 @@ public class Stock {
 			//Throw a Stock Exception if it detects a duplicate
 			if(itemName.equals(stockItemName)) {
 				itemExist = true;
-				throw new StockException("This item is already in the stock list");
+				throw new StockException("This item " + itemName + "is already in the stock list");
 			}
 		}
 		//If the item doesn't exist in the stock objected it is then added to stock Obj
@@ -69,7 +69,7 @@ public class Stock {
 		}
 		//Throws a Stock Exception Error if the Item doesn't Exist
 		if (itemExist == false) {
-			throw new StockException("THis item doesn't exist in stock can't add quantity");
+			throw new StockException("The item " + itemName + " doesn't exist in stock can't add quantity");
 		}
 	}
 	
@@ -125,7 +125,7 @@ public class Stock {
 		}
 		//if it doesn't detect any match throws a Stock Exception 
 		if(detectedMatch == false) {
-			throw new StockException("Cannot get item quantity because item doesn't exist in stock");
+			throw new StockException("Cannot get item " + itemName + " quantity because item doesn't exist in stock");
 		}
 		//returns the item Quantity
 		return itemQuantity;
@@ -158,7 +158,7 @@ public class Stock {
 		//Check if the current quantity of the object is greater then the remove quantity
 		if(currentValue < quantity) {
 			//throws exception if remove quantity is greater then stock quantity
-			throw new StockException("Cannot remove item due to remove quantity is greater then item quantity");
+			throw new StockException("Cannot remove item " + itemName + " due to remove quantity is greater then item quantity");
 		}
 		//determines the new Quantity value of the Object
 		int newQuantityValue = currentValue - quantity;
