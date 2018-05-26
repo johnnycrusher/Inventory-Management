@@ -29,11 +29,11 @@ import Stock.Stock;
 public class CSVMachine {
 	/**
 	 * This method is used to read item_properties.csv and convert the contents into a stock object. This is primarily used for initialization
-	 * @param filePath - used to specify the file location that needs to be read from
-	 * @returns initStock - returns a stock object of alls the item properties read from the file
-	 * @throws CSVFormatException - throws an error when the csv format is different
-	 * @throws IOException - throws an error when there is an IO error
-	 * @throws StockException - throws an error when there a problem dealing with a stock object
+	 * @param filePath used to specify the file location that needs to be read from
+	 * @return initStock - returns a stock object of alls the item properties read from the file
+	 * @throws CSVFormatException throws an error when the csv format is different
+	 * @throws IOException throws an error when there is an IO error
+	 * @throws StockException throws an error when there a problem dealing with a stock object
 	 */
 	public static Stock readItemProperties(String filePath) throws CSVFormatException, IOException, StockException{
 		//set up item property variables
@@ -91,12 +91,12 @@ public class CSVMachine {
 	/**A Write method to generate a CSV manifest document. 
 	* The method accepts manifest object and writes to the CSV document
 	*@author Tom
-	*@param manifest - the manifest object that needs to be written
-	*@param filePath - the file path of where the manifest csv needs to be saved
-	*@throws CSVFormatException - throws an error when there a csv format error
-	*@throws IOException - throws an error when there is an IO error
-	*@throws StockException - throws an error when there a problem that occurs with the stock
-	*@throws DeliveryException - throws an error when there is a problem with the delivery object
+	*@param manifest the manifest object that needs to be written
+	*@param filePath the file path of where the manifest csv needs to be saved
+	*@throws CSVFormatException throws an error when there a csv format error
+	*@throws IOException throws an error when there is an IO error
+	*@throws StockException throws an error when there a problem that occurs with the stock
+	*@throws DeliveryException throws an error when there is a problem with the delivery object
 	*/
 	public static void writeManifest(Manifest manifest, String filePath) throws CSVFormatException, IOException, StockException, DeliveryException{
         try (Writer writer = Files.newBufferedWriter(Paths.get(filePath));
@@ -144,13 +144,13 @@ public class CSVMachine {
 	
 	
 	/** Reads a manifest and creates a manifest object that adhears to manifest csv
-	 * @param filePath - the file path of the manifest csv
-	 * @param inventory - the intial inventory that will be used to import stock
+	 * @param filePath the file path of the manifest csv
+	 * @param inventory the intial inventory that will be used to import stock
 	 * @return manifest - the manifest object that is outputed from the manifest csv
-	 * @throws CSVFormatException - throws an error when there a csv format error
-	 * @throws IOException - throws an error when there  is an IO error
-	 * @throws DeliveryException - throws an error when there is a delivery error
-	 * @throws StockException - throws an error when there is a stock error
+	 * @throws CSVFormatException throws an error when there a csv format error
+	 * @throws IOException throws an error when there  is an IO error
+	 * @throws DeliveryException throws an error when there is a delivery error
+	 * @throws StockException throws an error when there is a stock error
 	 */
 	public static Manifest readManifest(String filePath, Stock inventory) throws CSVFormatException, IOException, DeliveryException, StockException{
 		//try hook the CSV reader
@@ -257,10 +257,10 @@ public class CSVMachine {
 	
 	/**
 	 * A method which returns a hashmap of all item names and their variables which exist within the manifest.csv
-	 * @param String filePath - the file path of the sales log csv
-	 * @returns a HashMap containing Item names and their quantities
-	 * @throws CSVFormatException - throws an error when the sales log isn't in the correct format
-	 * @throws IOException - throws an error when there is an IO problem
+	 * @param filePath the file path of the sales log csv
+	 * @return a HashMap containing Item names and their quantities
+	 * @throws CSVFormatException throws an error when the sales log isn't in the correct format
+	 * @throws IOException throws an error when there is an IO problem
 	 */
 	public static HashMap<String, Integer> readSalesLog(String filePath) throws CSVFormatException, IOException{
 		//set up item property variables

@@ -39,7 +39,7 @@ public class Store {
 
    /**
     * Static getInstance method to return the store object
-    * @return store - the stock object
+    * @return store the stock object
     */
    public static Store getInstance() {
 	   if(store == null) {
@@ -50,7 +50,7 @@ public class Store {
 	
 	/**
 	 * A method to set the inventory to a stock object
-	 * @param stock - the stock object that is being set as the inventory
+	 * @param stock the stock object that is being set as the inventory
 	 * @throws StockException when there is an stock error
 	 */
 	public void setInventory(Stock stock) throws StockException{
@@ -67,8 +67,8 @@ public class Store {
 	/**
 	 * A method to add inventory to the Store's stock object
 	 * 
-	 * @param inventory - the stock object being added to the inventory
-	 * @throws StockException
+	 * @param inventory the stock object being added to the inventory
+	 * @throws StockException throws stock exception when stock error
 	 */
 	public void addInventory(Stock inventory) throws StockException{
 		HashMap<Item,Integer> inventoryHash = inventory.returnStockList();
@@ -78,7 +78,7 @@ public class Store {
 	}
 	
 	/**A method used to remove items from the stock inventory
-	 * @param salesInventory - the sales inventory being imported as a hashmap
+	 * @param salesInventory the sales inventory being imported as a hashmap
 	 * @throws StockException when there is a stock probelm
 	 */
 	public void removeInventroy(HashMap<String,Integer> salesInventory) throws StockException{
@@ -91,7 +91,7 @@ public class Store {
 	
 	/**
 	 * Getter method to return the inventory, which ensures the inventory isn't empty before returning
-	 * @return stockInventory - the store Inventory
+	 * @return stockInventory the store Inventory
 	 * @throws StockException when there is no store inventory
 	 */
 	public Stock getInventory() throws StockException{
@@ -113,7 +113,7 @@ public class Store {
 	
 	/**
 	 * A setter method to add to the capital, while protecting from invalid input
-	 * @param profit - the profit the stock generated from sales
+	 * @param profit the profit the stock generated from sales
 	 * @throws StockException happens when there is a invaild profit input 
 	 */
 	public void addCapital(double profit) throws StockException{
@@ -127,7 +127,7 @@ public class Store {
 	
 	/**
 	 * A setter method to subtract from capital, while protecting from invalid input
-	 * @param cost - the cost of the cargo and manifest
+	 * @param cost the cost of the cargo and manifest
 	 * @throws StockException happens when there an invalid profit input or not enough capital
 	 */
 	public void subtractCapital(double cost) throws StockException{
@@ -147,7 +147,7 @@ public class Store {
 
 	/**
 	 * Setter method to assign the name, while protecting from invalid input
-	 * @param storeName - the name of the store
+	 * @param storeName the name of the store
 	 * @throws StockException when there is an invalid store name;
 	 */
 	public void setName(String storeName) throws StockException {
@@ -160,7 +160,7 @@ public class Store {
 	
 	/**
 	 * A getter method to get the storeName, while checking storeName isn't null
-	 * @return storeName - the name of the store
+	 * @return storeName the name of the store
 	 * @throws StockException when there is an invalid store name
 	 */
 	public String getName() throws StockException {
@@ -172,7 +172,7 @@ public class Store {
 	}
 	
 	/**Private helper method to round to 2 decimal places
-	 * @param value - value to be rounded
+	 * @param value value to be rounded
 	 * @return currencyValue - the rounded value to 2 decimal places
 	 */
 	private static double roundTo2DecimcalPlace(double value) {

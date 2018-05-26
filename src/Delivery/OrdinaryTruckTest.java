@@ -20,8 +20,8 @@ public class OrdinaryTruckTest {
 	/**
 	 * This method generates a random integer from a specified minimum value
 	 * and a specified maximum value
-	 * @param min - the minimum value that the random number can generate
-	 * @param max - the maximum value that the random number can generate
+	 * @param min the minimum value that the random number can generate
+	 * @param max the maximum value that the random number can generate
 	 * @return the random number that is generated
 	 */
 	private static int randomInteger(int min,int max) {
@@ -60,8 +60,8 @@ public class OrdinaryTruckTest {
 	/**
 	 * This method generates a random double from a specified minimum value
 	 * and a specified maximum value
-	 * @param min - the specified minimum number that can be generated
-	 * @param max - the specified maximum number that can be generated
+	 * @param min the specified minimum number that can be generated
+	 * @param max the specified maximum number that can be generated
 	 * @return randomDouble - the random number that was generated
 	 */
 	private static double randomDouble(double min, double max) {
@@ -70,7 +70,7 @@ public class OrdinaryTruckTest {
 	}
 	
 	/**This method task is the generate random Item name with no duplicates
-	 * @param number - number of random names it should create
+	 * @param number number of random names it should create
 	 * @return randomCargoList - an arrayList of random item names
 	 */
 	private static ArrayList<String> generateItemNames(int number) {
@@ -99,9 +99,9 @@ public class OrdinaryTruckTest {
 
 	
 	/**Generates a random stock object
-	 * @param type - the type of stock normal or refrigerated
+	 * @param type the type of stock normal or refrigerated
 	 * @return stock - returns the randomly generated stock
-	 * @throws StockException - throws an error when there is a stock error
+	 * @throws StockException throws an error when there is a stock error
 	 */
 	private static Stock generateRandomStock(String type) throws StockException {
 		//create stock object
@@ -130,7 +130,7 @@ public class OrdinaryTruckTest {
 	}
 
 	/**Generates a stock object with a certain number of objects
-	 * @param quanitity - the total quantity of the stock object
+	 * @param quanitity the total quantity of the stock object
 	 * @return stock - returns the stock object
 	 * @throws StockException
 	 */

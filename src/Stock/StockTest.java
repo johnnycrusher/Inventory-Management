@@ -30,8 +30,8 @@ public class StockTest {
 		/**
 		 * This method generates a random integer from a specified minimum value
 		 * and a specified maximum value
-		 * @param min - the minimum value that the random number can generate
-		 * @param max - the maximum value that the random number can generate
+		 * @param min the minimum value that the random number can generate
+		 * @param max the maximum value that the random number can generate
 		 * @return the random number that is generated
 		 */
 		private static int randomInteger(int min,int max) {
@@ -71,8 +71,8 @@ public class StockTest {
 		/**
 		 * This method generates a random double from a specified minimum value
 		 * and a specified mximum value
-		 * @param min - the specified minimum number that can be generated
-		 * @param max - the specified maximum number taht can be generated
+		 * @param min the specified minimum number that can be generated
+		 * @param max the specified maximum number taht can be generated
 		 * @return randomDouble - the random number that was generated
 		 */
 		private static double randomDouble(double min, double max) {
@@ -82,7 +82,7 @@ public class StockTest {
 		
 		
 		/**This method task is the generate random Item name with no duplicates
-		 * @param number - number of random names it should create
+		 * @param number number of random names it should create
 		 * @return randomCargoList - an arrayList of random item names
 		 */
 		private static ArrayList<String> generateItemNames(int number) {

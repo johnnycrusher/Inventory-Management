@@ -62,7 +62,7 @@ public class RefrigeratedTruck extends Truck {
 	/**Private helper method used to find the lowest temperature
 	 * in the cargo stock
 	 * @return currentLowestTemp - the lowest temperate item in the cargo
-	 * @throws StockException - throws a stock error when tehre is a stock related problem
+	 * @throws StockException throws a stock error when tehre is a stock related problem
 	 */
 	private int findLowestTemp() throws StockException {
 		//gets hashmap of the cargo object

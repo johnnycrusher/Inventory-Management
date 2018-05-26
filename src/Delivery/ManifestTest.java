@@ -53,8 +53,8 @@ public class ManifestTest {
 	
 	/** This method generates a random integer inbetween a specified minimum value
 	 * and a specified maximum value
-	 * @param min - the minimum value that the random number can generate
-	 * @param max - the maximum value that the random number can generate
+	 * @param min the minimum value that the random number can generate
+	 * @param max the maximum value that the random number can generate
 	 * @return the random number that is generated
 	 */
 	private static int randomInteger(int min,int max) {
@@ -64,8 +64,8 @@ public class ManifestTest {
 	/**
 	 * This method generates a random double from a specified minimum value
 	 * and a specified mximum value
-	 * @param min - the specified minimum number that can be generated
-	 * @param max - the specified maximum number taht can be generated
+	 * @param min the specified minimum number that can be generated
+	 * @param max the specified maximum number taht can be generated
 	 * @return randomDouble - the random number that was generated
 	 */
 	private static double randomDouble(double min, double max) {
@@ -74,7 +74,7 @@ public class ManifestTest {
 	}
 	
 	/**This method task is the generate random Item name with no dupilcates
-	 * @param number - number of random names it should create
+	 * @param number number of random names it should create
 	 * @return randomCargoList - an arrayList of random item names
 	 */
 	private static ArrayList<String> generateItemNames(int number) {
@@ -104,7 +104,7 @@ public class ManifestTest {
 	/**This methods task is to generate a stock object with random item
 	 * objects
 	 * @return stock - the generated stock object that contains the random items
-	 * @throws StockException - throws a stock exception when there a stock error
+	 * @throws StockException throws a stock exception when there a stock error
 	 */
 	private static Stock generateRandomStock() throws StockException {
 		Stock stock = new Stock();
@@ -131,7 +131,7 @@ public class ManifestTest {
 	
 	/**Generates a random stock item where all items are below the reorder threshold
 	 * @return stock - the random stock object that contains the items below reorder threshold
-	 * @throws StockException
+	 * @throws StockException happens when there is a stock error
 	 */
 	private static Stock generateReorderStock() throws StockException {
 		//generate stock item and intialise import variables
@@ -163,7 +163,7 @@ public class ManifestTest {
 	
 	/**This method task is to generate static imported stock
 	 * @return importedStock - returns the importedStock
-	 * @throws StockException - throws an error when there is a stock error
+	 * @throws StockException throws an error when there is a stock error
 	 */
 	private static Stock generateStaticImportedStock() throws StockException {
 		//generate items
@@ -188,7 +188,7 @@ public class ManifestTest {
 	
 	/**A method that returns a staticly optimised stock
 	 * @return cargoStockList - returns the optimised cargo stock
-	 * @throws StockException - throws an error when there is a stock error
+	 * @throws StockException throws an error when there is a stock error
 	 */
 	private static ArrayList<Stock> generateStaticOptimisedStock() throws StockException{
 		
@@ -232,8 +232,8 @@ public class ManifestTest {
 	
 	/**get the truck object that will contain the stock
 	 * @return arrayOfTrucks - an array of trucks that contain their cargo
-	 * @throws StockException
-	 * @throws DeliveryException
+	 * @throws StockException throws a stock error when there are stock problems
+	 * @throws DeliveryException throws a delivery error when there are delievery problems
 	 */
 	private static ArrayList<Truck> generateStaticOptimisedTruckStock() throws StockException, DeliveryException{
 		//generate cargo stock list

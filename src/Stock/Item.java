@@ -21,13 +21,13 @@ public class Item {
 	
 	/**
 	 * A constructor method to create an Item object
-	 * @param itemName - the item name
-	 * @param manufactureCost - the manufacturing cost
-	 * @param sellCost - the sell cost
-	 * @param reorderPoint - the reorder point
-	 * @param reorderAmount - the reorder amount
-	 * @param temperature - the temperature of the object
-	 * @throws StockException - throws an error when there is a stock error
+	 * @param itemName the item name
+	 * @param manufactureCost the manufacturing cost
+	 * @param sellCost the sell cost
+	 * @param reorderPoint the reorder point
+	 * @param reorderAmount the reorder amount
+	 * @param temperature the temperature of the object
+	 * @throws StockException throws an error when there is a stock error
 	 */
 	public Item(String itemName, double manufactureCost, double sellCost, int reorderPoint, int reorderAmount, int temperature) throws StockException {
 		//Set the itemName
@@ -115,7 +115,7 @@ public class Item {
 	 * A method to determin if a given item is cold by evaluating this.temperature
 	 * @return boolean - a truck if the temp is under then false if it equal to 11
 	 * 				anything else is an invalid temp
-	 * @throws StockException - throws an error if there is stock related errors
+	 * @throws StockException throws an error if there is stock related errors
 	 */
 	public boolean isCold() throws StockException {
 		//If temp is less than 10, then item is cold

@@ -23,9 +23,9 @@ public class Stock {
 	
 	
 	/** A method to add an Item to the Stock Object
-	 * @param item - the Item being added to the stock object
+	 * @param item the Item being added to the stock object
 	 * @param quantity - the quantity of the Item being added to the Stock Obejct
-	 * @throws StockException - the Exception the stock object throws
+	 * @throws StockException the Exception the stock object throws
 	 */
 	public void addItem(Item item, int quantity) throws StockException {
 		//find the item name of the Item Obj
@@ -47,9 +47,9 @@ public class Stock {
 	}
 	
 	/** A method to added the itemQuantity to an already existing object
-	 * @param itemName - item name of the object that requires adding
+	 * @param itemName item name of the object that requires adding
 	 * @param quantity - quantity of the Item being added into stock Obj
-	 * @throws StockException - throws a Stock Exception if it doesn't exist
+	 * @throws StockException throws a Stock Exception if it doesn't exist
 	 */
 	public void addQuantity(String itemName, int quantity) throws StockException {
 		//initalise boolean to detect if obj exist
@@ -74,9 +74,9 @@ public class Stock {
 	}
 	
 	/**A method to get the Item from the Stock Object when intering the Item Name
-	 * @param itemName - item name of the object that is being searched in Stock Obj
+	 * @param itemName item name of the object that is being searched in Stock Obj
 	 * @return key - the Item Object that is was searching for
-	 * @throws StockException - throws a stock errror if the stock item doesn't exist 
+	 * @throws StockException throws a stock errror if the stock item doesn't exist 
 	 */
 	public Item getItem(String itemName) throws StockException {
 		//Set an Item variable as null
@@ -103,7 +103,7 @@ public class Stock {
 	}
 	
 	/**A method that gets the Item Quantity of the Object
-	 * @param itemName - the name of the item that is being search for its quantity
+	 * @param itemName the name of the item that is being search for its quantity
 	 * @return itemQuantity - the quantity of the item it was searching for
 	 * @throws StockException when the item its search for isn't in Stock Obj
 	 */
@@ -145,8 +145,8 @@ public class Stock {
 	}
 	
 	/**A method used to remove a specified quantity that needs to be removed from the stock Obj
-	 * @param itemName - item name of the object that needs to be removed
-	 * @param quantity - item Quantity of the object that needs to be removed
+	 * @param itemName item name of the object that needs to be removed
+	 * @param quantity item Quantity of the object that needs to be removed
 	 * @throws StockException occurs when remove more then what is already in stock object
 	 */
 	public void remove(String itemName, int quantity) throws StockException{
@@ -167,7 +167,7 @@ public class Stock {
 	}
 	
 	/**A method used to return number of Items in the Stock Object
-	 * @return numOfItems -  the number of Items in the Stock Object
+	 * @return numOfItems - the number of Items in the Stock Object
 	 */
 	public int getNumberOfItems() {
 		int numOfItems = 0;
@@ -181,7 +181,6 @@ public class Stock {
 	
 	/**A method used to convert the Stock Object into a Object[][] for JTable GUI
 	 * @return object - An Object[][] for JTable GUI
-	 * @throws StockException - when there is a stock related error
 	 */
 	public Object[][] convertStockIntoTable(){
 		//Define the Object Size

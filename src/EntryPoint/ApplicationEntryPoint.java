@@ -10,7 +10,7 @@ public class ApplicationEntryPoint {
 	
 	/**
 	 * The EntryPoint's Main method which initializes the store object
-	 * @param args
+	 * @param args - any input arguments
 	 */
 	public static void main(String[] args) {
 		GUIApplication.main(args);

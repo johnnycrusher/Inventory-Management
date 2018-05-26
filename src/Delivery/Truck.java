@@ -33,9 +33,9 @@ public abstract class Truck {
 	
 	
 	/** A method that returns the number of items in a truck
-	 * @return - the number of cargo Items in the truck
-	 * @throws StockException  - throws a stock error when there is a stock related problem
-	 * @throws DeliveryException - throws a delivery exception when there is no cargo hence change require quantity of items
+	 * @return cargoStockNumOfItem - the number of cargo Items in the truck
+	 * @throws StockException throws a stock error when there is a stock related problem
+	 * @throws DeliveryException throws a delivery exception when there is no cargo hence change require quantity of items
 	 */
 	public int getQuantity() throws StockException, DeliveryException {
 		if(cargoStock == null ||cargoStock.returnStockList().isEmpty()) {
@@ -48,7 +48,7 @@ public abstract class Truck {
 	/**A method that gets the stock of the truck 
 	 * @return the cargo that truck is holding
 	 * @throws DeliveryException occurs when there is no cargo in the truck
-	 * @throws StockException - throws a stock excpetion when tehre is a stock related problem
+	 * @throws StockException throws a stock excpetion when tehre is a stock related problem
 	 */
 	public Stock getStock() throws DeliveryException, StockException {
 		if(cargoStock == null || cargoStock.returnStockList().isEmpty()) {
@@ -60,8 +60,8 @@ public abstract class Truck {
 	
 	/**Determines the cost of the cargo
 	 * @return costOfCargo - the cost of the cargo
-	 * @throws StockException - throws stock error when there is a stock related error
-	 * @throws DeliveryException - throws a DelieveryException when there is no cargo in truck
+	 * @throws StockException throws stock error when there is a stock related error
+	 * @throws DeliveryException throws a DelieveryException when there is no cargo in truck
 	 */
 	public double getStockCost() throws StockException, DeliveryException {
 		if(cargoStock == null || cargoStock.returnStockList().isEmpty()) {
@@ -83,20 +83,21 @@ public abstract class Truck {
 	/** Adds an stock object as the truck cargo
 	 * @param storeObj - the stock object that will be the truck cargo
 	 * @throws DeliveryException occurs item exceeds cargo limit or refrigeated item in ordinary truck
-	 * @throws StockException - throws a stock exception when there is a stock related error
+	 * @throws StockException throws a stock exception when there is a stock related error
 	 */
 	public abstract void add(Stock storeObj) throws DeliveryException, StockException;
 	
 	/** Gets the cost of the truck 
 	 * @return cost - the cost of the truck in dollars
-	 * @throws StockException - throws a stock error when there is a stock related error
-	 * @throws DeliveryException - occurs when there is no cargo in the truck
+	 * @throws StockException throws a stock error when there is a stock related error
+	 * @throws DeliveryException occurs when there is no cargo in the truck
 	 */
 	public abstract double getCost() throws StockException, DeliveryException;
 	
 	/** gets the set temperature of that specfic truck
 	 * @return truckTemperature - the temperature of the truck
-	 * @throws StockException - throws a stock error when there is a stock related error
+	 * @throws StockException throws a stock error when there is a stock related error
+	 * @throws DeliveryException when there is no cargo in the truck
 	 */
 	public abstract int getTemp() throws StockException, DeliveryException;
 }

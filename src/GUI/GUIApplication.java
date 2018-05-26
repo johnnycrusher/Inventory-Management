@@ -70,8 +70,8 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 	private Store myStore = Store.getInstance();
 	
 	/**
-	 * @param arg0
-	 * @throws HeadlessException
+	 * @param arg0 - arugments to put into GUIApplication
+	 * @throws HeadlessException when there is a headless exception error
 	 */
 	public GUIApplication(String arg0) throws HeadlessException {
 		super(arg0);
@@ -267,7 +267,7 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 	}
 
 	/**main method to set Application Look and intialise the App
-	 * @param args
+	 * @param args - arguments to input into main
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
