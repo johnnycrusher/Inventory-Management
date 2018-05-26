@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import org.junit.Before;
@@ -39,74 +40,76 @@ public class StoreTest {
 			"Foodland"	
 	};
 	
-	//Generate an array of dry food items
-		private static String[] itemNames = new String[] {
-				"rice",
-				"breans",
-				"pasta",
-				"biscuits",
-				"nuts",
-				"chips",
-				"chocolate",
-				"bread",
-				"mushroom",
-				"tomatoes",
-				"lettuce",
-				"grapes",
-				"asparagus",
-				"celery",
-				"chicken",
-				"beef",
-				"fish",
-				"yoghurt",
-				"milk",
-				"cheese",
-				"ice cream",
-				"ice",
-				"frozen meat",
-				"frozen vegetable mix"
-		};
-		
-		/** This method generates 5 randomly selected dry food items and 
-		 *  5 randomly selected refridgerated foods and then stores them
-		 *  in another array list
-		 * @return the randomly generated cargo items
-		 */
-		public static ArrayList<String> generateFoodItems() {
-			ArrayList<String> itemNamesList = new ArrayList<String>();
-			for(int index = 0; index < itemNames.length ; index++) {
-				itemNamesList.add(itemNames[index]);
-			}
-			return itemNamesList;
-		}
-				
-		/**This method combines the randomly generated food items and
-		 * the randomly generates items properties and stores them in
-		 * a hashmap.
-		 * @return a hashmap containing the item name and the item properties.
-		 */
-		public Stock generateStockInventory() {
-			HashMap<String, Integer> stockInventory = new HashMap<String,Integer>();
-			ArrayList<String> itemNames = generateFoodItems();
-			for (int index = 0; index < itemNames.size();index++) {
-				stockInventory.put(itemNames.get(index), randomInteger(50,500));
-			}
-			
-			return stockInventory;
-		}
+	// Generate an array of item names
+	private static String[] itemNames = new String[] {
+			"rice",
+			"breans",
+			"pasta",
+			"biscuits",
+			"nuts",
+			"chips",
+			"chocolate",
+			"bread",
+			"mushroom",
+			"tomatoes",
+			"lettuce",
+			"grapes",
+			"asparagus",
+			"celery",
+			"chicken"	
+	};
+	
 	
 	/**
-	 * This method adds the contents of one hashmap (inventory) to another, iterating the int value
-	 * @author Tom
+	 * This method generates a random double from a specified minimum value
+	 * and a specified maximum value
+	 * @param min - the specified minimum number that can be generated
+	 * @param max - the specified maximum number taht can be generated
+	 * @return randomDouble - the random number that was generated
 	 */
-	private void addInventory(HashMap<String, Integer> baseInventory,HashMap<String, Integer> newInventory) throws StockException{
-		for (String key : newInventory.keySet()) {
-		    if (baseInventory.containsKey(key)) {
-		        baseInventory.put(key, baseInventory.get(key) + 1);
-		    } else {
-		    	baseInventory.put(key, newInventory.get(key));
-		    }
+	private static double randomDouble(double min, double max) {
+		double randomDouble = random.nextDouble() * (max - min) + min;
+		return randomDouble;
+	}
+	
+	
+	private static ArrayList<String> generateItemNames(int number) {
+		ArrayList<String> foodList = new ArrayList<String>();
+		ArrayList<String> randomCargoList = new ArrayList<String>();
+		for(int index = 0; index < itemNames.length ; index++) {
+			foodList.add(itemNames[index]);
 		}
+		int randomIndex;
+		for(int index = 0; index < number; index++) {
+			randomIndex = randomInteger(0,foodList.size()-1);
+			String randomDryFood = foodList.get(randomIndex);
+			foodList.remove(randomIndex);
+			randomCargoList.add(randomDryFood);
+		}
+		return randomCargoList;
+	}
+
+	
+	private static Stock generateRandomStock(String type) throws StockException {
+		Stock stock = new Stock();
+		int temperature;
+		ArrayList<String> itemNames = generateItemNames(5);
+		for(int index = 0; index < 5; index++) {
+			double manufactureCost = randomDouble(0,100);
+			double sellCost = randomDouble(0,100);
+			int reorderPoint = randomInteger(0, 500);
+			int reorderAmount = randomInteger(0, 100);
+			if(type.equals("refridgetrated")) {
+				temperature = randomInteger(-20,10);
+			}else {
+				temperature = 11;
+			}
+			
+			int itemQty = randomInteger(0,500);
+			Item item = new Item(itemNames.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
+			stock.addItem(item, itemQty);
+		}
+		return stock;
 	}
 		
 	/**
@@ -129,6 +132,7 @@ public class StoreTest {
 		return random.nextInt((max - min) + 1) + min;
 	}
 
+	
 	Store store;	
 	/* Test 0: Declaring a Store object
 	 */
@@ -145,12 +149,14 @@ public class StoreTest {
 	/* Test 2 get starting capital
 	 */
 	@Test
-	public void testStartingCapital() {
+	public void testStartingCapital() throws StockException {
 		Store store = Store.getInstance();
-		int startingCapital = store.getCapital();
-		int storeStartingCapital = store.getCapital();
+		//needs to be reset due to having previous modified data from other test
+		store.resetCapital();
+		double startingCapital = store.getCapital();
+		double storeStartingCapital = 100000;
 		
-		assertEquals("Starting Capital is not the same", startingCapital,storeStartingCapital);
+		assertEquals("Starting Capital is not the same", startingCapital,storeStartingCapital,0.01);
 	}
 	/*Test 3: get capital after manifest is paid;
 	 */
@@ -168,7 +174,7 @@ public class StoreTest {
 		store.subtractCapital(substratedAmount);
 		double storeCurrentCapital = store.getCapital();
 		
-		assertEquals("Subtactracted Capital is not the same", resultingCapital, storeCurrentCapital);
+		assertEquals("Subtactracted Capital is not the same", resultingCapital, storeCurrentCapital, 0.01);
 	}
 	/*Test 4: get capital after making profit from sales
 	 */
@@ -210,12 +216,12 @@ public class StoreTest {
 	@Test
 	public void testUpdateStoreInventory() throws StockException {
 		//emulating a sample inventory input from the stocks class
-		HashMap<String,Integer> stockInventory = generateStockInventory();
+		Stock stockInventory = generateRandomStock("dry");
 		
 		Store store = Store.getInstance();
 		
 		store.setInventory(stockInventory);
-		HashMap<String,Integer> storeObjInventory = store.getInventory();
+		Stock storeObjInventory = store.getInventory();
 		assertEquals("stock items are not the same", stockInventory,storeObjInventory);
 	}
 	
@@ -224,24 +230,26 @@ public class StoreTest {
 	@Test
 	public void testAddStoreInventory() throws StockException {
 		//emulating a sample inventory input from the stocks class
-		HashMap<String,Integer> stockInventory = generateStockInventory();
+		Stock stockInventory = generateRandomStock("dry");
 		//Generating an inventory to add
-		HashMap<String,Integer> addInventory = generateStockInventory();
+		
+		
+		
 		
 		Store store = Store.getInstance();
 		
 		store.setInventory(stockInventory);
 		
-		HashMap<String,Integer> storeTestInventory = store.getInventory();
+		store.addInventory(stockInventory);
 		
-		//Adding to the test inventory
-		addInventory(storeTestInventory,addInventory);
-		//Adding to the Store inventory
-		store.addInventory(addInventory);
+		HashMap<Item,Integer> stockInventoryHash = stockInventory.returnStockList();
+		for (Map.Entry<Item, Integer> items: stockInventoryHash.entrySet()) {
+			stockInventory.addQuantity(items.getKey().getItemName(), items.getValue());
+		}
 		
-		HashMap<String,Integer> storeObjInventory = store.getInventory();
+		Stock storeInventory = store.getInventory();
 		
-		assertEquals("stock items are not the same", storeTestInventory,storeObjInventory);
+		assertEquals("stock items are not the same", storeInventory,storeInventory);
 	}
 	
 	/*Test 8: get stock inventory when no stock is instantiated
@@ -249,8 +257,8 @@ public class StoreTest {
 	@Test (expected = StockException.class)
 	public void testGetNonExistingInventory() throws StockException {
 		Store store = Store.getInstance();
-		HashMap<String,Integer> storeObjInventory = new HashMap<String,Integer>();
-		store.setInventory(storeObjInventory);
+		Stock stock = new Stock();
+		store.setInventory(stock);
 		store.getInventory();
 	}
 	

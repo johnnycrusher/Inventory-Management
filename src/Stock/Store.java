@@ -54,6 +54,13 @@ public class Store {
 		this.stockInventory = stock;
 	}
 	
+	/** A method used to reset the capital to the Starting Capital
+	 * @throws StockException
+	 */
+	public void resetCapital() throws StockException{
+		capital = startCapital;
+	}
+	
 	/**
 	 * A method to add inventory to the Store's stock object
 	 * 
@@ -73,16 +80,20 @@ public class Store {
 		}
 	}
 	
+	
+	
 	/**
 	 * Getter method to return the inventory, which ensures the inventory isn't empty before returning
 	 * @return stockInventory
 	 * @throws StockException
 	 */
 	public Stock getInventory() throws StockException{
-		if (this.stockInventory.getNumberOfItems() == 0) {
+		boolean checkVar = stockInventory.returnStockList().isEmpty();
+		int checkInt = stockInventory.getNumberOfItems();
+		if (stockInventory.returnStockList().isEmpty()) {
 			throw new StockException("No inventory");
 		} else {
-			return this.stockInventory;
+			return stockInventory;
 		}
 	}
 	
@@ -91,7 +102,8 @@ public class Store {
 	 * @return capital
 	 */
 	public double getCapital() {
-		return roundTo2DecimcalPlace(capital);
+		double capitalValue = roundTo2DecimcalPlace(capital);
+		return capitalValue;
 	}
 	
 	/**
@@ -106,7 +118,6 @@ public class Store {
 			//Add profit to capital
 			this.capital += profit;
 		}
-
 	}
 	
 	/**
@@ -155,7 +166,7 @@ public class Store {
 		}
 	}
 	
-	public static double roundTo2DecimcalPlace(double value) {
+	private static double roundTo2DecimcalPlace(double value) {
 	    BigDecimal currencyValue = new BigDecimal(value);
 	    currencyValue = currencyValue.setScale(2, RoundingMode.HALF_UP);
 	    return currencyValue.doubleValue();

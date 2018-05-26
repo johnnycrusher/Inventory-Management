@@ -43,13 +43,19 @@ public class RefrigeratedTruck extends Truck {
 	}
 
 	@Override
-	public double getCost() throws StockException {
+	public double getCost() throws StockException, DeliveryException {
+		if(cargoStock == null || cargoStock.returnStockList().isEmpty()) {
+			throw new DeliveryException("Cannot get Cost as there is no cargo inside it");
+		}
 		double exponent = truckTemperature/(double)5;
 		double cost = (900 + (200 * Math.pow(0.7,exponent)));
 		return cost;
 	}
 	@Override
-	public int getTemp() throws StockException {
+	public int getTemp() throws StockException, DeliveryException {
+		if(truckTemperature == 11) {
+			throw new DeliveryException("Cannot get temperature of the truck as there is no cargo inside it");
+		}
 		return truckTemperature;
 	}
 

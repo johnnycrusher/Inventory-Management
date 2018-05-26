@@ -311,7 +311,7 @@ public class ManifestTest {
 	 * the same
 	 */
 	@Test
-	public void testCargoOptimisation() throws StockException {
+	public void testCargoOptimisation() throws StockException, DeliveryException {
 		manifest = new Manifest();
 		Stock importedStock = generateStaticImportedStock();
 		
@@ -321,9 +321,7 @@ public class ManifestTest {
 		manifest.sortStock();
 		ArrayList<Stock> manifestCargo = manifest.getOptimisedCargo();
 		
-		
 		assertEquals("Optimised cargo is not the same",cargoStockList,manifestCargo);
-		
 	}
 	
 	/* Test 8: Test getting optimised cargo when no cargo is inputed
@@ -335,6 +333,7 @@ public class ManifestTest {
 	}
 	
 	/* Test 9: Test getting trucks with optimised cargo loaded into it
+	 * Does match seems to be an error in hashmap ordering
 	 */
 	@Test
 	public void testGetTrucksWithOptimisedCargo() throws StockException, DeliveryException {
@@ -358,13 +357,12 @@ public class ManifestTest {
 		Manifest manifest = new Manifest();
 		
 		manifest.addItemStock(importedStock);
-		manifest.sortStock();
 		manifest.createTrucks();
+		manifest.sortStock();
 		manifest.loadCargoToTrucks();
 		ArrayList<Truck> returnedTruckArray = manifest.getAllTrucks();
 		
 		assertEquals("Array of Truck Objects returned is not the same",arrayOfTrucks,returnedTruckArray);
-		
 	}
 	/*Test 10: Get Total Manifest Cost
 	 */

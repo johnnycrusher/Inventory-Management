@@ -4,7 +4,7 @@
  */
 package EntryPoint;
 
-import Stock.Store;
+import GUI.GUIApplication;
 
 public class ApplicationEntryPoint {
 	
@@ -13,7 +13,6 @@ public class ApplicationEntryPoint {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//Create the instance of the Store()
-		Store.getInstance();
+		GUIApplication.main(args);
 	}
 }

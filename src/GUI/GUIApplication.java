@@ -82,17 +82,18 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 		setSize(WIDTH, HEIGHT);
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setLayout(new BorderLayout());
+	    this.setTitle("CAB302 Group 102 Inventory Management Application");
 	    
+	    pnlBtn = createPanel(new Color(135,206,250,155));
 	    
-	    pnlBtn = createPanel(Color.WHITE);
+	    pnlTop = createPanel(new Color(135,206,250,155));
 	    
-	    pnlTop = createPanel(Color.WHITE);
+	    pnlMiddle = createPanel(new Color(135,206,250,155));
 	    
-	    pnlMiddle = createPanel(Color.WHITE);
-	    
-	    pnlDisplay = createPanel(Color.WHITE);
+	    pnlDisplay = createPanel(new Color(135,206,250,155));
 	    
 	    pnlDisplay.setLayout(new BorderLayout());
+	    
 	    
 	    
 	    btnExtractMan = createButton("Extract Manifest");
@@ -171,7 +172,7 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 	    capitalValueLabel = new JLabel("0");
 	    storeNameLabel.setFont(new Font("Serif", Font.PLAIN,30));
 	    capitalTextLabel.setFont(new Font("Serif",Font.PLAIN, 20));
-	    capitalValueLabel.setFont(new Font("Serif",Font.PLAIN, 20));
+	    capitalValueLabel.setFont(new Font("Times New Roman",Font.PLAIN, 20));
 	    
 	    addToPanel(pnlTop,storeNameLabel,constraints,2,0,4,1);
 	    addToPanel(pnlTop,capitalTextLabel,constraints,1,1,4,1);
@@ -240,7 +241,7 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		JFrame.setDefaultLookAndFeelDecorated(true);
+		JFrame.setDefaultLookAndFeelDecorated(false);
         SwingUtilities.invokeLater(new GUIApplication("BorderLayout"));
         
 	}
@@ -267,6 +268,7 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 				String capitalValue = String.format("%.02f", capital);
 				capitalValueLabel.setText("$" + capitalValue);
 				updateTable();
+				repaint();
 				
 			} catch (CSVFormatException | IOException e1) {
 				// TODO Auto-generated catch block
@@ -326,6 +328,7 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 				String capitalValue = String.format("%.02f", capital);
 				capitalValueLabel.setText("$" + capitalValue);
 				updateTable();
+				repaint();
 				
 			} catch (CSVFormatException | IOException e1) {
 				JOptionPane.showMessageDialog(this, "CSV Error :" + e1.getMessage(),"A CSV Error",JOptionPane.ERROR_MESSAGE);

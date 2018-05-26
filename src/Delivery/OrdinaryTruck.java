@@ -52,6 +52,10 @@ public class OrdinaryTruck extends Truck {
 		if(numOfItems > ordinaryCargoLimit) {
 			throw new DeliveryException("Cannot add as stock due to exceeding 1000 items");
 		}
+		
+		if(stockObj.returnStockList().isEmpty()) {
+			throw new DeliveryException("Empty Stock Object was added");
+		}
 		//sets the cargo stock as the inputted stock object
 		cargoStock = stockObj;
 	}	
@@ -96,7 +100,10 @@ public class OrdinaryTruck extends Truck {
 	}
 	
 	@Override
-	public double getCost() throws StockException {
+	public double getCost() throws StockException, DeliveryException {
+		if(cargoStock == null || cargoStock.returnStockList().isEmpty()){
+			throw new DeliveryException("Cannot get the Cost of the truck as there is no stock inside it");
+		}
 		//determine the cargo amount
 		int cargoAmmount = cargoStock.getNumberOfItems();
 		//calculates the cost of the cargo Truck

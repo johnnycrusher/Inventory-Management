@@ -286,7 +286,7 @@ public class RefrigeratedTruckTest {
 		
 		refrigeratedTruck.add(stock);
 		
-		refrigeratedTruck.remove();
+		refrigeratedTruck.removeStock();
 		
 		refrigeratedTruck.getStock();
 	}

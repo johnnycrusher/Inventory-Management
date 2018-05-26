@@ -45,8 +45,9 @@ public class Manifest {
 	 * A method to add cargo to a manifest in the form of a stock object and sort cold from ordinary
 	 * @param stock
 	 * @throws StockException
+	 * @throws DeliveryException 
 	 */
-	public void addItemStock(Stock stock) throws StockException{
+	public void addItemStock(Stock stock) throws StockException, DeliveryException{
 		//Keep record of the total stock
 		importedStock = stock;
 		determineCargoStock();
@@ -62,8 +63,12 @@ public class Manifest {
 	/**
 	 * A method which determins if an item needs to be reordered and added to the manifest's totalStock
 	 * @throws StockException
+	 * @throws DeliveryException 
 	 */
-	private void determineCargoStock() throws StockException {
+	private void determineCargoStock() throws StockException, DeliveryException {
+		if(importedStock.returnStockList().isEmpty()) {
+			throw new DeliveryException("There is no imported Stock");
+		}
 		for (Map.Entry<Item,Integer> entry : importedStock.returnStockList().entrySet()) {
 			Item currentItem = entry.getKey();
 			int  itemQuantity = entry.getValue();
@@ -79,9 +84,13 @@ public class Manifest {
 	/**
 	 * A method to separate the refrigerated items from the ordinary items
 	 * @throws StockException
+	 * @throws DeliveryException 
 	 */
-	private void splitRefridgeratedFromOrdinary() throws StockException {
+	private void splitRefridgeratedFromOrdinary() throws StockException, DeliveryException {
 		//Assign each item in the given stock object to either coldStock, or ordinaryStock
+		if(totalStock.returnStockList().isEmpty()) {
+			throw new DeliveryException("There is no cargo imported");
+		}
 		for (Item key : totalStock.returnStockList().keySet()) {
 			if (key.isCold()){
 		        this.coldStock.addItem(key, totalStock.getItemQuantity(key.getItemName()));  
@@ -149,7 +158,7 @@ public class Manifest {
 						// Ideally keep the cargoStock array list as we can use that to compare our optimisation method
 						cargoStock.add(refrigeratedTruckStock);
 						
-						//Break out of for loop
+						//Break out of the for loop
 						break;
 					}
 				}
@@ -286,13 +295,19 @@ public class Manifest {
 	/**
 	 * A manifest initialisation method which creates the required trucks and adds them to the truckList
 	 * @throws StockException
+	 * @throws DeliveryException 
 	 */
-	public void createTrucks() throws StockException {		
-		for (int i=0; i < determineColdTruckCount(); i++) {
+	public void createTrucks() throws StockException, DeliveryException {
+		int coldTruckCount = determineColdTruckCount();
+		int ordinaryTruckCount = determineOrdinaryTruckCount();
+		if(coldTruckCount == 0 && ordinaryTruckCount == 0) {
+			throw new DeliveryException("No trucks are required due to no cargo");
+		}
+		for (int numOfRefridgeTrucks=0; numOfRefridgeTrucks < determineColdTruckCount(); numOfRefridgeTrucks++) {
 			Truck truck = new RefrigeratedTruck();
 			truckList.add(truck);
 		}
-		for (int i=0; i < determineOrdinaryTruckCount(); i++) {
+		for (int numOfOrdinaryTrucks=0; numOfOrdinaryTrucks < determineOrdinaryTruckCount(); numOfOrdinaryTrucks++) {
 			Truck truck = new OrdinaryTruck();
 			truckList.add(truck);
 		}
@@ -329,20 +344,33 @@ public class Manifest {
 	}
 	
 	
+	/**
+	 * @return
+	 */
 	public Stock getCargoStock() {
 		return totalStock;
 	}
 	
+	/**Get the stock that was imported into the manifest
+	 * @return importedStock - returns the imported stock
+	 * @throws DeliveryException when there is no imported cargo 
+	 */
 	public Stock getImportStock() throws DeliveryException{	
-		if (importedStock.getNumberOfItems() == 0)
-		{
-			throw new DeliveryException("No cargo in totalStock");
+		if (importedStock.getNumberOfItems() == 0){
+			throw new DeliveryException("No imported cargo");
 		} else {
 			return importedStock;
 		}
 	}
 	
+	/** Loads the optimised cargo into each of the trucks avaliable trucks
+	 * @throws DeliveryException when optimsied cargo exceeds the truck capacity or adds a refrigerated item to ordinary
+	 * @throws StockException
+	 */
 	public void loadCargoToTrucks() throws DeliveryException, StockException {
+		if(truckList.isEmpty() || cargoStock.isEmpty()) {
+			throw new DeliveryException("there is no cargo or there are no trucks created");
+		}
 		for(int index = 0; index < truckList.size(); index++) {
 			truckList.get(index).add(cargoStock.get(index));
 		}
@@ -351,8 +379,12 @@ public class Manifest {
 	/**
 	 * A method to return the cargoStock ArrayList<Stock>
 	 * @return ArrayList<Stock> 
+	 * @throws DeliveryException 
 	 */
-	public ArrayList<Stock> getOptimisedCargo(){
+	public ArrayList<Stock> getOptimisedCargo() throws DeliveryException{
+		if(cargoStock.isEmpty()) {
+			throw new DeliveryException("No cargo can't get optimised cargo");
+		}
 		return cargoStock;
 	}
 
@@ -363,13 +395,20 @@ public class Manifest {
 		this.truckList.add(truck);
 	}
 	
+	/**A method used to add Stock objects directly into a truck
+	 * @param stock - the stock that is being imported into the truck
+	 * @param index -  the index of the truck in the arrayList
+	 * @throws DeliveryException - when the imported cargo exceeds the trucks capacity
+	 *  or when refrigated item is being added to ordinary trucks
+	 * @throws StockException
+	 */
 	public void addCargoDirectlyToTruck(Stock stock, int index) throws DeliveryException, StockException {
 		truckList.get(index).add(stock);
 	}
 
 	/**
 	 * Remove method to remove truck from truckList at given index
-	 * @param Integer index
+	 * @param index - the index of the truck that needs to be removed
 	 */
 	private void removeTruck(int index) {
 		this.truckList.remove(index);

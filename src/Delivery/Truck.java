@@ -26,7 +26,7 @@ public abstract class Truck {
 	}
 	/**Removes the Truck cargo Stock from the truck
 	 */
-	public void remove() {
+	public void removeStock() {
 		//Set the cargo Stock to null
 		cargoStock = null;
 	}
@@ -35,8 +35,12 @@ public abstract class Truck {
 	/** A method that returns the number of items in a truck
 	 * @return - the number of cargo Items in the truck
 	 * @throws StockException 
+	 * @throws DeliveryException 
 	 */
-	public int getQuantity() throws StockException {
+	public int getQuantity() throws StockException, DeliveryException {
+		if(cargoStock == null ||cargoStock.returnStockList().isEmpty()) {
+			throw new DeliveryException("Can't return the quantity of items in the truck there are no objects");
+		}
 		return cargoStock.getNumberOfItems();
 	}
 	
@@ -44,9 +48,10 @@ public abstract class Truck {
 	/**A method that gets the stock of the truck 
 	 * @return the cargo that truck is holding
 	 * @throws DeliveryException occurs when there is no cargo in the truck
+	 * @throws StockException 
 	 */
-	public Stock getStock() throws DeliveryException {
-		if(cargoStock == null) {
+	public Stock getStock() throws DeliveryException, StockException {
+		if(cargoStock == null || cargoStock.returnStockList().isEmpty()) {
 			throw new DeliveryException("There is no cargo in the Truck");
 		}
 		return cargoStock;
@@ -56,8 +61,12 @@ public abstract class Truck {
 	/**Determines the cost of the cargo
 	 * @return returns the cost of the cargo
 	 * @throws StockException 
+	 * @throws DeliveryException 
 	 */
-	public double getStockCost() throws StockException {
+	public double getStockCost() throws StockException, DeliveryException {
+		if(cargoStock == null || cargoStock.returnStockList().isEmpty()) {
+			throw new DeliveryException("Cannot get Cargo Cost as there is no cargo in the truck");
+		}
 		//get the HashMap collector from the cargo
 		HashMap<Item, Integer> stockList =  cargoStock.returnStockList();
 		//intialise cost as 0
@@ -81,12 +90,13 @@ public abstract class Truck {
 	/** Gets the cost of the truck 
 	 * @return cost - the cost of the truck in dollars
 	 * @throws StockException
+	 * @throws DeliveryException 
 	 */
-	public abstract double getCost() throws StockException;
+	public abstract double getCost() throws StockException, DeliveryException;
 	
 	/** gets the set temperature of that specfic truck
 	 * @return truckTemperature - the temperature of the truck
 	 * @throws StockException
 	 */
-	public abstract int getTemp() throws StockException;
+	public abstract int getTemp() throws StockException, DeliveryException;
 }
