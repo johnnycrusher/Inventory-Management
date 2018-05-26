@@ -11,12 +11,10 @@ import java.util.Random;
 import org.junit.Before;
 import org.junit.Test;
 
-import OrdinaryTruck;
 import Delivery.Manifest;
 import Delivery.Truck;
 import Exception.DeliveryException;
 import Exception.StockException;
-import junit.Uber.Uber;
 
 /**
  * This class represents the Unit Test for the Stock Object.
@@ -83,21 +81,34 @@ public class StockTest {
 		}
 		
 		
+		/**This method task is the generate random Item name with no duplicates
+		 * @param number - number of random names it should create
+		 * @return randomCargoList - an arrayList of random item names
+		 */
 		private static ArrayList<String> generateItemNames(int number) {
+			//generate Array list for storage
 			ArrayList<String> foodList = new ArrayList<String>();
 			ArrayList<String> randomCargoList = new ArrayList<String>();
+			//forloop for adding item names in foodList
 			for(int index = 0; index < itemNames.length ; index++) {
 				foodList.add(itemNames[index]);
 			}
+			//random index number
 			int randomIndex;
+			//
 			for(int index = 0; index < number; index++) {
+				//generate random number
 				randomIndex = randomInteger(0,foodList.size()-1);
-				String randomDryFood = foodList.get(randomIndex);
+				//get the random food item
+				String randomItemName = foodList.get(randomIndex);
+				//remove the item from the list so it can't be selected again
 				foodList.remove(randomIndex);
-				randomCargoList.add(randomDryFood);
+				//add it in the random cargo names
+				randomCargoList.add(randomItemName);
 			}
 			return randomCargoList;
 		}
+
 	
 		/* Test 0: Declaring a Stock object
 		 */
@@ -260,7 +271,7 @@ public class StockTest {
 			int expectedQuantity = itemQuantity - 1;
 			stock.addItem(item, itemQuantity);
 			stock.remove(itemName,1);
-			assertEquals("Wrong Quantity Returned", expectedQuantity, stock.getItemQuantity(itemName);	
+			assertEquals("Wrong Quantity Returned", expectedQuantity, stock.getItemQuantity(itemName));	
 		}
 		
 		/*

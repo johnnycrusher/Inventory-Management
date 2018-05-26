@@ -1,6 +1,9 @@
 /**
- * Manifest Class 
+ * The Manifest class deals with creating manifest objects
+ * and storing stock objects and the distrubution of stock
+ * objects to trucks for delivery. 
  * @author Tom
+ * @version 1.0
  */
 package Delivery;
 
@@ -43,11 +46,14 @@ public class Manifest {
 
 	/**
 	 * A method to add cargo to a manifest in the form of a stock object and sort cold from ordinary
-	 * @param stock
-	 * @throws StockException
-	 * @throws DeliveryException 
+	 * @param stock - the stock object that is being added as the imported stock
+	 * @throws StockException - throws a stock error when import stock is empty
+	 * @throws DeliveryException  - throws a delivery error when imported stock is empty
 	 */
 	public void addItemStock(Stock stock) throws StockException, DeliveryException{
+		if(importedStock.returnStockList().isEmpty()) {
+			throw new DeliveryException("The imported stock item is empty");
+		}
 		//Keep record of the total stock
 		importedStock = stock;
 		determineCargoStock();
@@ -61,9 +67,9 @@ public class Manifest {
 	}
 	
 	/**
-	 * A method which determins if an item needs to be reordered and added to the manifest's totalStock
-	 * @throws StockException
-	 * @throws DeliveryException 
+	 * A method which determine if an item needs to be reordered and added to the manifest's totalStock
+	 * @throws StockException - throws a stock error when there is a stock problem
+	 * @throws DeliveryException  - throws a delevery error when there is no imported stock
 	 */
 	private void determineCargoStock() throws StockException, DeliveryException {
 		if(importedStock.returnStockList().isEmpty()) {
@@ -83,8 +89,8 @@ public class Manifest {
 	
 	/**
 	 * A method to separate the refrigerated items from the ordinary items
-	 * @throws StockException
-	 * @throws DeliveryException 
+	 * @throws StockException - throws a stock exception when there is a stock error
+	 * @throws DeliveryException - throws a delivery exception when there is no cargo imported
 	 */
 	private void splitRefridgeratedFromOrdinary() throws StockException, DeliveryException {
 		//Assign each item in the given stock object to either coldStock, or ordinaryStock
@@ -102,7 +108,7 @@ public class Manifest {
 	
 	/**
 	 * A method which optimizes truck cargo by analysis of stock
-	 * @throws StockException
+	 * @throws StockException - throws a stock error when there is a stock problem
 	 */
 	public void sortStock() throws StockException {
 		//Get ordinaryStock hashmap
@@ -272,30 +278,37 @@ public class Manifest {
 	/**
 	 * A method which determines the required temperature of a truck object 
 	 * by finding the coldest item temperature in the stock object
-	 * @throws StockException
-	 * @returns String objectName
+	 * @throws StockException - throws a stock error when is a stock problem
+	 * @returns objectName - the name of the coldest item
 	 */
 	private String determineColdestItem() throws StockException {
+		//find the set the lowest temp to 11
 		int currentLowestTemp = 11;
 		int itemObjectTemp = 11;
 		String objectName = null;
+		//loop in the hashmap to evaluate keys and values
 		for(Map.Entry<Item, Integer> entry : coldStock.returnStockList().entrySet()) {
+			//get the item object
 			Item itemObject = entry.getKey();
+			//get item quantity
 			int itemQuantity = entry.getValue();
+			//if item Quantity is above zero log the temp
 			if (itemQuantity > 0) {
 				itemObjectTemp = itemObject.getTemperature();
+				//compare wiht the current lowest temp if lower then replace as new low temp
 				if(itemObjectTemp < currentLowestTemp) {
 					currentLowestTemp = itemObjectTemp;
 					objectName = itemObject.getItemName();
 				}
 			}
 		}
+		//return the item name of the lowest temp item
 		return objectName;
 	}
 	/**
 	 * A manifest initialisation method which creates the required trucks and adds them to the truckList
-	 * @throws StockException
-	 * @throws DeliveryException 
+	 * @throws StockException - throws a stock error when there is a stock problem
+	 * @throws DeliveryException  - throws a delievery exception when there are no trucks required
 	 */
 	public void createTrucks() throws StockException, DeliveryException {
 		int coldTruckCount = determineColdTruckCount();
@@ -314,8 +327,8 @@ public class Manifest {
 	}
 	
 	/**
-	 * A method which determins the required number of cold trucks
-	 * @returns int numberOfColdTrucks
+	 * A method which determines the required number of cold trucks
+	 * @returns numberOfColdTrucks - the number of cold trucks required
 	 */
 	private int determineColdTruckCount() {
 		int numberOfColdItems = coldStock.getNumberOfItems();
@@ -324,8 +337,8 @@ public class Manifest {
 	}
 	
 	/**
-	 * A method which determins the required number of ordinary trucks
-	 * @returns int numberOfOrdinaryTrucks
+	 * A method which determines the required number of ordinary trucks
+	 * @returns numberOfOrdinaryTrucks - the number of ordinary trucks required
 	 */
 	private int determineOrdinaryTruckCount() {
 		int numberOfColdItems = coldStock.getNumberOfItems();
@@ -344,8 +357,8 @@ public class Manifest {
 	}
 	
 	
-	/**
-	 * @return
+	/**a getter method to get the cargo stock
+	 * @return totalStock - the stock that needs to be reoreder
 	 */
 	public Stock getCargoStock() {
 		return totalStock;
@@ -365,7 +378,7 @@ public class Manifest {
 	
 	/** Loads the optimised cargo into each of the trucks avaliable trucks
 	 * @throws DeliveryException when optimsied cargo exceeds the truck capacity or adds a refrigerated item to ordinary
-	 * @throws StockException
+	 * @throws StockException - throws an error when there is a stock error
 	 */
 	public void loadCargoToTrucks() throws DeliveryException, StockException {
 		if(truckList.isEmpty() || cargoStock.isEmpty()) {
@@ -378,8 +391,8 @@ public class Manifest {
 	
 	/**
 	 * A method to return the cargoStock ArrayList<Stock>
-	 * @return ArrayList<Stock> 
-	 * @throws DeliveryException 
+	 * @return ArrayList<Stock> - the array list that stores optimised cargo
+	 * @throws DeliveryException - throws an delivery exception when there is no cargo to the cargoStock
 	 */
 	public ArrayList<Stock> getOptimisedCargo() throws DeliveryException{
 		if(cargoStock.isEmpty()) {
@@ -400,38 +413,26 @@ public class Manifest {
 	 * @param index -  the index of the truck in the arrayList
 	 * @throws DeliveryException - when the imported cargo exceeds the trucks capacity
 	 *  or when refrigated item is being added to ordinary trucks
-	 * @throws StockException
+	 * @throws StockException - throws a stock error when there is a stock problem
 	 */
 	public void addCargoDirectlyToTruck(Stock stock, int index) throws DeliveryException, StockException {
 		truckList.get(index).add(stock);
 	}
-
-	/**
-	 * Remove method to remove truck from truckList at given index
-	 * @param index - the index of the truck that needs to be removed
-	 */
-	private void removeTruck(int index) {
-		this.truckList.remove(index);
-	}
-
-	/**
-	 * A getter method to retrieve a truck at given index
-	 * @returns Truck
-	 * @param Integer index
-	 */
-	private Truck getTruck(int index) {
-		return this.truckList.get(index);
-	}
 	
 	/**
 	 * A getter method to return truckList ArrayList
-	 * @returns Truck
+	 * @returns truckList - the array list of truck
 	 */
 	public ArrayList<Truck> getAllTrucks() {
 		return truckList;
 	}
 	
 	
+	/**Calculates the cost of the cargo inside all trucks
+	 * @return totalCost - the total cost of the cargo
+	 * @throws DeliveryException - throws a delivery excpetion when it there is no cargo to get the cost for
+	 * @throws StockException - throws a stock error when there is a stock problem
+	 */
 	public double getCargoCost() throws DeliveryException, StockException {
 		if(totalStock.getNumberOfItems() == 0) {
 			throw new DeliveryException("Cannot Get Cost of Cargo as there is no cargo");
@@ -448,9 +449,9 @@ public class Manifest {
 	
 	/**
 	 * A method to calculate the manifest's totalCost for capital adjustment purposes
-	 * @returns totalCost
-	 * @throws StockException
-	 * @throws DeliveryException 
+	 * @returns totalCost - the total cost of the manifest including truck cost and cargo cost
+	 * @throws StockException - throws a stock exception when there is a stock problem
+	 * @throws DeliveryException - throws a delivery exception when there is no stock to calculate
 	 */
 	public double getManifestCost() throws StockException, DeliveryException {
 		if(truckList.size() == 0 ) {

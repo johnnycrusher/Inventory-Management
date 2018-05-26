@@ -65,7 +65,7 @@ public class OrdinaryTruck extends Truck {
 	 * @param stock - the stock object that will be used to search stock object
 	 * @return anyRefrigeratedItem - true or false value for if any refrigerated items in stock object
 	 * @throws DeliveryException - when it can't access truck stock
-	 * @throws StockException 
+	 * @throws StockException - throws a stock error when there is a stock problem
 	 */
 	private String findRefrigeratedItems(Stock stock) throws DeliveryException, StockException {
 		//Hashmap of the stock object

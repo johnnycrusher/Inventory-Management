@@ -76,7 +76,7 @@ public class Stock {
 	/**A method to get the Item from the Stock Object when intering the Item Name
 	 * @param itemName - item name of the object that is being searched in Stock Obj
 	 * @return key - the Item Object that is was searching for
-	 * @throws StockException
+	 * @throws StockException - throws a stock errror if the stock item doesn't exist 
 	 */
 	public Item getItem(String itemName) throws StockException {
 		//Set an Item variable as null
@@ -103,7 +103,7 @@ public class Stock {
 	}
 	
 	/**A method that gets the Item Quantity of the Object
-	 * @param itemName
+	 * @param itemName - the name of the item that is being search for its quantity
 	 * @return itemQuantity - the quantity of the item it was searching for
 	 * @throws StockException when the item its search for isn't in Stock Obj
 	 */
@@ -181,7 +181,7 @@ public class Stock {
 	
 	/**A method used to convert the Stock Object into a Object[][] for JTable GUI
 	 * @return object - An Object[][] for JTable GUI
-	 * @throws StockException 
+	 * @throws StockException - when there is a stock related error
 	 */
 	public Object[][] convertStockIntoTable(){
 		//Define the Object Size

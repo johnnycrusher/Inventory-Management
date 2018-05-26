@@ -7,7 +7,6 @@ import java.util.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import OrdinaryTruck;
 import Exception.DeliveryException;
 import Exception.StockException;
 import Stock.Item;
@@ -74,22 +73,39 @@ public class ManifestTest {
 		return randomDouble;
 	}
 	
+	/**This method task is the generate random Item name with no dupilcates
+	 * @param number - number of random names it should create
+	 * @return randomCargoList - an arrayList of random item names
+	 */
 	private static ArrayList<String> generateItemNames(int number) {
+		//generate Array list for storage
 		ArrayList<String> foodList = new ArrayList<String>();
 		ArrayList<String> randomCargoList = new ArrayList<String>();
+		//forloop for adding item names in foodList
 		for(int index = 0; index < itemNames.length ; index++) {
 			foodList.add(itemNames[index]);
 		}
+		//random index number
 		int randomIndex;
+		//
 		for(int index = 0; index < number; index++) {
+			//generate random number
 			randomIndex = randomInteger(0,foodList.size()-1);
+			//get the random food item
 			String randomItemName = foodList.get(randomIndex);
+			//remove the item from the list so it can't be selected again
 			foodList.remove(randomIndex);
+			//add it in the random cargo names
 			randomCargoList.add(randomItemName);
 		}
 		return randomCargoList;
 	}
 		
+	/**This methods task is to generate a stock object with random item
+	 * objects
+	 * @return stock - the generated stock object that contains the random items
+	 * @throws StockException - throws a stock exception when there a stock error
+	 */
 	private static Stock generateRandomStock() throws StockException {
 		Stock stock = new Stock();
 		int temperature;
@@ -113,12 +129,19 @@ public class ManifestTest {
 		return stock;
 	}
 	
+	/**Generates a random stock item where all items are below the reorder threshold
+	 * @return stock - the random stock object that contains the items below reorder threshold
+	 * @throws StockException
+	 */
 	private static Stock generateReorderStock() throws StockException {
+		//generate stock item and intialise import variables
 		Stock stock = new Stock();
 		String itemName;
 		int temperature;
+		//generate random names
 		ArrayList<String> itemNames = generateItemNames(10);
 		for(int index = 0; index < 10; index++) {
+			//generating random item properties
 			double manufactureCost = randomDouble(0,100);
 			double sellCost = randomDouble(0,100);
 			int reorderPoint = randomInteger(0, 250);
@@ -128,14 +151,22 @@ public class ManifestTest {
 			}else {
 				temperature = 11;
 			}
+			//generate item quantity below reorder point
 			int itemQty = randomInteger(0,249);
+			//create the item
 			Item item = new Item(itemNames.get(index), manufactureCost, sellCost, reorderPoint, reorderAmount, temperature);
+			// add stock item to arrayList
 			stock.addItem(item, itemQty);
 		}
 		return stock;
 	}
 	
+	/**This method task is to generate static imported stock
+	 * @return importedStock - returns the importedStock
+	 * @throws StockException - throws an error when there is a stock error
+	 */
 	private static Stock generateStaticImportedStock() throws StockException {
+		//generate items
 		Stock importedStock = new Stock();
 		Item rice = new Item("rice",2,3,225,300,11);
 		Item beans = new Item("beans",4,6,450,525,11);
@@ -144,16 +175,24 @@ public class ManifestTest {
 		Item ice = new Item("ice",2,5,225,325,-10);
 		Item frozenmeat = new Item("frozen meat",10,14,450,575,-14);
 		
+		//add the items in the stock object
 		importedStock.addItem(rice, 100);
 		importedStock.addItem(beans, 200);
 		importedStock.addItem(pasta, 100);
 		importedStock.addItem(icecream, 100);
 		importedStock.addItem(ice, 100);
 		importedStock.addItem(frozenmeat, 100);
+		//return importedStock
 		return importedStock;
 	}
 	
+	/**A method that returns a staticly optimised stock
+	 * @return cargoStockList - returns the optimised cargo stock
+	 * @throws StockException - throws an error when there is a stock error
+	 */
 	private static ArrayList<Stock> generateStaticOptimisedStock() throws StockException{
+		
+		//generate random items
 		Stock importedStock = new Stock();
 		Item rice = new Item("rice",2,3,225,300,11);
 		Item beans = new Item("beans",4,6,450,525,11);
@@ -169,6 +208,7 @@ public class ManifestTest {
 		importedStock.addItem(ice, 100);
 		importedStock.addItem(frozenmeat, 100);
 		
+		//add the stock list in their appropriate cargo
 		ArrayList<Stock> cargoStockList = new ArrayList<Stock>();
 		Stock T1Stock = new Stock();
 		T1Stock.addItem(icecream, 250);
@@ -182,23 +222,34 @@ public class ManifestTest {
 		T3Stock.addItem(beans, 325);
 		T3Stock.addItem(rice, 300);
 		
+		//add the the cargo list array
 		cargoStockList.add(T1Stock);
 		cargoStockList.add(T2Stock);
 		cargoStockList.add(T3Stock);
+		
 		return cargoStockList;
 	}
 	
+	/**get the truck object that will contain the stock
+	 * @return arrayOfTrucks - an array of trucks that contain their cargo
+	 * @throws StockException
+	 * @throws DeliveryException
+	 */
 	private static ArrayList<Truck> generateStaticOptimisedTruckStock() throws StockException, DeliveryException{
+		//generate cargo stock list
 		ArrayList<Stock> cargoStockList = generateStaticOptimisedStock();
+		//create the array of trucks
 		ArrayList<Truck> arrayOfTrucks = new ArrayList<Truck>();
 		Truck refridgeratedTruckOne = new RefrigeratedTruck();
 		Truck refridgeratedTruckTwo = new RefrigeratedTruck();
 		Truck ordinaryTruckOne = new OrdinaryTruck();
 		
+		//add the cargo onto the trucks
 		refridgeratedTruckOne.add(cargoStockList.get(0));
 		refridgeratedTruckTwo.add(cargoStockList.get(1));
 		ordinaryTruckOne.add(cargoStockList.get(2));
 		
+		//add the cargo to the trucks
 		arrayOfTrucks.add(refridgeratedTruckOne);
 		arrayOfTrucks.add(refridgeratedTruckTwo);
 		arrayOfTrucks.add(ordinaryTruckOne);

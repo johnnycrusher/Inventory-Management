@@ -1,6 +1,8 @@
 /**
- * The Stock class, supplying item object functionality to the project
+ * The Item class, is in charge of create item object
+ * which store important properties each item has
  * @author Tom
+ * @version 1.0
  */
 package Stock;
 
@@ -19,13 +21,13 @@ public class Item {
 	
 	/**
 	 * A constructor method to create an Item object
-	 * @param itemName
-	 * @param manufactureCost
-	 * @param sellCost
-	 * @param reorderPoint
-	 * @param reorderAmount
-	 * @param temperature
-	 * @throws StockException
+	 * @param itemName - the item name
+	 * @param manufactureCost - the manufacturing cost
+	 * @param sellCost - the sell cost
+	 * @param reorderPoint - the reorder point
+	 * @param reorderAmount - the reorder amount
+	 * @param temperature - the temperature of the object
+	 * @throws StockException - throws an error when there is a stock error
 	 */
 	public Item(String itemName, double manufactureCost, double sellCost, int reorderPoint, int reorderAmount, int temperature) throws StockException {
 		//Set the itemName
@@ -71,7 +73,7 @@ public class Item {
 	
 	/**
 	 * A getter method to return itemName
-	 * @return itemName
+	 * @return itemName - the name of the item
 	 */
 	public String getItemName() {
 		return itemName;
@@ -79,7 +81,7 @@ public class Item {
 
 	/**
 	 * A getter method to return manufactureCost
-	 * @return manufactureCost
+	 * @return manufactureCost - the manufacuture cost
 	 */
 	public double getManufactureCost() {
 		return this.manufactureCost;
@@ -87,7 +89,7 @@ public class Item {
 	
 	/**
 	 * A getter method to return sellCost
-	 * @return sellCost
+	 * @return sellCost - the sell cost
 	 */
 	public double getSellCost() {
 		return this.sellCost;
@@ -95,7 +97,7 @@ public class Item {
 	
 	/**
 	 * A getter method to return reorderPoint
-	 * @return reorderPoint
+	 * @return reorderPoint - the reorder point
 	 */
 	public int getReorderPoint() {
 		return this.reorderPoint;
@@ -103,7 +105,7 @@ public class Item {
 	
 	/**
 	 * A getter method to return reorderAmount
-	 * @return reorderAmount
+	 * @return reorderAmount - the reorder ammount
 	 */
 	public int getReorderAmount() {
 		return this.reorderAmount;
@@ -111,8 +113,9 @@ public class Item {
 	
 	/**
 	 * A method to determin if a given item is cold by evaluating this.temperature
-	 * @return bool
-	 * @throws StockException
+	 * @return boolean - a truck if the temp is under then false if it equal to 11
+	 * 				anything else is an invalid temp
+	 * @throws StockException - throws an error if there is stock related errors
 	 */
 	public boolean isCold() throws StockException {
 		//If temp is less than 10, then item is cold
@@ -129,8 +132,7 @@ public class Item {
 	
 	/**
 	 * A getter method to return an item's temperature
-	 * @return temperature
-	 * @throws StockException
+	 * @return temperature - the temperature of the item
 	 */
 	public int getTemperature() {
 		//If temp is less than 10, then item is cold
