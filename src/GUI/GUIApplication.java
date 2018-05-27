@@ -431,7 +431,7 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 		int returnValue = jfc.showSaveDialog(this);
 		if(returnValue == jfc.APPROVE_OPTION) {
 			File selectedFile = jfc.getSelectedFile();
-			return (selectedFile.getAbsolutePath() + ".csv");
+			return (selectedFile.getAbsolutePath());
 		}
 		return null;
 	}
