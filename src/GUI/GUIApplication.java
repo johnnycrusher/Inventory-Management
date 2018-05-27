@@ -171,9 +171,9 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 	    constraints.weighty = 100;
 	    
 	    //Add buttons to the Grid Layout
-	    addToPanel(pnlBtn, btnExtractMan,constraints,0,0,2,1);
-	    addToPanel(pnlBtn, btnLoadMan,constraints,2,0,2,1);
-	    addToPanel(pnlBtn, btnUpdateItems,constraints,4,0,2,1);	
+	    addToPanel(pnlBtn, btnUpdateItems,constraints,0,0,2,1);	
+	    addToPanel(pnlBtn, btnExtractMan,constraints,2,0,2,1);
+	    addToPanel(pnlBtn, btnLoadMan,constraints,4,0,2,1);
 	    addToPanel(pnlBtn, btnLoadSales,constraints,6,0,2,1);
 	}
 	
@@ -431,7 +431,11 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 		int returnValue = jfc.showSaveDialog(this);
 		if(returnValue == jfc.APPROVE_OPTION) {
 			File selectedFile = jfc.getSelectedFile();
-			return (selectedFile.getAbsolutePath());
+			String fileLocation = selectedFile.getAbsolutePath();
+			if(!fileLocation.endsWith(".csv")) {
+				fileLocation += ".csv";
+			}
+			return fileLocation;
 		}
 		return null;
 	}
