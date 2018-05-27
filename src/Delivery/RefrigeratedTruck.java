@@ -1,23 +1,14 @@
-package Delivery;
-/**
- * 
- */
-
-
-import java.util.HashMap;
-import java.util.Map;
-import java.lang.*;
-
-import Exception.DeliveryException;
-import Exception.StockException;
-import Stock.Item;
-import Stock.Stock;
-
 /**A sub class of the Truck Object to
  * show the refrigerated truck functionality
  * @author John Huynh
  * @version 1.0
  */
+package Delivery;
+
+import java.util.*;
+import Exception.*;
+import Stock.*;
+
 public class RefrigeratedTruck extends Truck {
 	//set a truck temperature to 11 which will be overwrite
 	//when truck is created
@@ -33,7 +24,6 @@ public class RefrigeratedTruck extends Truck {
 
 	@Override
 	public void add(Stock stockObj) throws DeliveryException, StockException {
-		HashMap<Item, Integer> stockList =  stockObj.returnStockList();
 		int numOfItems = stockObj.getNumberOfItems(); 
 		if(numOfItems > 800) {
 			throw new DeliveryException("Cannot add as stock due to exceeding 800 items");

@@ -1,20 +1,13 @@
-/**
- * 
- */
-package Delivery;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import Exception.DeliveryException;
-import Exception.StockException;
-import Stock.Item;
-import Stock.Stock;
-
 /** An abstract class that for Truck Objects
  * @author John Huynh
  * @version 1.0
  */
+package Delivery;
+
+import java.util.*;
+import Exception.*;
+import Stock.*;
+
 public abstract class Truck {
 
 	//Cargo Stock item

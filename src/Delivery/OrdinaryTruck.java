@@ -1,7 +1,11 @@
-package Delivery;
-/**
- * 
+/** 
+ * A sub class of the Truck Object to
+ * show the Ordinary Trucks funtionality
+ * @author John Huynh
+ * @version 1.0
  */
+
+package Delivery;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,22 +15,18 @@ import Exception.StockException;
 import Stock.Item;
 import Stock.Stock;
 
-/** A sub class of the Truck Object to
- * show the Ordinary Trucks funtionality
- * @author John Huynh
- * @version 1.0
- */
+
 public class OrdinaryTruck extends Truck {
 
 	
 	private final static int ordinaryCargoLimit = 1000;
+	
 	/**The Ordinary Truck Constructor that instantiates
 	 * an empty cargo stock
 	 */
 	public OrdinaryTruck() {
 		cargoStock = null;
 	}
-	
 	
 	@Override
 	public void add(Stock stockObj) throws DeliveryException, StockException{

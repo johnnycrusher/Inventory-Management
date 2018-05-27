@@ -7,14 +7,9 @@
  */
 package Delivery;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import Exception.DeliveryException;
-import Exception.StockException;
-import Stock.Item;
-import Stock.Stock;
+import java.util.*;
+import Exception.*;
+import Stock.*;
 
 public class Manifest {
 	//Capacity Declarations

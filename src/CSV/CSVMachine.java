@@ -5,26 +5,14 @@
  */
 package CSV;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+import Delivery.*;
+import Exception.*;
+import Stock.*;
+import com.opencsv.*;
 
-import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
-
-import Delivery.Manifest;
-import Delivery.OrdinaryTruck;
-import Delivery.RefrigeratedTruck;
-import Delivery.Truck;
-import Exception.CSVFormatException;
-import Exception.DeliveryException;
-import Exception.StockException;
-import Stock.Item;
-import Stock.Stock;
 
 public class CSVMachine {
 	/**
