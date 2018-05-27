@@ -71,15 +71,14 @@ public class OrdinaryTruck extends Truck {
 		//Hashmap of the stock object
 		HashMap<Item, Integer> stockItems = stock.returnStockList();
 		
-		//Intialise a boolean variable for true of falce
+		//Intialise a boolean variable for true of false
 		boolean anyRefridgeratedItem = false;
 		
+		//Initialise itemName to null
 		String itemName = null;
+		
 		//Intialise an array of tempertures
 		int itemTemp = 0;
-		
-		//set index to 0
-		int index = 0;
 		
 		//Loop to get all the tempertures of any objects
 		for(Map.Entry<Item,Integer> entry : stockItems.entrySet()) {
@@ -100,6 +99,11 @@ public class OrdinaryTruck extends Truck {
 	}
 	
 	@Override
+	/**
+	 * A method to return the cost of using the truck
+	 * @returns cost - the total calculated cost of using the truck
+	 * @throws StockException, DeliveryException
+	 */
 	public double getCost() throws StockException, DeliveryException {
 		if(cargoStock == null || cargoStock.returnStockList().isEmpty()){
 			throw new DeliveryException("Cannot get the Cost of the truck as there is no stock inside it");
@@ -113,8 +117,12 @@ public class OrdinaryTruck extends Truck {
 	}
 
 	@Override
-	//This method isn't necessary but is required for the complier
-	public int getTemp() throws StockException {
+	/**
+	 * A method to return the temperature value of an ordinary truck
+	 * This method is arbitrary but required by the compiler
+	 * @returns 11
+	 */
+	public int getTemp() {
 		return 11;
 	}
 }
