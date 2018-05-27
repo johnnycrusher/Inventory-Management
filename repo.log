@@ -1,0 +1,1025 @@
+JOHN-SURFACE\John (3):
+      updated test case file
+      basic Item unit test completed
+      store test case completed
+
+John Huynh (53):
+      Initial commit
+      Java Project Created with base test case created
+      updated file structure to match specification
+      advance item unit test completed
+      All Manifest Test Case Completed besides optimisation test cases
+      added a few more stock test case
+      a few more stock test cases added
+      stock item class completed
+      fixed stock cases and implemented stock cases and did some implementation of ordinary truck
+      Merge branch 'Truck-Item'
+      fixed item test case
+      Ordinar-Truck-Class-Implemented
+      ordinary truck class finished with appropraite exceptions and all test passed
+      manifest test cases fixed and added randomly generated stock items
+      Refrigerator Class Implemeneted satitfying reasonable test cases
+      addded ordinary truck stock limiting
+      refactored Refridgerated Truck and Ordinary Truck and added common methods in Truck Class
+      added entrypoint
+      added GUI
+      Mergeing Tom Features with master
+      algorithm semi completed
+      fixed the stock add function and created an arrayList for optimised cargo
+      fixed classpath
+      fixed manifest test cases modifed manifest and changed some implementation of stock object
+      merged CSV-Featues with master
+      optimisation of manifest completed
+      added JTable to GUI
+      fixed manifest test cases with optimisation
+      merged with toms copy
+      GUI File Explorer for Load buttons created
+      added Stock Listing in JTable when click on Update btn
+      Merge branch 'master' into GUI-Implementation to obtain CSV Path
+      added Export Manifest Functionality and fixed up manifest optimisation
+      started implementing load manifest button and fixed integer division problem in refridgerated truck
+      merged tom_features to master
+      fixed Manifest Write and Read in CSVMachine
+      merge Tom_Features with GUI Implementation
+      implemented sales log btn
+      deleted useless files
+      merged GUI Implementation with master
+      Merge branch 'master' of https://bitbucket.org/John_Huynh/cab302-assignment-2-group-102
+      added comments to Stock Truck, RefrigeratedTruck and Ordinary Truck
+      implemented semi working manifest reader
+      GUI fixed load manifest button
+      Implemented Store Into GUI
+      added more exceptions to all the classes
+      commenting all section of the code and generated JavaDoc
+      fixed JavaDocs
+      added a few modifed manifest file and sales log files for testing exception handling
+      changed exception text for a few exceptions
+      change button location and added dynamic .csv file extenson detector for save item
+      Merge branch 'master'
+      modified JTable Width
+
+Tom Nash (4):
+      Merged Tom_Features into master
+      Merged Tom_Cleaning into master
+      Merged Tom_Cleaning into master for filePath functionality
+      Merged Tom_Features into master
+
+tom-nash (40):
+      test case document added
+      A few stock test cases completed
+      Added Truck Tests and altered StockTest.java
+      Altered RefrigeratedTruckTest.Java
+      Completed Item.java to test Spec, and altered ItemTest.java
+      Completed Store.java to test spec, Altered StoreTest.java. Store.java will need changes to inventory system.
+      Added Singleton Pattern to Store.Java, Added addInventory() to Store.Java and made test case changes to StoreTest.java and StockTest.java
+      Developing CSV Features
+      Continued work on Manifest.java and CSVMachine.java, changes made to hashmap methods in /Stock/
+      Continued work on Manifest and CSV, also slight spelling and formatting corrections
+      Continued CSV Work
+      Slight changes
+      added Opencsv.jar
+      Fixing Branch before merge
+      Added .CSV Reading and Writing
+      Update to comments and formatting
+      Completed sortCargo method
+      Added CSV functionality and altered file paths
+      Completed CSV Features
+      Began satisfying ManifestTest.java cases
+      Fixed manifestTest.java
+      Cleaned some method comments and formatting
+      Added filePath functionality to CSVMachine.java
+      Updated CSVMachine.java and removed tests from ApplicationEntryPoint
+      Added exception handling to CSVMachine.java and removed testing from ApplicationEntryPoint.java
+      Cleaned Store.java, changed method names in Stock.java to make more sense, fixed CSVMachine.java
+      Cleaned Item.java
+      Fixed Stock.java and StockTest.java for testcases and errors
+      Cleaned some things, fixed Item.java's fatal getTemp issue, tatisfied all truck tests, removed TruckTest.java as it is not testable
+      Fixed broken truck tests after merge
+      Cleaned CSVMachine.java and improved exception info
+      Making classes JavaDoc friendly, fixed an issue in ItemTest.java
+      Added Store initialization to entry point
+      Fixed code quality and commenting
+      Making methods JavaDoc friendly
+      Improved JavaDoc and removed testing files
+      Fixed the adding of .csv to csv file names
+      Modified readme.me
+      Adjusted code quality
+      Merge branch 'master' of https://bitbucket.org/John_Huynh/cab302-assignment-2-group-102     committing changes to code quality
+
+*   78aa91f Merge branch 'master' of https://bitbucket.org/John_Huynh/cab302-assignment-2-group-102 committing changes to code quality
+|\  
+| * 6fcbde3 modified JTable Width
+* | ddce59f Adjusted code quality
+|/  
+*   e7cc8a0 Merge branch 'master'
+|\  
+| * 71c91c6 Modified readme.me
+* | ac1339a change button location and added dynamic .csv file extenson detector for save item
+|/  
+* 65efb6b Fixed the adding of .csv to csv file names
+* f3d4327 Improved JavaDoc and removed testing files
+* 41074af Making methods JavaDoc friendly
+* e00b3c6 Fixed code quality and commenting
+* 593f386 changed exception text for a few exceptions
+* e91b1ee added a few modifed manifest file and sales log files for testing exception handling
+* 496749a fixed JavaDocs
+* 1aad5b5 commenting all section of the code and generated JavaDoc
+* 82c6d6b added more exceptions to all the classes
+* 0e7da2e Implemented Store Into GUI
+* 3de0b87 GUI fixed load manifest button
+* 3e02a6e implemented semi working manifest reader
+* 55212a8 added comments to Stock Truck, RefrigeratedTruck and Ordinary Truck
+*   4e1edf4 Merge branch 'master' of https://bitbucket.org/John_Huynh/cab302-assignment-2-group-102
+|\  
+| * 6c2f5da Added Store initialization to entry point
+| * afa14d8 Making classes JavaDoc friendly, fixed an issue in ItemTest.java
+| * 0feae78 Cleaned CSVMachine.java and improved exception info
+| * 0de67ab Fixed broken truck tests after merge
+| *   7ce1371 Merged Tom_Features into master
+| |\  
+| | * 39c879f Cleaned some things, fixed Item.java's fatal getTemp issue, tatisfied all truck tests, removed TruckTest.java as it is not testable
+| | * 335426c Fixed Stock.java and StockTest.java for testcases and errors
+| | * b3a921e Cleaned Item.java
+* | |   39c08fd merged GUI Implementation with master
+|\ \ \  
+| |/ /  
+|/| |   
+| * | b0c17ae deleted useless files
+| * | bc14466 implemented sales log btn
+| * |   d06929d merge Tom_Features with GUI Implementation
+| |\ \  
+| | |/  
+| | * 0f3aaa3 Cleaned Store.java, changed method names in Stock.java to make more sense, fixed CSVMachine.java
+* | | 7654b4c fixed Manifest Write and Read in CSVMachine
+* | |   9f53811 merged tom_features to master
+|\ \ \  
+| |/ /  
+|/| /   
+| |/    
+| * d530c55 Added exception handling to CSVMachine.java and removed testing from ApplicationEntryPoint.java
+| * e9acc7d Updated CSVMachine.java and removed tests from ApplicationEntryPoint
+* | fdffe47 started implementing load manifest button and fixed integer division problem in refridgerated truck
+* | d5790da added Export Manifest Functionality and fixed up manifest optimisation
+* |   d76d926 Merge branch 'master' into GUI-Implementation to obtain CSV Path
+|\ \  
+| |/  
+| *   72803bb Merged Tom_Cleaning into master for filePath functionality
+| |\  
+| | * d8dc234 Added filePath functionality to CSVMachine.java
+* | | 69d4f1a added Stock Listing in JTable when click on Update btn
+* | | c204aa9 GUI File Explorer for Load buttons created
+|/ /  
+* |   796fece merged with toms copy
+|\ \  
+| * \   970fa56 Merged Tom_Cleaning into master
+| |\ \  
+| | |/  
+| | * 2370f55 Cleaned some method comments and formatting
+| |/  
+* | d22c75d fixed manifest test cases with optimisation
+|/  
+* d8ca10b added JTable to GUI
+* ecb1e00 optimisation of manifest completed
+* 6b4a750 Fixed manifestTest.java
+*   b91988d merged CSV-Featues with master
+|\  
+| * 6731940 Began satisfying ManifestTest.java cases
+| * d8d0128 Completed CSV Features
+| * 7627403 Added CSV functionality and altered file paths
+| * ad9f0ff Completed sortCargo method
+* | b7d3732 fixed manifest test cases modifed manifest and changed some implementation of stock object
+|/  
+* f4df7a8 Update to comments and formatting
+* 8993e1f Added .CSV Reading and Writing
+* 84b4cae fixed classpath
+* 3538336 fixed the stock add function and created an arrayList for optimised cargo
+* 894c897 algorithm semi completed
+*   34cac07 Mergeing Tom Features with master
+|\  
+| * 8d55cb7 added GUI
+| * 6e1c08b Fixing Branch before merge
+| * 790dd4d added entrypoint
+| * cd230ed added Opencsv.jar
+| * 4d9f060 Slight changes
+| * 700d540 Continued CSV Work
+| * 3bc2c29 Continued work on Manifest and CSV, also slight spelling and formatting corrections
+| * 083e1fc Continued work on Manifest.java and CSVMachine.java, changes made to hashmap methods in /Stock/
+| * d414726 Developing CSV Features
+* |   0c771e7 Merged Tom_Features into master
+|\ \  
+| |/  
+| * c0704a2 Added Singleton Pattern to Store.Java, Added addInventory() to Store.Java and made test case changes to StoreTest.java and StockTest.java
+|/  
+* 3576bbd refactored Refridgerated Truck and Ordinary Truck and added common methods in Truck Class
+* 086cc8a addded ordinary truck stock limiting
+* 1afd3d8 Refrigerator Class Implemeneted satitfying reasonable test cases
+* 3eb4048 manifest test cases fixed and added randomly generated stock items
+* baa13e1 ordinary truck class finished with appropraite exceptions and all test passed
+* b1ee1a2 Ordinar-Truck-Class-Implemented
+* fe9a92c fixed item test case
+*   26b6cf1 Merge branch 'Truck-Item'
+|\  
+| * 46e1e70 fixed stock cases and implemented stock cases and did some implementation of ordinary truck
+* | d8304fa Completed Store.java to test spec, Altered StoreTest.java. Store.java will need changes to inventory system.
+* | 5614944 Completed Item.java to test Spec, and altered ItemTest.java
+|/  
+* 80431d4 stock item class completed
+* 477f948 a few more stock test cases added
+* b96b786 added a few more stock test case
+* dbfead6 Altered RefrigeratedTruckTest.Java
+* 745d3df Added Truck Tests and altered StockTest.java
+* 952e0a1 store test case completed
+* 1da124d A few stock test cases completed
+* 2256633 All Manifest Test Case Completed besides optimisation test cases
+* b2fe180 advance item unit test completed
+* e8908bf basic Item unit test completed
+* 97f9642 updated test case file
+* 8e8f70a test case document added
+* 0851cd7 updated file structure to match specification
+* 542d98d Java Project Created with base test case created
+* f6a985a Initial commit
+commit 78aa91f867f3a645ddd2bea373ddb5b0d019fe53
+Merge: ddce59f 6fcbde3
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Sun May 27 23:35:13 2018 +1000
+
+    Merge branch 'master' of https://bitbucket.org/John_Huynh/cab302-assignment-2-group-102
+    committing changes to code quality
+
+commit ddce59fec048773df9f721ad148745660c78d184
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Sun May 27 23:34:56 2018 +1000
+
+    Adjusted code quality
+
+ 6 files changed, 63 insertions(+), 83 deletions(-)
+
+commit 6fcbde33de29cf216d4faf7d01258fcfb41fb89d
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Sun May 27 23:26:39 2018 +1000
+
+    modified JTable Width
+
+ 2 files changed, 28 insertions(+), 2 deletions(-)
+
+commit e7cc8a04765f1447a063c96d071ff241a04d1c5f
+Merge: ac1339a 71c91c6
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Sun May 27 22:23:07 2018 +1000
+
+    Merge branch 'master'
+
+commit ac1339a4b801924d3547d3b624d9f74cb02a050f
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Sun May 27 22:22:30 2018 +1000
+
+    change button location and added dynamic .csv file extenson detector for save item
+
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+commit 71c91c6f27b047d966b1a49c95300ec740523669
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Sun May 27 22:03:43 2018 +1000
+
+    Modified readme.me
+
+ 1 file changed, 20 insertions(+), 1 deletion(-)
+
+commit 65efb6b0f6d81578a6d5561ca5b05c947a3a74fc
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Sun May 27 21:54:44 2018 +1000
+
+    Fixed the adding of .csv to csv file names
+
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit f3d4327cc08af29c1a9514d7e3119161d84aaaf9
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Sun May 27 21:53:37 2018 +1000
+
+    Improved JavaDoc and removed testing files
+
+ 96 files changed, 185 insertions(+), 339 deletions(-)
+
+commit 41074af914a2babd55e31927c39ca071f6b98aae
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Sun May 27 21:34:31 2018 +1000
+
+    Making methods JavaDoc friendly
+
+ 5 files changed, 41 insertions(+), 18 deletions(-)
+
+commit e00b3c67e25506d7062393dfc14c8b7c40ccb236
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Sun May 27 18:51:27 2018 +1000
+
+    Fixed code quality and commenting
+
+ 1 file changed, 14 insertions(+), 6 deletions(-)
+
+commit 593f386d1a37d3c081d372be2038c52d8e7531e1
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Sun May 27 15:16:37 2018 +1000
+
+    changed exception text for a few exceptions
+
+ 3 files changed, 23 insertions(+), 4 deletions(-)
+
+commit e91b1ee2519d74fd3d9f6904de3c9babe933b3ba
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Sun May 27 04:01:12 2018 +1000
+
+    added a few modifed manifest file and sales log files for testing exception handling
+
+ 5 files changed, 55 insertions(+), 80 deletions(-)
+
+commit 496749a03ce75196b29d8f0c0351a5d417837bd0
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Sun May 27 03:05:05 2018 +1000
+
+    fixed JavaDocs
+
+ 101 files changed, 433 insertions(+), 358 deletions(-)
+
+commit 1aad5b5f56805b9acfa5456e398f40407a50b626
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Sun May 27 02:33:17 2018 +1000
+
+    commenting all section of the code and generated JavaDoc
+
+ 102 files changed, 18883 insertions(+), 270 deletions(-)
+
+commit 82c6d6be8f5d723a7d933bc2b48d707f185466ae
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Sat May 26 23:09:19 2018 +1000
+
+    added more exceptions to all the classes
+
+ 11 files changed, 223 insertions(+), 142 deletions(-)
+
+commit 0e7da2edf1abb300318570dc2c631385efafad24
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Sat May 26 05:21:28 2018 +1000
+
+    Implemented Store Into GUI
+
+ 6 files changed, 209 insertions(+), 87 deletions(-)
+
+commit 3de0b876b687771d8e8b3320ce494f99cbbf9fea
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Sat May 26 02:52:49 2018 +1000
+
+    GUI fixed load manifest button
+
+ 20 files changed, 278 insertions(+), 190 deletions(-)
+
+commit 3e02a6e44656d7b143a6ae363cf70ffc098c1ac8
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Sat May 26 00:26:17 2018 +1000
+
+    implemented semi working manifest reader
+
+ 6 files changed, 156 insertions(+), 90 deletions(-)
+
+commit 55212a8666bd36f6607162bb428242dd9441eedc
+Author: John Huynh <john.huynh@student.qut.edu>
+Date:   Fri May 25 04:33:24 2018 +1000
+
+    added comments to Stock Truck, RefrigeratedTruck and Ordinary Truck
+
+ 4 files changed, 230 insertions(+), 68 deletions(-)
+
+commit 4e1edf48d4f63f15e72549d51d60df05b8187ea1
+Merge: 39c08fd 6c2f5da
+Author: John Huynh <john.huynh@student.qut.edu>
+Date:   Fri May 25 02:48:57 2018 +1000
+
+    Merge branch 'master' of https://bitbucket.org/John_Huynh/cab302-assignment-2-group-102
+
+commit 39c08fdb9ed84d2148f4e03b3cb73319abf7d1c6
+Merge: 7654b4c b0c17ae
+Author: John Huynh <john.huynh@student.qut.edu>
+Date:   Fri May 25 02:44:43 2018 +1000
+
+    merged GUI Implementation with master
+
+commit b0c17ae7c13a0af4e52099d63ab496da1b31fd74
+Author: John Huynh <john.huynh@student.qut.edu>
+Date:   Fri May 25 02:30:44 2018 +1000
+
+    deleted useless files
+
+ 7 files changed, 3 insertions(+), 168 deletions(-)
+
+commit bc1446696ae69c0fd3457501d0afdc3b15ae7f87
+Author: John Huynh <john.huynh@student.qut.edu>
+Date:   Fri May 25 02:27:06 2018 +1000
+
+    implemented sales log btn
+
+ 12 files changed, 193 insertions(+), 96 deletions(-)
+
+commit 6c2f5daede64a3c83456e844fa638b3be97ae4b8
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Thu May 24 23:59:40 2018 +1000
+
+    Added Store initialization to entry point
+
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+commit afa14d8faf05555777662d2a609fafc2ab1a472d
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Thu May 24 23:55:04 2018 +1000
+
+    Making classes JavaDoc friendly, fixed an issue in ItemTest.java
+
+ 2 files changed, 13 insertions(+), 10 deletions(-)
+
+commit 0feae785f0a5604333df70a0a2546978954133c5
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Thu May 24 23:45:48 2018 +1000
+
+    Cleaned CSVMachine.java and improved exception info
+
+ 1 file changed, 19 insertions(+), 19 deletions(-)
+
+commit 0de67abf58c07c82fb78680a1ea3a9231f6ebc17
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Thu May 24 23:39:02 2018 +1000
+
+    Fixed broken truck tests after merge
+
+ 3 files changed, 8 insertions(+), 14 deletions(-)
+
+commit 7ce1371f6e0ff7cd30208fd2d50424ea87922492
+Merge: 7654b4c 39c879f
+Author: Tom Nash <tom_nash1@outlook.com>
+Date:   Thu May 24 23:18:19 2018 +1000
+
+    Merged Tom_Features into master
+
+commit 39c879fa2158f1a49315ca222897a09599fdcfb8
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Thu May 24 23:12:20 2018 +1000
+
+    Cleaned some things, fixed Item.java's fatal getTemp issue, tatisfied all truck tests, removed TruckTest.java as it is not testable
+
+ 5 files changed, 14 insertions(+), 95 deletions(-)
+
+commit d06929dbda68c29b553563b55ccea826446b00b3
+Merge: fdffe47 0f3aaa3
+Author: John Huynh <john.huynh@student.qut.edu>
+Date:   Thu May 24 22:17:35 2018 +1000
+
+    merge Tom_Features with GUI Implementation
+
+commit 335426c9b092a936f92a116d36d667c9a276c932
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Thu May 24 22:09:48 2018 +1000
+
+    Fixed Stock.java and StockTest.java for testcases and errors
+
+ 2 files changed, 50 insertions(+), 27 deletions(-)
+
+commit b3a921e8644cb298220ed48d8ad3760fd757872d
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Thu May 24 21:58:37 2018 +1000
+
+    Cleaned Item.java
+
+ 1 file changed, 53 insertions(+), 6 deletions(-)
+
+commit 0f3aaa30d43fa85f92f46fd53075ff56b653b19b
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Thu May 24 21:35:25 2018 +1000
+
+    Cleaned Store.java, changed method names in Stock.java to make more sense, fixed CSVMachine.java
+
+ 4 files changed, 80 insertions(+), 36 deletions(-)
+
+commit 7654b4c4972cded60fded49315d2856dfef74496
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Thu May 24 20:40:54 2018 +1000
+
+    fixed Manifest Write and Read in CSVMachine
+
+ 6 files changed, 139 insertions(+), 45 deletions(-)
+
+commit 9f53811e5b64b64d128884fe981cdd093a66aef9
+Merge: fdffe47 d530c55
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Thu May 24 20:08:57 2018 +1000
+
+    merged tom_features to master
+
+commit d530c557859a256ea5c08c2ff52b20b03ecab03e
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Thu May 24 19:48:12 2018 +1000
+
+    Added exception handling to CSVMachine.java and removed testing from ApplicationEntryPoint.java
+
+ 2 files changed, 16 insertions(+), 25 deletions(-)
+
+commit e9acc7d4dfdeb6e50f00b7a83818554b01dd0d89
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Thu May 24 19:27:46 2018 +1000
+
+    Updated CSVMachine.java and removed tests from ApplicationEntryPoint
+
+ 2 files changed, 9 insertions(+), 22 deletions(-)
+
+commit fdffe47ba9f2183b9c3833dac053d7ce7c1ede66
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Thu May 24 19:23:59 2018 +1000
+
+    started implementing load manifest button and fixed integer division problem in refridgerated truck
+
+ 10 files changed, 97 insertions(+), 113 deletions(-)
+
+commit d5790da3a77504f0a108d5744eb668cd2e663683
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Thu May 24 17:18:33 2018 +1000
+
+    added Export Manifest Functionality and fixed up manifest optimisation
+
+ 10 files changed, 272 insertions(+), 104 deletions(-)
+
+commit d76d926807345e8644f28f5b1ac4bd0206ba548b
+Merge: 69d4f1a 72803bb
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Thu May 24 14:04:15 2018 +1000
+
+    Merge branch 'master' into GUI-Implementation to obtain CSV Path
+
+commit 72803bbb714a1d512671e52db946586f7042a1b8
+Merge: 796fece d8dc234
+Author: Tom Nash <tom_nash1@outlook.com>
+Date:   Thu May 24 10:16:23 2018 +1000
+
+    Merged Tom_Cleaning into master for filePath functionality
+
+commit d8dc2345009ddd11e10c139c3db30717aed5029c
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Thu May 24 10:15:14 2018 +1000
+
+    Added filePath functionality to CSVMachine.java
+
+ 1 file changed, 12 insertions(+), 32 deletions(-)
+
+commit 69d4f1a74f4b73e28479c2d4cdad888929340f55
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Thu May 24 03:05:26 2018 +1000
+
+    added Stock Listing in JTable when click on Update btn
+
+ 2 files changed, 32 insertions(+), 11 deletions(-)
+
+commit c204aa9c8808c487dec516a1ec2208f487aaf7a7
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Thu May 24 02:47:32 2018 +1000
+
+    GUI File Explorer for Load buttons created
+
+ 3 files changed, 37 insertions(+), 3 deletions(-)
+
+commit 796fece43109c8b645d1d1bb72ec07fb2341f781
+Merge: d22c75d 970fa56
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Thu May 24 00:42:40 2018 +1000
+
+    merged with toms copy
+
+commit d22c75daf9e8c1d2882ed412839e54479ba09d3a
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Thu May 24 00:34:33 2018 +1000
+
+    fixed manifest test cases with optimisation
+
+ 4 files changed, 238 insertions(+), 177 deletions(-)
+
+commit 970fa56815542bd11d351112de7aac7f15d6d933
+Merge: d8ca10b 2370f55
+Author: Tom Nash <tom_nash1@outlook.com>
+Date:   Wed May 23 22:52:27 2018 +1000
+
+    Merged Tom_Cleaning into master
+
+commit 2370f5563d91de2d6806590798c4354a0b958452
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Wed May 23 22:51:11 2018 +1000
+
+    Cleaned some method comments and formatting
+
+ 1 file changed, 60 insertions(+), 26 deletions(-)
+
+commit d8ca10b8865efbc49b6f511c3f312b96ce77d935
+Author: John Huynh <john.huynh@student.qut.edu>
+Date:   Wed May 23 19:54:52 2018 +1000
+
+    added JTable to GUI
+
+ 1 file changed, 64 insertions(+), 15 deletions(-)
+
+commit ecb1e002fe7861f5f8aa25c8364d78b2ad6e4475
+Author: John Huynh <john.huynh@student.qut.edu>
+Date:   Wed May 23 19:50:35 2018 +1000
+
+    optimisation of manifest completed
+
+ 2 files changed, 118 insertions(+), 104 deletions(-)
+
+commit 6b4a750aaaa74f5af023e84f7165c7ad863ac367
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Wed May 23 18:07:25 2018 +1000
+
+    Fixed manifestTest.java
+
+ 1 file changed, 3 insertions(+), 9 deletions(-)
+
+commit b91988dde5b908dd694dbdf7acc1dad2dca1a120
+Merge: b7d3732 6731940
+Author: John Huynh <john.huynh@student.qut.edu>
+Date:   Wed May 23 17:55:47 2018 +1000
+
+    merged CSV-Featues with master
+
+commit b7d37322183436c15c43261456e56d053b047985
+Author: John Huynh <john.huynh@student.qut.edu>
+Date:   Wed May 23 17:18:11 2018 +1000
+
+    fixed manifest test cases modifed manifest and changed some implementation of stock object
+
+ 3 files changed, 158 insertions(+), 38 deletions(-)
+
+commit 673194073bdb3beb40d9def527415640c0c202c6
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Wed May 23 17:17:38 2018 +1000
+
+    Began satisfying ManifestTest.java cases
+
+ 2 files changed, 13 insertions(+), 5 deletions(-)
+
+commit d8d01286962816b835289ddbc4604b5002587652
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Wed May 23 16:58:38 2018 +1000
+
+    Completed CSV Features
+
+ 2 files changed, 73 insertions(+), 29 deletions(-)
+
+commit 76274034fff67a00aba018958abc95bd055f04af
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Wed May 23 16:33:30 2018 +1000
+
+    Added CSV functionality and altered file paths
+
+ 3 files changed, 34 insertions(+), 35 deletions(-)
+
+commit ad9f0ffcc301f9eb3bbd884aff8fb1f3c554784a
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Wed May 23 16:09:54 2018 +1000
+
+    Completed sortCargo method
+
+ 1 file changed, 132 insertions(+), 11 deletions(-)
+
+commit f4df7a82b28e7f79d07b0646693bb11fedf2f0eb
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Wed May 23 00:51:42 2018 +1000
+
+    Update to comments and formatting
+
+ 2 files changed, 36 insertions(+), 8 deletions(-)
+
+commit 8993e1f2ebfce5e2a2fcbeaaeeb42ea58852c9af
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Wed May 23 00:15:36 2018 +1000
+
+    Added .CSV Reading and Writing
+
+ 9 files changed, 107 insertions(+), 79 deletions(-)
+
+commit 84b4caedb3edf719281cf7a610bff9386fc03cbb
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Mon May 21 23:17:44 2018 +1000
+
+    fixed classpath
+
+ 1 file changed, 1 deletion(-)
+
+commit 353833606466d63ae93c33a7f12ca0df439d0bff
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Mon May 21 23:10:16 2018 +1000
+
+    fixed the stock add function and created an arrayList for optimised cargo
+
+ 5 files changed, 33 insertions(+), 66 deletions(-)
+
+commit 894c897142511f124d6d4e5d00f844ba52dbff16
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Mon May 21 20:04:10 2018 +1000
+
+    algorithm semi completed
+
+ 8 files changed, 109 insertions(+), 8 deletions(-)
+
+commit 34cac07acf1bc3218501bfe268119752faac934b
+Merge: 0c771e7 8d55cb7
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Mon May 21 17:32:42 2018 +1000
+
+    Mergeing Tom Features with master
+
+commit 8d55cb71c4a8eaaa31baa6cfd35a3933e33df524
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Mon May 21 17:14:02 2018 +1000
+
+    added GUI
+
+ 1 file changed, 179 insertions(+), 2 deletions(-)
+
+commit 6e1c08b9f1686b092e8b2f3c00205f679cef2122
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Mon May 21 17:05:07 2018 +1000
+
+    Fixing Branch before merge
+
+ 3 files changed, 59 deletions(-)
+
+commit 790dd4dde7537e66f0292c065e0c218d20e44e4a
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Mon May 21 16:54:13 2018 +1000
+
+    added entrypoint
+
+ 6 files changed, 60 insertions(+), 40 deletions(-)
+
+commit cd230eda1726100e747773eaabb3323d0859c983
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Mon May 21 16:39:28 2018 +1000
+
+    added Opencsv.jar
+
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 4d9f060bae368f7933afde203dd5c4ea4b780fc7
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Mon May 21 16:32:43 2018 +1000
+
+    Slight changes
+
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+commit 700d54089e7eee446d43f98ffd0e16235c6269af
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Mon May 21 10:34:30 2018 +1000
+
+    Continued CSV Work
+
+ 1 file changed, 1 deletion(-)
+
+commit 3bc2c298949b3cf5e8ce092fd433a2950d38e5fa
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Sun May 20 21:47:30 2018 +1000
+
+    Continued work on Manifest and CSV, also slight spelling and formatting corrections
+
+ 4 files changed, 114 insertions(+), 39 deletions(-)
+
+commit 083e1fccde6b6d54efa1608d97d98fc9cec5b90a
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Sun May 20 18:47:56 2018 +1000
+
+    Continued work on Manifest.java and CSVMachine.java, changes made to hashmap methods in /Stock/
+
+ 7 files changed, 155 insertions(+), 25 deletions(-)
+
+commit d41472644b82b77231563308de05e7e18ff15ff2
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Sun May 20 13:48:00 2018 +1000
+
+    Developing CSV Features
+
+ 8 files changed, 168 insertions(+), 2 deletions(-)
+
+commit 0c771e7d1fd06f70adaa93a75dd6343c68a3aeb2
+Merge: 3576bbd c0704a2
+Author: Tom Nash <tom_nash1@outlook.com>
+Date:   Sun May 20 13:32:48 2018 +1000
+
+    Merged Tom_Features into master
+
+commit c0704a2bb837cdae4768e2956515bd96c869575c
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Sun May 20 13:26:49 2018 +1000
+
+    Added Singleton Pattern to Store.Java, Added addInventory() to Store.Java and made test case changes to StoreTest.java and StockTest.java
+
+ 3 files changed, 104 insertions(+), 59 deletions(-)
+
+commit 3576bbd6c554441503703cce6ec320f66729b50a
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Fri May 18 23:43:50 2018 +1000
+
+    refactored Refridgerated Truck and Ordinary Truck and added common methods in Truck Class
+
+ 8 files changed, 36 insertions(+), 42 deletions(-)
+
+commit 086cc8a0268705ed2f5ad50c613a38a0023eb7b2
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Thu May 17 23:35:23 2018 +1000
+
+    addded ordinary truck stock limiting
+
+ 6 files changed, 21 insertions(+), 20 deletions(-)
+
+commit 1afd3d8ac5e6e72b58af5125a537afbdfa0c2e9f
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Thu May 17 23:14:15 2018 +1000
+
+    Refrigerator Class Implemeneted satitfying reasonable test cases
+
+ 4 files changed, 107 insertions(+), 59 deletions(-)
+
+commit 3eb40489bcac31f3bc994cb12de8b54b8274ce3b
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Thu May 17 20:51:49 2018 +1000
+
+    manifest test cases fixed and added randomly generated stock items
+
+ 8 files changed, 233 insertions(+), 102 deletions(-)
+
+commit baa13e18ee102cd1aa6e33fcde19732397bf0e20
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Thu May 17 19:11:12 2018 +1000
+
+    ordinary truck class finished with appropraite exceptions and all test passed
+
+ 4 files changed, 57 insertions(+), 19 deletions(-)
+
+commit b1ee1a2574e32bf793f116a2ba2c283c15b7cc62
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Thu May 17 18:07:21 2018 +1000
+
+    Ordinar-Truck-Class-Implemented
+
+ 5 files changed, 139 insertions(+), 45 deletions(-)
+
+commit fe9a92cb509fd6322196840a9f763fb7a3c30dfc
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Thu May 17 15:51:20 2018 +1000
+
+    fixed item test case
+
+ 3 files changed, 15 insertions(+), 26 deletions(-)
+
+commit 26b6cf179c448bb7b3f6efa0b4ae7f7b5d162522
+Merge: d8304fa 46e1e70
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Thu May 17 15:16:27 2018 +1000
+
+    Merge branch 'Truck-Item'
+
+commit 46e1e7000e9d4a71bb600e7194aae9268693edf8
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Thu May 17 15:15:38 2018 +1000
+
+    fixed stock cases and implemented stock cases and did some implementation of ordinary truck
+
+ 3 files changed, 141 insertions(+), 38 deletions(-)
+
+commit d8304faa1a9cfddc43575729f5fc25d4271c9c93
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Tue May 15 23:40:51 2018 +1000
+
+    Completed Store.java to test spec, Altered StoreTest.java. Store.java will need changes to inventory system.
+
+ 2 files changed, 132 insertions(+), 58 deletions(-)
+
+commit 56149443e91def443e8d1258bfdb4834579365ca
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Tue May 15 22:51:32 2018 +1000
+
+    Completed Item.java to test Spec, and altered ItemTest.java
+
+ 2 files changed, 95 insertions(+), 21 deletions(-)
+
+commit 80431d411755ec5eae16a5fa98aa53245aecf71c
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Sat May 12 00:46:24 2018 +1000
+
+    stock item class completed
+
+ 3 files changed, 52 insertions(+), 4 deletions(-)
+
+commit 477f9487f6b56dd7671d8dbb321a12484975dde6
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Wed May 9 20:43:43 2018 +1000
+
+    a few more stock test cases added
+
+ 1 file changed, 85 deletions(-)
+
+commit b96b7860f173e0163e188f52ca7d0c1dbf1f1f4f
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Wed May 9 20:42:46 2018 +1000
+
+    added a few more stock test case
+
+ 2 files changed, 135 insertions(+), 14 deletions(-)
+
+commit dbfead68ccbda6352d1d436573f86379bb05c83c
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Wed May 9 20:12:54 2018 +1000
+
+    Altered RefrigeratedTruckTest.Java
+
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+commit 745d3dfde912c7a978f50c0a2b5406243c4e0b57
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Wed May 9 20:07:39 2018 +1000
+
+    Added Truck Tests and altered StockTest.java
+
+ 5 files changed, 661 insertions(+), 70 deletions(-)
+
+commit 952e0a1ca98df4a40ac52063f41965c60c8a395b
+Author: JOHN-SURFACE\John <john.huynh@student.qut.edu.au>
+Date:   Tue May 8 14:18:41 2018 +1000
+
+    store test case completed
+
+ 10 files changed, 323 insertions(+), 8 deletions(-)
+
+commit 1da124d48342d960b62d9177713db1fc1fc0eaa3
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Sun May 6 00:08:33 2018 +1000
+
+    A few stock test cases completed
+
+ 1 file changed, 149 insertions(+), 4 deletions(-)
+
+commit 2256633807ec6952a1b396e7e73aa5eb2c5a2f6d
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Sat May 5 02:13:43 2018 +1000
+
+    All Manifest Test Case Completed besides optimisation test cases
+
+ 2 files changed, 295 insertions(+), 6 deletions(-)
+
+commit b2fe180c09a2362821848ebcfdde394cf32b3e2e
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Thu May 3 01:09:15 2018 +1000
+
+    advance item unit test completed
+
+ 4 files changed, 186 insertions(+), 17 deletions(-)
+
+commit e8908bf2d6196bd3542555610bb3162cbfba66ac
+Author: JOHN-SURFACE\John <john.huynh@student.qut.edu.au>
+Date:   Wed May 2 17:58:33 2018 +1000
+
+    basic Item unit test completed
+
+ 1 file changed, 139 insertions(+), 3 deletions(-)
+
+commit 97f96427c827abcdb7f6c0c34400a03f066d66f4
+Author: JOHN-SURFACE\John <john.huynh@student.qut.edu.au>
+Date:   Wed May 2 16:05:48 2018 +1000
+
+    updated test case file
+
+ 3 files changed, 14 insertions(+), 14 deletions(-)
+
+commit 8e8f70ad7f065e16b1250aa529662b19e4d7328d
+Author: tom-nash <thomas.nash@connect.qut.edu.au>
+Date:   Tue May 1 16:44:00 2018 +1000
+
+    test case document added
+
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 0851cd7b1dd8fd9d4ac269db3712ba5a28211414
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Sun Apr 29 19:18:55 2018 +1000
+
+    updated file structure to match specification
+
+ 15 files changed, 107 insertions(+), 98 deletions(-)
+
+commit 542d98d9a2c9598c36ddef7563e4b69ac1d17c15
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Sun Apr 29 19:08:52 2018 +1000
+
+    Java Project Created with base test case created
+
+ 10 files changed, 123 insertions(+)
+
+commit f6a985af4af5fc6f68078c03c9d1d6925e547b01
+Author: John Huynh <john.huynh@student.qut.edu.au>
+Date:   Sun Apr 29 08:37:09 2018 +0000
+
+    Initial commit
+
+ 1 file changed, 3 insertions(+)
