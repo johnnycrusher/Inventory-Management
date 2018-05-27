@@ -14,7 +14,6 @@ import Stock.Stock;
 /** An abstract class that for Truck Objects
  * @author John Huynh
  * @version 1.0
- *
  */
 public abstract class Truck {
 
@@ -24,7 +23,9 @@ public abstract class Truck {
 	public Truck() {
 		// TODO Auto-generated constructor stub
 	}
-	/**Removes the Truck cargo Stock from the truck
+	
+	/**
+	 * Removes the Truck cargo Stock from the truck
 	 */
 	public void removeStock() {
 		//Set the cargo Stock to null
@@ -32,7 +33,8 @@ public abstract class Truck {
 	}
 	
 	
-	/** A method that returns the number of items in a truck
+	/** 
+	 * A method that returns the number of items in a truck
 	 * @return cargoStockNumOfItem - the number of cargo Items in the truck
 	 * @throws StockException throws a stock error when there is a stock related problem
 	 * @throws DeliveryException throws a delivery exception when there is no cargo hence change require quantity of items
@@ -45,7 +47,8 @@ public abstract class Truck {
 	}
 	
 	
-	/**A method that gets the stock of the truck 
+	/**
+	 * A method that gets the stock of the truck 
 	 * @return the cargo that truck is holding
 	 * @throws DeliveryException occurs when there is no cargo in the truck
 	 * @throws StockException throws a stock excpetion when tehre is a stock related problem
@@ -58,7 +61,8 @@ public abstract class Truck {
 	}
 	
 	
-	/**Determines the cost of the cargo
+	/**
+	 * Determines the cost of the cargo
 	 * @return costOfCargo - the cost of the cargo
 	 * @throws StockException throws stock error when there is a stock related error
 	 * @throws DeliveryException throws a DelieveryException when there is no cargo in truck
@@ -80,21 +84,24 @@ public abstract class Truck {
 		return costOfCargo;
 	}
 	
-	/** Adds an stock object as the truck cargo
+	/** 
+	 * Adds an stock object as the truck cargo
 	 * @param storeObj - the stock object that will be the truck cargo
 	 * @throws DeliveryException occurs item exceeds cargo limit or refrigeated item in ordinary truck
 	 * @throws StockException throws a stock exception when there is a stock related error
 	 */
 	public abstract void add(Stock storeObj) throws DeliveryException, StockException;
 	
-	/** Gets the cost of the truck 
+	/** 
+	 * Gets the cost of the truck 
 	 * @return cost - the cost of the truck in dollars
 	 * @throws StockException throws a stock error when there is a stock related error
 	 * @throws DeliveryException occurs when there is no cargo in the truck
 	 */
 	public abstract double getCost() throws StockException, DeliveryException;
 	
-	/** gets the set temperature of that specfic truck
+	/** 
+	 * Gets the set temperature of that specfic truck
 	 * @return truckTemperature - the temperature of the truck
 	 * @throws StockException throws a stock error when there is a stock related error
 	 * @throws DeliveryException when there is no cargo in the truck

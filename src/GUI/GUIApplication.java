@@ -1,5 +1,6 @@
 /**
- * 
+ * A class providing GUI functionality to the project
+ * @author John Huynh
  */
 package GUI;
 
@@ -42,10 +43,6 @@ import Stock.Item;
 import Stock.Stock;
 import Stock.Store;
 
-/**
- * @author John Huynh
- *
- */
 public class GUIApplication extends JFrame implements ActionListener, Runnable{
 	
 	public static final int WIDTH = 700;
@@ -257,6 +254,9 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 
 	
 	@Override
+	/**
+	 * A method to run the swingGUI Utilities
+	 */
 	public void run() {
 		try {
 			createGUI();
@@ -277,7 +277,9 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
         
 	}
 
-	/* A Method that is used to handle Event 
+	/**
+	 *  A Method that is used to handle Event 
+	 *  @param ActionEvent events
 	 */
 	@Override
 	public void actionPerformed(ActionEvent events) {
@@ -434,7 +436,8 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 		return null;
 	}
 	
-	/**A method used to update the JTable
+	/**
+	 * A method used to update the JTable
 	 */
 	private void updateTable() {
 		Object[][] invenTable = inventory.convertStockIntoTable();
@@ -442,7 +445,8 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 		stockTable.setModel(mode);
 	}
 	
-	/**A method used to update the store capital
+	/**
+	 * A method used to update the store capital
 	 */
 	private void updateStoreCapital() {
 		double capital = myStore.getCapital();
