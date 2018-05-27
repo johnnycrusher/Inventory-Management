@@ -165,6 +165,7 @@ public class CSVMachine {
 		Stock currentStock = new Stock();
 		Stock totalStock = new Stock();
 		int truckCounter = 0;
+		int itemQty = 0;
 		
 		//intialise important booleans
 		boolean newTruck = false;
@@ -216,7 +217,11 @@ public class CSVMachine {
 					newTruck = false;
 					//get the item name and properties and quantity
 					String itemName = manifestRecords.get(index)[0];
-					int itemQty = Integer.parseInt(manifestRecords.get(index)[1]);
+					try {
+						itemQty = Integer.parseInt(manifestRecords.get(index)[1]);
+					}catch(Exception error){
+						throw new CSVFormatException("The Value " + manifestRecords.get(index)[1] + " is not a number");
+					}
 					Item itemObject = inventory.getItem(itemName);
 					
 					//add the item and quantity to the stock object
@@ -232,7 +237,11 @@ public class CSVMachine {
 				}else {
 					//get the item name and properties and quantity
 					String itemName = manifestRecords.get(index)[0];
-					int itemQty = Integer.parseInt(manifestRecords.get(index)[1]);
+					try {
+						itemQty = Integer.parseInt(manifestRecords.get(index)[1]);
+					}catch(Exception error){
+						throw new CSVFormatException("The Value " + manifestRecords.get(index)[1] + " is not a number");
+					}
 					Item itemObject = inventory.getItem(itemName);
 					//add the item and quantity to the stock object
 					currentStock.addItem(itemObject, itemQty);

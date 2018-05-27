@@ -2,7 +2,7 @@
 frozen meat,550
 ice cream,250
 >Refrigerated
-ice cream,25
+frozen meat,25
 frozen vegetable mix,325
 fish,450
 >Refrigerated
@@ -14,6 +14,10 @@ asparagus,150
 chicken,425
 beef,225
 >Refrigerated
+grapes,225
+asparagus,125
+mushrooms,325
+tomatoes,125
 >Refrigerated
 bread,175
 tomatoes,275
@@ -25,3 +29,9 @@ rice,300
 biscuits,150
 >Ordinary
 biscuits,425
+
+
+
+
+
+
