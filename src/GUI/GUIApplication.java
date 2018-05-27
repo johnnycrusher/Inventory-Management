@@ -7,6 +7,7 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GraphicsConfiguration;
 import java.awt.GridBagConstraints;
@@ -60,7 +61,7 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 	private JLabel capitalTextLabel;
 	private JLabel capitalValueLabel;
 	private JTable stockTable;
-	private Object[] columnNames = {"Item Name", "Manifacturing Cost($)","Sell Price ($)","Reorder Point","Reorder Ammount", "Temperature (C)","Quantity"};
+	private Object[] columnNames = {"Item Name", "Manifacturing Cost($)","Sell Price ($)","Reorder Point","Reorder Amount", "Temperature (C)","Quantity"};
 	private Manifest manifest;
 	private Stock inventory;
 	private Stock intialInventory;
@@ -228,6 +229,16 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 		Object[][] rowItems = {};
 	    stockTable = new JTable(rowItems,columnNames);
 	    JScrollPane scrollPane = new JScrollPane(stockTable);
+	    scrollPane.setPreferredSize(new Dimension(680,500));
+	    //Set the widths of each table
+	    stockTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+		stockTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+		stockTable.getColumnModel().getColumn(2).setPreferredWidth(50);
+		stockTable.getColumnModel().getColumn(3).setPreferredWidth(60);
+		stockTable.getColumnModel().getColumn(4).setPreferredWidth(75);
+		stockTable.getColumnModel().getColumn(5).setPreferredWidth(75);
+		stockTable.getColumnModel().getColumn(6).setPreferredWidth(50);	
+		stockTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 	    //Add the JTable to the Panel
 	    addToPanel(pnlMiddle,scrollPane,constraints,0,10,1,100);
 	}
@@ -445,8 +456,23 @@ public class GUIApplication extends JFrame implements ActionListener, Runnable{
 	 */
 	private void updateTable() {
 		Object[][] invenTable = inventory.convertStockIntoTable();
-		TableModel mode = new DefaultTableModel(invenTable,columnNames);
+		TableModel mode = new DefaultTableModel(invenTable,columnNames) {
+			@Override
+			public boolean isCellEditable(int i,int i1) {
+				return false;
+			}
+		};
+		
 		stockTable.setModel(mode);
+		//Set the widths of each table
+		stockTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+		stockTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+		stockTable.getColumnModel().getColumn(2).setPreferredWidth(50);
+		stockTable.getColumnModel().getColumn(3).setPreferredWidth(60);
+		stockTable.getColumnModel().getColumn(4).setPreferredWidth(75);
+		stockTable.getColumnModel().getColumn(5).setPreferredWidth(75);
+		stockTable.getColumnModel().getColumn(6).setPreferredWidth(50);	
+		stockTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 	}
 	
 	/**
